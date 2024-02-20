@@ -12,7 +12,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_ID}:${process.env.DB_PW}@infini
 mongoose.connection.on('connected', () => {
     console.log('MongoDB Connected');
   });
-  
+
 var app = express();
 
 app.use(logger('dev'));

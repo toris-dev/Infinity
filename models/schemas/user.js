@@ -1,15 +1,15 @@
 const { Schema } = require('mongoose');
-// const moment = require('moment');
-// let now = new Date();
 
 const UserSchema = new Schema ({
     id: {
         type: String,
         required: true,
+        unique: true,
     },
     pwd: {
         type: String,
         required: true,
+        unique: true,
     },
     name: {
         type: String,
@@ -18,27 +18,27 @@ const UserSchema = new Schema ({
     email: {
         type: String,
         required: true,
-        unique: true,
     },
-    zip_code: {
+    zipCode: {
         type: String,
     },
     address: {
         type: String,
     },
-    phone_num: {
+    phoneNum: {
         type: String,
         required: true,
     },
-    use_yn: {
+    useYn: {
         type: Number,
         required: true,
         default: 1,
     },
-    reg_date: {
+    regDate: {
         type: Date,
         required: true,
-        // default: Date.now().addHours(9),
+        // utc + 9 hours, 한국 현재 시간
+        default: () => Date.now() + 9*60*60*1000,
     },
     oauth: {
         type: String,
