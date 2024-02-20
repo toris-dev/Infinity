@@ -1,11 +1,18 @@
-var express = require('express');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mongoose = require('mongoose');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 const { viewsRouter } = require('./routes/viewsRouter');
 
+require('dotenv').config();
+mongoose.connect(`mongodb+srv://${process.env.DB_ID}:${process.env.DB_PW}@infinitydb.uzbnsom.mongodb.net/`);
+mongoose.connection.on('connected', () => {
+    console.log('MongoDB Connected');
+  });
+  
 var app = express();
 
 app.use(logger('dev'));
