@@ -25,6 +25,7 @@ const local = new LocalStrategy(config, async (id, pwd, done) => {
 
       done (null, {
         id: user.id,
+        roleId: user.roleId
       });
     } catch (err) {
       done(err, null);
