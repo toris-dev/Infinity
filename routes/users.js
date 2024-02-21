@@ -2,20 +2,17 @@ const express = require('express');
 const router = express.Router();
 const { User } = require('../models');
 const hashPassword = require('../utils/hash-password');
+const asyncHandler = require('../utils/async-handler');
 
-//회원 목록 조회 및 회원 조회 (회원 단일 조회로 변경 필요, 전체 조회는 관리자API로 이동)
-router.get('/', async function(req, res, next) {
+//회원 조회
+router.get('/', asyncHandler(async function(req, res, next) {
   const { id } = req.query;
-  // 쿼리로 id가 없을 경우 단일 회원 조회
-  if (!id ){ 
-    const users = await User.find();
-    res.json(users);
-  }
-
-  //회원 조회
-  const user = await User.findOne({id});
-  res.json(user);
-});
+    const user = await User.findOne({id});
+    if (!user) {
+      throw new Error('회원 없음');
+    }
+    res.json(user);
+}));
 
 //회원 가입 users/register
 router.post('/', async function(req, res, next) {

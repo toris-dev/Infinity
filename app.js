@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const { viewsRouter } = require('./routes/viewsRouter');
+const errorHandler = require('./middlewares/error-handler');
 
 require('dotenv').config();
 mongoose.connect(`mongodb+srv://${process.env.DB_ID}:${process.env.DB_PW}@infinitydb.uzbnsom.mongodb.net/`);
@@ -22,7 +23,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(viewsRouter);
 
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+
+app.use(errorHandler);
 
 module.exports = app;
