@@ -41,4 +41,11 @@ app.use('/auth', authRouter);
 
 app.use(errorHandler);
 
+
+// 로그아웃 path??
+app.post('/logout', function(req, res, next){
+
+    return res.cookie('token',"").json({"message":"done"});
+});
+
 module.exports = app;

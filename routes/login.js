@@ -41,4 +41,5 @@ router.post('/join', asyncHandler(async (req, res) => {
   res.redirect('/');
 }));
 
+
 module.exports = Router;

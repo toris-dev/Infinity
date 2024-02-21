@@ -22,7 +22,7 @@ const local = new LocalStrategy(config, async (id, pwd, done) => {
       if (user.pwd !== hashPassword(pwd)) {
         throw new Error('비밀번호가 일치하지 않습니다.');
       }
-  
+
       done (null, {
         id: user.id,
       });
