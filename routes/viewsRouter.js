@@ -15,6 +15,6 @@ function serverStatic(resource) {
   return express.static(resourcePath, option);
 }
 
-viewsRouter.use('/', serverStatic('home'));
+viewsRouter.use('/', serverStatic('product'));
 
 module.exports = { viewsRouter };
