@@ -13,7 +13,7 @@ const router = Router();
  */
 
 //로그인 페이지 렌더
-router.post('/', (req, res) => {
+router.get('/', (req, res) => {
     if(req.user) {
         res.redirect('/');// 로그인 된 경우 메인페이지로
         return;
