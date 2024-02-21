@@ -29,11 +29,10 @@ router.get('/join', (req, res, next) => {
 });
 
 router.post('/join', asyncHandler(async (req, res) => {
-  const { email, name, password } = req.body;
+  const { id, password } = req.body;
   const hashedPassword = hashPassword(password);
   const user = await User.create({
-    email,
-    name,
+    id,
     password: hashedPassword,
   });
   

@@ -1,7 +1,11 @@
 const LocalStrategy = require('passport-local').Strategy;
-const express = require('express');
-const router = express.Router();
 const { User } = require('../../models');
+const hashPassword = require
+
+const config = {
+  idField: 'id',// 'id' 필드 사용하도록 설정
+  pwdField: 'pwd'// 'password' 필드 사용하도록 설정
+};
 
 /**
  * 작성자 : 이정은
@@ -20,8 +24,7 @@ const local = new LocalStrategy(config, async (id, password, done) => {
       }
   
       done (null, {
-        id: user.id,
-        name: user.name,
+        id: user.id
       });
     } catch (err) {
       done(err, null);
