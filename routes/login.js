@@ -1,5 +1,7 @@
 const { Router } = require('express');
+
 const hashPassword = require('../utils/hash-password');
+const asyncHandler = require('../utils/async-handler');
 const { User } = require('../models');
 
 const router = Router();
@@ -9,19 +11,17 @@ const router = Router();
  * 작성일: 2024.02.20
  * passport.js를 사용한 로그인 라우터 코드입니다.
  */
-router.get('/', (req, res) => {
+
+//로그인 페이지 렌더
+router.post('/', (req, res) => {
     if(req.user) {
         res.redirect('/');// 로그인 된 경우 메인페이지로
         return;
     }
-    res.redirect('/login'); 
+    res.redirect('/login');
   // 로그인 되지 않은 경우 /login 으로
 });
 
-//로그인 페이지
-router.get('/login', (req, res, next) => {
-  res.render('user/login');
-});
 
 //회원가입 페이지
 router.get('/join', (req, res, next) => {
@@ -41,4 +41,4 @@ router.post('/join', asyncHandler(async (req, res) => {
   res.redirect('/');
 }));
 
-module.exports = router;
+module.exports = Router;
