@@ -25,14 +25,15 @@ const UserSchema = new Schema ({
     address: {
         type: String,
     },
+    detailAddress: {
+        type: String,
+    },
     phoneNum: {
         type: String,
         required: true,
     },
     useYn: {
-        type: Number,
-        required: true,
-        default: 1,
+        type: Date,
     },
     regDate: {
         type: Date,
@@ -42,6 +43,9 @@ const UserSchema = new Schema ({
     },
     oauth: {
         type: String,
+    },
+    roleId: {
+        type: String
     }
 })
 
