@@ -21,7 +21,8 @@
       },
       "rules": {
         // 여기에 ES6 관련 규칙을 추가할 수 있습니다.
-      }
+      },
+      "parser": "babel-parser"
     },
     {
       "files": ["!(views)/**/*.js"],
