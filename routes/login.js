@@ -14,32 +14,33 @@ const router = Router();
 
 //로그인 페이지 렌더
 router.get('/', (req, res) => {
-    if(req.user) {
-        res.redirect('/');// 로그인 된 경우 메인페이지로
-        return;
-    }
-    res.redirect('/login');
+  if (req.user) {
+    res.redirect('/'); // 로그인 된 경우 메인페이지로
+    return;
+  }
+  res.redirect('/login');
   // 로그인 되지 않은 경우 /login 으로
 });
-
 
 //회원가입 페이지
 router.get('/join', (req, res, next) => {
   res.render('user/join');
 });
 
-router.post('/join', asyncHandler(async (req, res) => {
-  const { id, password } = req.body;
-  const hashedPassword = hashPassword(password);
-  const user = await User.create({
-    id,
-    password: hashedPassword,
-  });
-  
-  console.log('신규 회원', user);
-  
-  res.redirect('/');
-}));
+router.post(
+  '/join',
+  asyncHandler(async (req, res) => {
+    const { id, password } = req.body;
+    const hashedPassword = hashPassword(password);
+    const user = await User.create({
+      id,
+      password: hashedPassword
+    });
 
+    console.log('신규 회원', user);
+
+    res.redirect('/');
+  })
+);
 
 module.exports = Router;
