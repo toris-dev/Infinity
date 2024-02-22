@@ -1,11 +1,15 @@
 const { Schema } = require('mongoose');
+const product = require('./product');
 
 const orderSchema = new Schema({
-    //objectId vs nanoID 협의 후 추후 type결정
+    /*
+    objectId vs nanoID 협의 후 추후 type결정
+    -> objectId => orderNum으로 대체됨.
     orderNum: {
         type: Number,
         required: true,
-    },
+    }
+    */
     //주문자 id
     orderId: {
         type: String,
@@ -16,6 +20,10 @@ const orderSchema = new Schema({
         type: Date,
         required: true,
         default: Date.now()+9*60*60*1000
+    },
+    orderProd: {
+        type: [product],
+        required: true, 
     },
     //배송주소
     orderAddress: {
