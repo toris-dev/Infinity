@@ -7,11 +7,11 @@ export default class extends AbstractView {
   }
 
   getCss() {
-    return './static/css/signup.css';
+    return '/static/css/signup.css';
   }
 
   getJs() {
-    return './static/js/signup.js';
+    return '/static/js/signup.js';
   }
 
   async getHtml() {
