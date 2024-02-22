@@ -5,13 +5,9 @@ const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
 
+const apiRouter = require('./routes/api');
 const indexRouter = require('./routes/index');
-const loginRouter = require('./routes/login');
-const usersRouter = require('./routes/users');
-const adminRouter = require('./routes/admin');
-const authRouter = require('./routes/auth');
-const productRouter = require('./routes/product');
-const orderRouter = require('./routes/orders');
+
 const { viewsRouter } = require('./routes/viewsRouter');
 const getUserFromJWT = require('./middlewares/get-user-from-jwt');
 const errorHandler = require('./middlewares/error-handler');
@@ -34,17 +30,12 @@ app.use(express.static('views'));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(viewsRouter);
+app.use('/api', apiRouter);
 
 app.use(passport.initialize());
 app.use(getUserFromJWT);
 
 app.use('/', indexRouter);
-app.use('/auth', authRouter);
-app.use('/login', loginRouter);
-app.use('/users', usersRouter);
-app.use('/admin', adminRouter);
-app.use('/product', productRouter);
-app.use('/orders', orderRouter);
 
 app.use(errorHandler);
 
