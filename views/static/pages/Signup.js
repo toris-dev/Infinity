@@ -10,10 +10,6 @@ export default class extends AbstractView {
     return '/static/css/signup.css';
   }
 
-  getJs() {
-    return '/static/js/signup.js';
-  }
-
   async getHtml() {
     return `
     <div class="titleArea">

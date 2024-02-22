@@ -9,9 +9,6 @@ export default class extends AbstractView {
   getCss() {
     return '/static/css/home.css';
   }
-  getJs() {
-    return '/static/js/home.js';
-  }
 
   async getHtml() {
     return `

@@ -9,9 +9,6 @@ export default class extends AbstractView {
   getCss() {
     return '/static/css/error.css';
   }
-  getJs() {
-    return '';
-  }
 
   async getHtml() {
     return `
