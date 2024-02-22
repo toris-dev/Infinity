@@ -15,7 +15,6 @@ const orderRouter = require('./routes/orders');
 const { viewsRouter } = require('./routes/viewsRouter');
 const getUserFromJWT = require('./middlewares/get-user-from-jwt');
 const errorHandler = require('./middlewares/error-handler');
-const orderSchema = require('./models/schemas/orders');
 
 require('./passport')();
 

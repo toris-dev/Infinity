@@ -1,6 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const { User } = require('../../models');
-const hashPassword = require('../../utils/hash-password');
+const hashPassword = require('../../utils/hashed-values');
 
 const config = {
   usernameField: 'id',// 'id' 필드 사용하도록 설정

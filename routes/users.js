@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { User } = require('../models');
-const hashPassword = require('../utils/hash-password');
+const hashPassword = require('../utils/hashed-values');
 const asyncHandler = require('../utils/async-handler');
 
 //회원 조회

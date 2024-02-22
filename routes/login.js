@@ -1,6 +1,6 @@
 const { Router } = require('express');
 
-const hashPassword = require('../utils/hash-password');
+const hashPassword = require('../utils/hashed-values');
 const asyncHandler = require('../utils/async-handler');
 const { User } = require('../models');
 
