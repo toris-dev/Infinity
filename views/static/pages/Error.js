@@ -17,7 +17,7 @@ export default class extends AbstractView {
     return `
       <div class="errorContainer">
         <img src="./static/images/ErrorImage.png" class="errorImg">
-        <a href="/" data-link>홈페이로 이동하기  <i class="fas fa-arrow-right"></i></a>
+        <a href="/" data-link>홈페이지로 이동하기  <i class="fas fa-arrow-right"></i></a>
       </div>
     `;
   }
