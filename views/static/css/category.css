@@ -1,0 +1,40 @@
+/** category Products **/
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.categoryTitle {
+  text-align: center;
+  padding-bottom: 3rem;
+}
+
+.searchCount {
+  padding: 0 2% 5%;
+}
+
+.New-arrival {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.New-arrival ul {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.New-arrival ul li {
+  width: 29.333%;
+  margin: 0 2% 80px;
+}
+
+.sale-before {
+  text-decoration: line-through;
+}
+
+.rotate {
+  transform: rotate(-180deg);
+}

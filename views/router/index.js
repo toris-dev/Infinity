@@ -14,7 +14,6 @@ const router = async () => {
       result: location.pathname.match(pathToRegex(route.path))
     };
   });
-
   let match = potentialMatches.find(
     (potentialMatch) => potentialMatch.result !== null
   );
@@ -29,7 +28,6 @@ const router = async () => {
   }
 
   const view = new match.route.view(getParams(match));
-
   // contents_main element 에 추가
   document.querySelector('#container>#contents_main').innerHTML =
     await view.getHtml();
@@ -38,13 +36,7 @@ const router = async () => {
   const linkCss = document.getElementById('mycss');
   linkCss.href = view.getCss();
 
-  // body 에 추가할 js 코드추가 비어 있지 않았을 때는 추가
-  // 404 page 처럼 js파일이 필요없는 경우는 '' 를 반환
-  if (!view.getJs() === '') {
-    Object.assign(document.getElementById('myjs'), {
-      src: view.getJs()
-    });
-  }
+  match.route.script();
 };
 
 window.addEventListener('popstate', router);
