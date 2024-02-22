@@ -16,5 +16,6 @@ function serverStatic(resource) {
 }
 
 viewsRouter.use('/', serverStatic('home'));
+viewsRouter.use('/login', serverStatic('login'));
 
 module.exports = { viewsRouter };
