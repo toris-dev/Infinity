@@ -6,7 +6,7 @@ const asyncHandler = require('../utils/async-handler');
 
 const router = express.Router();
 
-// 상품 단일 검색 API
+// 상품 단일 조회 API
 router.get(
   '/',
   asyncHandler(async (req, res) => {
@@ -20,35 +20,15 @@ router.get(
   }),
 );
 
-//admin router 이동 필요, 상품 생성 API
-router.post(
-  '/',
+//상품 목록 조회 API
+router.get(
+  '/list',
   asyncHandler(async (req, res) => {
-    const {
-      prodName,
-      prodSubCat,
-      prodCost,
-      prodContent,
-      prodImgs,
-      prodUseYn,
-      prodRemains,
-      prodSize,
-      prodColor,
-      prodCount,
-    } = req.body;
-    const product = await Product.create({
-      prodName,
-      prodSubCat,
-      prodCost,
-      prodContent,
-      prodImgs,
-      prodUseYn,
-      prodRemains,
-      prodSize,
-      prodColor,
-      prodCount,
-    });
-    res.send(product);
+    const product = await Product.find({});
+    if (!product) {
+      throw new Error('상품을 찾을 수 없습니다.');
+    }
+    res.json(product);
   }),
 );
 

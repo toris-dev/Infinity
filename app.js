@@ -4,13 +4,14 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 
-const getUserFromJWT = require('./middlewares/get-user-from-jwt');
 const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login');
 const usersRouter = require('./routes/users');
+const adminRouter = require('./routes/admin');
 const authRouter = require('./routes/auth');
 const productRouter = require('./routes/product');
 const { viewsRouter } = require('./routes/viewsRouter');
+const getUserFromJWT = require('./middlewares/get-user-from-jwt');
 const errorHandler = require('./middlewares/error-handler');
 
 require('./passport')();
@@ -36,14 +37,15 @@ app.use(passport.initialize());
 app.use(getUserFromJWT);
 
 app.use('/', indexRouter);
+app.use('/auth', authRouter);
 app.use('/login', loginRouter);
 app.use('/users', usersRouter);
-app.use('/auth', authRouter);
+app.use('/admin', adminRouter);
 app.use('/product', productRouter);
 
 app.use(errorHandler);
 
-// 로그아웃 path??
+// 로그아웃 위치 router, path
 app.post('/logout', function (req, res, next) {
   return res.cookie('token', '').json({ message: 'done' });
 });
