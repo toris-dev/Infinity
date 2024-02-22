@@ -21,6 +21,7 @@
     "pm2": "^5.3.1"
   },
   "devDependencies": {
+    "@typescript-eslint/parser": "^7.0.2",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "nodemon": "^3.0.3",

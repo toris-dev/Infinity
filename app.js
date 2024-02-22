@@ -11,16 +11,17 @@ const usersRouter = require('./routes/users');
 const adminRouter = require('./routes/admin');
 const authRouter = require('./routes/auth');
 const productRouter = require('./routes/product');
+const orderRouter = require('./routes/orders');
 const { viewsRouter } = require('./routes/viewsRouter');
 const getUserFromJWT = require('./middlewares/get-user-from-jwt');
 const errorHandler = require('./middlewares/error-handler');
+const orderSchema = require('./models/schemas/orders');
 
 require('./passport')();
 
 require('dotenv').config();
 mongoose.connect(
-  `mongodb+srv://${process.env.DB_ID}:${process.env.DB_PW}@infinitydb.uzbnsom.mongodb.net/`,
-);
+  `mongodb+srv://${process.env.DB_ID}:${process.env.DB_PW}@infinitydb.uzbnsom.mongodb.net/`);
 mongoose.connection.on('connected', () => {
   console.log('MongoDB Connected');
 });
@@ -44,6 +45,7 @@ app.use('/login', loginRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
 app.use('/product', productRouter);
+app.use('/orders', orderRouter);
 
 app.use(errorHandler);
 
