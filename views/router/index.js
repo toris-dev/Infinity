@@ -1,4 +1,4 @@
-// import { getParams, navigateTo, pathToRegex } from './navigate.js';
+import Error from '../static/pages/Error.js';
 import { getParams, pathToRegex } from './navigate.js';
 import { routes } from './routes.js';
 
@@ -22,9 +22,10 @@ const router = async () => {
   // route에 정의된 곳으로 이동하지 않는다면 기본값으로 되돌린다.
   if (!match) {
     match = {
-      route: routes[0],
+      route: { path: '/error', view: Error },
       result: [location.pathname]
     };
+    window.history.pushState(null, '', '/error');
   }
 
   const view = new match.route.view(getParams(match));
@@ -37,13 +38,13 @@ const router = async () => {
   const linkCss = document.getElementById('mycss');
   linkCss.href = view.getCss();
 
-  // body 에 추가할 js 코드 추가
-  document.head.appendChild(
+  // body 에 추가할 js 코드추가 비어 있지 않았을 때는 추가
+  // 404 page 처럼 js파일이 필요없는 경우는 '' 를 반환
+  if (!view.getJs() === '') {
     Object.assign(document.getElementById('myjs'), {
-      src: view.getJs(),
-      type: 'module'
-    })
-  );
+      src: view.getJs()
+    });
+  }
 };
 
 window.addEventListener('popstate', router);
