@@ -4,10 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Elice_Infinity</title>
-    <script type="module" src="../router/index.js"></script>
-    <script type="module" id="myjs"></script>
-    <link rel="stylesheet" href="./static/css/index.css" />
-    <link rel="stylesheet" id="mycss" href="index.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
@@ -20,8 +16,12 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
+    <link rel="stylesheet" href="./static/css/index.css" />
+    <link rel="stylesheet" id="mycss" href="index.css" />
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script type="module" src="../router/index.js"></script>
+    <script type="module" id="myjs"></script>
   </head>
   <body>
     <div id="wrap">
@@ -89,16 +89,16 @@
         <main id="contents_main"></main>
       </article>
       <footer>
-        <div class="footer_logo">
-          <img
-            src="../static/images/logo1.png"
-            alt="로고이미지"
-            width="200px"
-            height="50px"
-          />
-        </div>
         <div class="footer_body">
           <ul class="footer_information">
+            <li>
+              <div class="footer_logo mb-3">
+                <img
+                  src="../static/images/logo.png"
+                  alt="로고이미지"
+                />
+              </div>
+            </li>
             <li><b>About us</b></li>
             <li><b>Terms and Conditions</b></li>
             <li><b>Privacy policy</b></li>

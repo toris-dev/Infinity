@@ -18,7 +18,7 @@ export default class extends AbstractView {
     <div class="main-img">
     <div>
         <a>
-            <img src="./main-img3.png">
+            <img src="/static/images/main-img3.png">
         </a>
     </div>
     </div>
@@ -31,32 +31,32 @@ export default class extends AbstractView {
         <div class="swiper-wrapper">
         <!-- Slides -->
             <div class="swiper-slide">
-                <img src="./Mask group.png">
+                <img src="/static/images/Mask group.png">
             </div>
             <div class="swiper-slide">
-                <img src="./Mask group-1.png">
+                <img src="/static/images/Mask group-1.png">
             </div>
             <div class="swiper-slide">
-                <img src="./Mask group-2.png">
+                <img src="/static/images/Mask group-2.png">
             </div>
             <div class="swiper-slide">
-                <img src="./Mask group.png">
+                <img src="/static/images/Mask group.png">
             </div>
             <div class="swiper-slide">
-                <img src="./Mask group-1.png">
+                <img src="/static/images/Mask group-1.png">
             </div>
             <div class="swiper-slide">
-                <img src="./Mask group-2.png">
+                <img src="/static/images/Mask group-2.png">
             </div>
     
         </div>
         
     </div>
     <div class="swiper-button-prev">
-        <img src="./arrow.png">
+        <img src="/static/images/arrow.png">
     </div>
     <div class="swiper-button-next">
-        <img class="rotate" src="./arrow.png">
+        <img class="rotate" src="/static/images/arrow.png">
     </div>
     </div>
     
@@ -67,7 +67,7 @@ export default class extends AbstractView {
     <div class="New-arrival">
     <ul>
         <li>
-            <a><img src="./test1.webp">
+            <a><img src="/static/images/test1.webp">
             <div>
                 <p>스카이 퍼 더블니 데님</p>
                 <span class="sale-before">₩59,000</span><br/>
@@ -76,7 +76,7 @@ export default class extends AbstractView {
             </a>
         </li>
         <li>
-            <a><img src="./test1.webp">
+            <a><img src="/static/images/test1.webp">
             <div>
                 <p>스카이 퍼 더블니 데님</p>
                 <span class="sale-before">₩59,000</span><br/>
@@ -85,7 +85,7 @@ export default class extends AbstractView {
             </a>
         </li>
         <li>
-            <a><img src="./test1.webp">
+            <a><img src="/static/images/test1.webp">
             <div>
                 <p>스카이 퍼 더블니 데님</p>
                 <span class="sale-before">₩59,000</span><br/>
@@ -94,7 +94,7 @@ export default class extends AbstractView {
             </a>
         </li>
         <li>
-            <a><img src="./test1.webp">
+            <a><img src="/static/images/test1.webp">
             <div>
                 <p>스카이 퍼 더블니 데님</p>
                 <span class="sale-before">₩59,000</span><br/>
@@ -103,7 +103,7 @@ export default class extends AbstractView {
             </a>
         </li>
         <li>
-            <a><img src="./test1.webp">
+            <a><img src="/static/images/test1.webp">
             <div>
                 <p>스카이 퍼 더블니 데님</p>
                 <span class="sale-before">₩59,000</span><br/>
@@ -112,7 +112,7 @@ export default class extends AbstractView {
             </a>
         </li>
         <li>
-            <a><img src="./test1.webp">
+            <a><img src="/static/images/test1.webp">
             <div>
                 <p>스카이 퍼 더블니 데님</p>
                 <span class="sale-before">₩59,000</span><br/>
@@ -121,7 +121,7 @@ export default class extends AbstractView {
             </a>
         </li>
         <li>
-            <a><img src="./test1.webp">
+            <a><img src="/static/images/test1.webp">
             <div>
                 <p>스카이 퍼 더블니 데님</p>
                 <span class="sale-before">₩59,000</span><br/>
@@ -130,7 +130,7 @@ export default class extends AbstractView {
             </a>
         </li>
         <li>
-            <a><img src="./test1.webp">
+            <a><img src="/static/images/test1.webp">
             <div>
                 <p>스카이 퍼 더블니 데님</p>
                 <span class="sale-before">₩59,000</span><br/>
@@ -139,7 +139,7 @@ export default class extends AbstractView {
             </a>
         </li>
         <li>
-            <a><img src="./test1.webp">
+            <a><img src="/static/images/test1.webp">
             <div>
                 <p>스카이 퍼 더블니 데님</p>
                 <span class="sale-before">₩59,000</span><br/>
@@ -148,7 +148,7 @@ export default class extends AbstractView {
             </a>
         </li>
         <li>
-            <a><img src="./test1.webp">
+            <a><img src="/static/images/test1.webp">
             <div>
                 <p>스카이 퍼 더블니 데님</p>
                 <span class="sale-before">₩59,000</span><br/>
@@ -157,7 +157,7 @@ export default class extends AbstractView {
             </a>
         </li>
         <li>
-            <a><img src="./test1.webp">
+            <a><img src="/static/images/test1.webp">
             <div>
                 <p>스카이 퍼 더블니 데님</p>
                 <span class="sale-before">₩59,000</span><br/>
@@ -166,7 +166,7 @@ export default class extends AbstractView {
             </a>
         </li>
         <li>
-            <a><img src="./test1.webp">
+            <a><img src="/static/images/test1.webp">
             <div>
                 <p>스카이 퍼 더블니 데님</p>
                 <span class="sale-before">₩59,000</span><br/>
@@ -175,7 +175,7 @@ export default class extends AbstractView {
             </a>
         </li>
         <li>
-            <a><img src="./test1.webp">
+            <a><img src="/static/images/test1.webp">
             <div>
                 <p>스카이 퍼 더블니 데님</p>
                 <span class="sale-before">₩59,000</span><br/>
@@ -184,7 +184,7 @@ export default class extends AbstractView {
             </a>
         </li>
         <li>
-            <a><img src="./test1.webp">
+            <a><img src="/static/images/test1.webp">
             <div>
                 <p>스카이 퍼 더블니 데님</p>
                 <span class="sale-before">₩59,000</span><br/>
@@ -193,7 +193,7 @@ export default class extends AbstractView {
             </a>
         </li>
         <li>
-            <a><img src="./test1.webp">
+            <a><img src="/static/images/test1.webp">
             <div>
                 <p>스카이 퍼 더블니 데님</p>
                 <span class="sale-before">₩59,000</span><br/>
