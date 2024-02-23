@@ -7,10 +7,7 @@ export default class extends AbstractView {
   }
 
   getCss() {
-    return './static/css/home.css';
-  }
-  getJs() {
-    return './static/js/home.js';
+    return '/static/css/home.css';
   }
 
   async getHtml() {
@@ -65,34 +62,7 @@ export default class extends AbstractView {
     <h2>New Arrival</h2>
     </div>
     <div class="New-arrival">
-    <ul>
-        <li>
-            <a><img src="/static/images/test1.webp">
-            <div>
-                <p>스카이 퍼 더블니 데님</p>
-                <span class="sale-before">₩59,000</span><br/>
-                <span>54,900 (7%)</span>
-            </div>
-            </a>
-        </li>
-        <li>
-            <a><img src="/static/images/test1.webp">
-            <div>
-                <p>스카이 퍼 더블니 데님</p>
-                <span class="sale-before">₩59,000</span><br/>
-                <span>54,900 (7%)</span>
-            </div>
-            </a>
-        </li>
-        <li>
-            <a><img src="/static/images/test1.webp">
-            <div>
-                <p>스카이 퍼 더블니 데님</p>
-                <span class="sale-before">₩59,000</span><br/>
-                <span>54,900 (7%)</span>
-            </div>
-            </a>
-        </li>
+    <ul class="products">
         <li>
             <a><img src="/static/images/test1.webp">
             <div>
