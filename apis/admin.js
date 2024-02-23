@@ -106,4 +106,52 @@ router.get('/orders', asyncHandler(async (req, res) => {
   res.json(orders);
 }));
 
+/**
+ * 작성자 : 이정은
+ * 작성 시작일: 2024.02.23
+ * 추가된 상품의 주문 상태를 변경합니다.
+ * flag :: (처리전: 상품준비/배송준비 등이 아직 완료가 안된 상태 & 처리중: 상품준비 || 배송 준비중 상태)
+ */
+router.put('/orders', asyncHandler(async (req, res) => {
+  const { orderNum } = req.query;
+  const { orderState } = req.body;
+
+  const order = await Orders.findOne({ _id: orderNum });
+  if (order) {
+    if(!order.orderDeleteDate) {
+      await Orders.updateOne({ _id: orderNum }, { orderState: orderState });
+      const updatedOrder = await Orders.findOne({ _id: orderNum });
+      res.json(updatedOrder);
+    } else {
+      throw new Error('사용자가 주문을 취소했습니다. 주문상태를 수정할 수 없습니다.');
+    }
+  } else {
+    // 주문을 찾을 수 없는 경우 에러 처리
+    throw new Error('주문을 찾을 수 없습니다.');
+  }
+}));
+
+/**
+ * 작성자 : 이정은
+ * 작성 시작일: 2024.02.23
+ * 생성된 주문 정보를 관리자가 삭제합니다. 
+ * flag :: orderDeleteDate에는 관리자가 주문을 삭제하는 현재 시점의 시간값이 들어갑니다.
+ */
+router.delete('/orders', asyncHandler(async (req,res) => {
+  const { orderNum } = req.query;
+    const order = await Orders.findOne({ _id: orderNum });
+
+    if(order) {
+        if(!order.orderDeleteDate) {
+            await Orders.updateOne({ _id: orderNum }, { orderDeleteDate: Date.now()+ 9*60*60*1000 });
+            const deletedOrder = await Orders.findOne({ _id : orderNum });
+            res.json({ deletedOrder });
+        } else {
+            throw new Error('이미 사용자가 취소한 주문입니다.');
+        }
+    } else {
+        throw new Error('주문을 찾을 수 없습니다.');
+    }
+}));
+
 module.exports = router;
