@@ -42,15 +42,15 @@ router.post('/', asyncHandler(async (req, res) => {
  * 주문 정보를 수정하는 사용자 API 입니다.
  */
 router.put('/orders', asyncHandler(async (req, res) => {
-    const { orderNum } = req.params;
+    const { orderNum } = req.query;
     const { orderAddress, orderDetailAddress, orderZipCode, orderName, orderPhoneNum, orderReq } = req.body;
     
-    const order = await Orders.findOne({ orderNum });
+    const order = await Orders.findOne({ _id: orderNum });
 
     if (order) {
         if (order.orderState === '처리전') { // 처리전의 주문만 수정 허용
-            await Orders.updateOne({ orderNum }, { orderAddress, orderDetailAddress, orderZipCode, orderName, orderPhoneNum, orderReq, orderUpdateDate: Date.now()+9*60*60*1000 });
-            const updatedOrder = await Orders.findOne({ orderNum });
+            await Orders.updateOne({ _id: orderNum }, { orderAddress, orderDetailAddress, orderZipCode, orderName, orderPhoneNum, orderReq, orderUpdateDate: Date.now() + 9*60*60*1000 });
+            const updatedOrder = await Orders.findOne({ _id: orderNum });
             res.json(updatedOrder);
         } else {
             throw new Error('주문이 처리중입니다. 주문을 수정할 수 없습니다.');
@@ -67,17 +67,16 @@ router.put('/orders', asyncHandler(async (req, res) => {
  * 주문 삭제시 orders 스키마의 orderDeleteDate필드는 주문 삭제 시점의 현재 날짜를 가지게 됩니다.
  */
 router.delete('/orders', asyncHandler(async (req, res, next) => {
-    const { orderNum } = req.params;
-    const order = await Orders.findOne({ orderNum });
+    const { orderNum } = req.query;
+    const order = await Orders.findOne({ _id: orderNum });
 
     if(order) {
         if(order.orderState === '처리전') {
-            await Orders.updateOne({ orderNum }, { orderDeleteDate: Date.now()+ 9*60*60*1000 });
-            const updatedOrder = await Orders.findOne({orderNum});
-            const { deleted } = updatedOrder;
-            res.json({ deleted });
+            await Orders.updateOne({ _id: orderNum }, { orderDeleteDate: Date.now()+ 9*60*60*1000 });
+            const updatedOrder = await Orders.findOne({ _id : orderNum });
+            res.json({ updatedOrder });
         } else {
-            throw new Error('주문이 처리중입니다. 주문을 수정할 수 없습니다.');
+            throw new Error('주문을 처리중입니다. 주문을 삭제할 수 없습니다.');
         }
     } else {
         throw new Error('주문을 찾을 수 없습니다.');
