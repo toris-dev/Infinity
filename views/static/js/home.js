@@ -1,4 +1,4 @@
-// import { infinityScroll } from './lib/infinityScroll.js';
+import { infinityScroll } from './lib/infinityScroll.js';
 
 export function home() {
   const swiper = new Swiper('.main.swiper', {
@@ -12,5 +12,5 @@ export function home() {
     }
   });
 
-  // infinityScroll();
+  infinityScroll();
 }
