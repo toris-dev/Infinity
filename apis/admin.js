@@ -1,7 +1,7 @@
 const express = require('express');
 const ObjectId = require('mongodb').ObjectId;
 
-const { Product } = require('../models/index');
+const { Product, Orders } = require('../models/index');
 
 const asyncHandler = require('../utils/async-handler');
 
@@ -92,5 +92,18 @@ router.delete(
     res.json({ prodUseYn });
   })
 );
+
+/**
+ * 작성자 : 이정은
+ * 작성 시작일: 2024.02.23
+ * 생성된 모든 주문 정보를 조회해오는 API입니다.
+ */
+router.get('/orders', asyncHandler(async (req, res) => {
+  const orders = await Orders.find({});
+  if (!orders) {
+    throw new Error('주문이 없습니다.');
+  }
+  res.json(orders);
+}));
 
 module.exports = router;
