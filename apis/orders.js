@@ -2,15 +2,20 @@ const express = require('express');
 const router = express.Router();
 const { Orders } = require('../models');
 const asyncHandler = require('../utils/async-handler');
+const cryptoJS = require('crypto-js');
 
 /**
- * 작성자 : 이정은
- * 작성시작일 : 2024.02.22
- * 한 아이디가 갖는 주문 목록을 모두 조회해 오는 API
+ * 작성자 : 이고헌
+ * 작성시작일 : 2024.02.23
+ * 한 아이디가 갖는 주문 목록을 모두 조회해 오는 API, Base64로 저장된 주문자 상세 주소, 주문자 핸드폰 번호를 Decode해서 json으로 전달
  */
 router.get('/',asyncHandler(async (req, res) => {
-    const { orderId } = req.query;
-    const orders = await Orders.find({ orderId: orderId });
+    const { userId } = req.query;
+    const orders = await Orders.find({ orderId: userId });
+    for (order of orders){
+        order.orderDetailAddress = cryptoJS.enc.Base64.parse(order.orderDetailAddress).toString(cryptoJS.enc.Utf8);
+        order.orderPhoneNum = cryptoJS.enc.Base64.parse(order.orderPhoneNum).toString(cryptoJS.enc.Utf8);
+    }
     res.json(orders);
 }));
 
