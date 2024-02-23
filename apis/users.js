@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+
 const { User } = require('../models');
-const hashPassword = require('../utils/hash-password');
+
 const asyncHandler = require('../utils/async-handler');
 
 //회원 조회
@@ -19,10 +20,8 @@ router.post('/', async function(req, res, next) {
   const { id, pwd, name, email, zipCode, address, detailAddress, phoneNum, oauth } = req.body;
   
   let useYn, regDate;
-  hashedPwd = hashPassword(pwd);
-  hashedDA = hashPassword(detailAddress);
 
-  await User.create({ id, pwd: hashedPwd, name, email, zipCode, address, detailAddress: hashedDA, phoneNum, useYn, regDate, oauth });
+  await User.create({ id, pwd, name, email, zipCode, address, detailAddress, phoneNum, useYn, regDate, oauth });
   const user = await User.findOne({ id });
   res.json(user);
 });

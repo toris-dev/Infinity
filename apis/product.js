@@ -17,7 +17,7 @@ router.get(
       throw new Error('상품을 찾을 수 없습니다.');
     }
     res.json(product);
-  }),
+  })
 );
 
 //상품 목록 조회 API
@@ -29,7 +29,7 @@ router.get(
       throw new Error('상품을 찾을 수 없습니다.');
     }
     res.json(product);
-  }),
+  })
 );
 
 module.exports = router;

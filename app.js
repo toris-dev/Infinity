@@ -5,12 +5,9 @@ const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
 
+const apiRouter = require('./routes/api');
 const indexRouter = require('./routes/index');
-const loginRouter = require('./routes/login');
-const usersRouter = require('./routes/users');
-const adminRouter = require('./routes/admin');
-const authRouter = require('./routes/auth');
-const productRouter = require('./routes/product');
+
 const { viewsRouter } = require('./routes/viewsRouter');
 const getUserFromJWT = require('./middlewares/get-user-from-jwt');
 const errorHandler = require('./middlewares/error-handler');
@@ -19,6 +16,7 @@ require('./passport')();
 
 require('dotenv').config();
 mongoose.connect(
+  `mongodb+srv://${process.env.DB_ID}:${process.env.DB_PW}@infinitydb.uzbnsom.mongodb.net/`);
   `mongodb+srv://${process.env.DB_ID}:${process.env.DB_PW}@infinitydb.uzbnsom.mongodb.net/`
 );
 mongoose.connection.on('connected', () => {
@@ -34,16 +32,12 @@ app.use(express.static('views'));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(viewsRouter);
+app.use('/api', apiRouter);
 
 app.use(passport.initialize());
 app.use(getUserFromJWT);
 
 app.use('/', indexRouter);
-app.use('/auth', authRouter);
-app.use('/login', loginRouter);
-app.use('/users', usersRouter);
-app.use('/admin', adminRouter);
-app.use('/product', productRouter);
 
 app.use(errorHandler);
 
