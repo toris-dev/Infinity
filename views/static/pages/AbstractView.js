@@ -26,12 +26,4 @@ export default class {
   getCss() {
     return '';
   }
-
-  /**
-   *
-   * @returns {string} - js의 주소 string (기준은 index.html)
-   */
-  getJs() {
-    return '';
-  }
 }

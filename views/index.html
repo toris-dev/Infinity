@@ -16,12 +16,16 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
-    <link rel="stylesheet" href="./static/css/index.css" />
-    <link rel="stylesheet" id="mycss" href="index.css" />
+    <!-- <link
+      rel="stylesheet"
+      href="http://localhost:3000/static/css/category.css"
+    />
+    <script src="http://localhost:3000/static/pages/CategoryProducts.js"></script> -->
+    <link rel="stylesheet" href="/static/css/index.css" />
+    <link rel="stylesheet" id="mycss" />
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script type="module" src="../router/index.js"></script>
-    <script type="module" id="myjs"></script>
+    <script type="module" src="/router/index.js"></script>
   </head>
   <body>
     <div id="wrap">
@@ -34,23 +38,17 @@
         <div id="category" class="category">
           <div class="position">
             <ul class="menu-list">
-              <li><a href="#" data-link>Only infinity</a></li>
-              <li><a href="#" data-link>New -7%</a></li>
-              <li><a href="#" data-link>Best</a></li>
-              <li><a href="#" data-link>1+1</a></li>
-              <li><a href="#" data-link>All</a></li>
+              <li><a href="/categorys/new" data-link>New -7%</a></li>
+              <li><a href="/categorys/Best" data-link>Best</a></li>
+              <li><a href="/categorys/1+1" data-link>1+1</a></li>
+              <li><a href="/categorys/All" data-link>All</a></li>
               <li>
-                <a href="#" class="is-active">Outer</a>
-                <ul class="sub-category">
-                  <li><a href="#" data-link>추가상품1</a></li>
-                  <li><a href="#" data-link>추가상품2</a></li>
-                  <li><a href="#" data-link>추가상품3</a></li>
-                </ul>
+                <a href="/categorys/Outer" class="is-active" data-link>Outer</a>
               </li>
-              <li><a href="#" data-link>Top</a></li>
-              <li><a href="#" data-link>Bottom</a></li>
-              <li><a href="#" data-link>Shoes</a></li>
-              <li><a href="#" data-link>Acc</a></li>
+              <li><a href="/categorys/Top" data-link>Top</a></li>
+              <li><a href="/categorys/Bottom" data-link>Bottom</a></li>
+              <li><a href="/categorys/Shoes" data-link>Shoes</a></li>
+              <li><a href="/categorys/Acc" data-link>Acc</a></li>
             </ul>
           </div>
         </div>
@@ -59,13 +57,13 @@
           <div class="position">
             <ul class="menu-list">
               <li>
-                <a href="#" data-link>Notice</a>
+                <a href="/Notice" data-link>Notice</a>
               </li>
               <li>
-                <a href="#" data-link>Q &amp; A</a>
+                <a href="/QnA" data-link>QnA</a>
               </li>
               <li>
-                <a href="#" data-link>Review</a>
+                <a href="/Review" data-link>Review</a>
               </li>
             </ul>
           </div>
@@ -74,14 +72,14 @@
 
       <div id="rightbar">
         <div class="cart-txt">
-          <a href="#" data-link>Cart ― 0</a>
+          <a href="/cart" data-link>Cart ― 0</a>
         </div>
 
         <div class="right-element">
-          <a href="/login" class="log" data-link>Log in</a>
+          <a href="/signin" class="log" data-link>Log in</a>
           <a href="/signup" data-link>Register</a>
-          <a href="#" data-link>Order</a>
-          <a href="#" data-link>My Page</a>
+          <a href="/order" data-link>Order</a>
+          <a href="/mypage" data-link>My Page</a>
         </div>
       </div>
 
@@ -93,7 +91,7 @@
           <ul class="footer_information">
             <li>
               <div class="footer_logo mb-3">
-                <img src="../static/images/logo.png" alt="로고이미지" />
+                <img src="/static/images/logo.png" alt="로고이미지" />
               </div>
             </li>
             <li><b>About us</b></li>

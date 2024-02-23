@@ -16,7 +16,8 @@ require('./passport')();
 
 require('dotenv').config();
 mongoose.connect(
-  `mongodb+srv://${process.env.DB_ID}:${process.env.DB_PW}@infinitydb.uzbnsom.mongodb.net/`);
+  `mongodb+srv://${process.env.DB_ID}:${process.env.DB_PW}@infinitydb.uzbnsom.mongodb.net/`
+);
 mongoose.connection.on('connected', () => {
   console.log('MongoDB Connected');
 });

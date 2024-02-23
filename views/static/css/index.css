@@ -270,3 +270,8 @@ footer {
   margin-top: 3px;
   color: #808080;
 }
+
+.titleArea {
+  margin: 0 0 30px;
+  text-align: center;
+}
