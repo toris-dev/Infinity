@@ -64,22 +64,6 @@ export default class extends AbstractView {
                 </p>
               </div>
 
-              <div class="field verification">
-                <label class="is-small">비밀번호 확인 질문</label>
-                <p class="control has-icons-left">
-                  <span class="select">
-                    <select class="question">
-                      <option selected>기억에 남는 추억의 장소는</option>
-                      <option>가장 친한 친구의 이름은?</option>
-                      <option>다니던 초등학교의 이름은?</option>
-                    </select>
-                  </span>
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-globe"></i>
-                  </span>
-                </p>
-              </div>
-
               <div class="field answer">
                 <label class="is-small">비밀번호 확인 답변 *</label>
                 <p class="control">
