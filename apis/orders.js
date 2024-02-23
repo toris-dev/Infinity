@@ -1,17 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const { Orders } = require('../models');
-const hashedValue = require('../utils/hashed-values');
 const asyncHandler = require('../utils/async-handler');
 
 /**
  * 작성자 : 이정은
  * 작성시작일 : 2024.02.22
- * 주문 조회 API
+ * 한 아이디가 갖는 주문 목록을 모두 조회해 오는 API
  */
 router.get('/',asyncHandler(async (req, res) => {
     const { orderId } = req.query;
-    const orders = await Orders.findOne({ orderId: orderId });
+    const orders = await Orders.find({ orderId: orderId });
     res.json(orders);
 }));
 
@@ -25,12 +24,64 @@ router.post('/', asyncHandler(async (req, res) => {
     const { orderId, orderAddress, orderDetailAddress, orderZipCode, orderName, orderPhoneNum, orderReq } = req.body;
   
     let orderDate;
-    hashedDA = hashedValue(orderDetailAddress);
-    hashedPN = hashedValue(orderPhoneNum);
+    let orderState;
+    /**
+     * orderDetailAddress, orderPhoneNum 필드 관련 특이사항
+     * 핸드폰 번호, 상세주소 등의 정보는 개인정보에 해당하므로 암호화된 데이터로 삽입하는것이 권장됩니다.
+     * 하지만 아직 어떤 암복호화 체계를 채택할 지 결정하지 못했기 때문에, 상세주소와 핸드폰 번호는 일단 평문으로 저장하겠습니다.
+     */
 
-    await Orders.create({ orderId, orderDate, orderAddress, orderDetailAddress:hashedDA, orderZipCode, orderName, orderPhoneNum:hashedPN, orderReq});
+    await Orders.create({ orderId, orderDate, orderAddress, orderDetailAddress, orderZipCode, orderName, orderPhoneNum, orderReq, orderState});
     const orders = await Orders.findOne({ orderId });
     res.json(orders);
+}));
+
+/**
+ * 작성자: 이정은
+ * 작성 시작일: 2024.02.23
+ * 주문 정보를 수정하는 사용자 API 입니다.
+ */
+router.put('/orders', asyncHandler(async (req, res) => {
+    const { orderNum } = req.params;
+    const { orderAddress, orderDetailAddress, orderZipCode, orderName, orderPhoneNum, orderReq } = req.body;
+    
+    const order = await Orders.findOne({ orderNum });
+
+    if (order) {
+        if (order.orderState === '처리전') { // 처리전의 주문만 수정 허용
+            await Orders.updateOne({ orderNum }, { orderAddress, orderDetailAddress, orderZipCode, orderName, orderPhoneNum, orderReq, orderUpdateDate: Date.now()+9*60*60*1000 });
+            const updatedOrder = await Orders.findOne({ orderNum });
+            res.json(updatedOrder);
+        } else {
+            throw new Error('주문이 처리중입니다. 주문을 수정할 수 없습니다.');
+        }
+    } else {
+        throw new Error('주문을 찾을 수 없습니다.');
+    }
+}));
+
+/**
+ * 작성자: 이정은
+ * 작성 시작일: 2024.02.23
+ * 주문 정보를 삭제하는 사용자 API 입니다.
+ * 주문 삭제시 orders 스키마의 orderDeleteDate필드는 주문 삭제 시점의 현재 날짜를 가지게 됩니다.
+ */
+router.delete('/orders', asyncHandler(async (req, res, next) => {
+    const { orderNum } = req.params;
+    const order = await Orders.findOne({ orderNum });
+
+    if(order) {
+        if(order.orderState === '처리전') {
+            await Orders.updateOne({ orderNum }, { orderDeleteDate: Date.now()+ 9*60*60*1000 });
+            const updatedOrder = await Orders.findOne({orderNum});
+            const { deleted } = updatedOrder;
+            res.json({ deleted });
+        } else {
+            throw new Error('주문이 처리중입니다. 주문을 수정할 수 없습니다.');
+        }
+    } else {
+        throw new Error('주문을 찾을 수 없습니다.');
+    }
 }));
 
 module.exports = router;

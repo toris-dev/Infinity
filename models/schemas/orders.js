@@ -21,10 +21,12 @@ const orderSchema = new Schema({
         required: true,
         default: Date.now()+9*60*60*1000
     },
+    /*
     orderProd: {
         type: [product],
         required: true, 
     },
+    */
     //배송주소
     orderAddress: {
         type: String,
@@ -53,6 +55,19 @@ const orderSchema = new Schema({
     //배송요청사항
     orderReq: {
         type: String,
+    },
+    //주문 처리상태 - 값이 있으면 주문 처리 시작
+    orderState: {
+        type: String,
+        default: '처리전',
+    },
+    //주문 수정일 - 값이 있으면 주문 수정 반영
+    orderUpdateDate: {
+        type: Date,
+    },
+    //주문 삭제일 - 값이 있으면 주문 취소 반영
+    orderDeleteDate: {
+        type: Date,
     }
 });
 
