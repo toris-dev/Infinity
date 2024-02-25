@@ -233,12 +233,14 @@ router.put(
         { prodMajorCat, 'prodSubCats.prodSubCat': prodSubCat },
         { $set: { 'prodSubCats.$.prodSubCat': updateProdSubCat } }
       );
+      prodCat = await ProdCat.find({ prodMajorCat });
     } else if (updateProdMajorCat && !updateProdSubCat) {
       //대분류만 변경
       await ProdCat.updateOne(
         { prodMajorCat },
         { prodMajorCat: updateProdMajorCat }
       );
+      prodCat = await ProdCat.find({ prodMajorCat: updateProdMajorCat });
     } else {
       //모두 변경
       await ProdCat.updateOne(
@@ -248,14 +250,8 @@ router.put(
           $set: { 'prodSubCats.$.prodSubCat': updateProdSubCat }
         }
       );
+      prodCat = await ProdCat.find({ prodMajorCat: updateProdMajorCat });
     }
-    /**
-     * 수정이 완료 된 후 수정된 카테고리 응답
-     * !!파라미터에 소분류가 없을 경우!! 비동기가 안맞아 빈 배열이 리턴됨
-     * 기능상으로는 동작
-     * 수정 필요
-     */
-    prodCat = await ProdCat.find({ prodMajorCat });
     res.json(prodCat);
   })
 );
