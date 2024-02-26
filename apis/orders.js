@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Orders, OrderProds } = require('../models');
+const { Orders, Product } = require('../models');
 const asyncHandler = require('../utils/async-handler');
 const cryptoJS = require('crypto-js');
 const ObjectId = require('mongodb').ObjectId;
