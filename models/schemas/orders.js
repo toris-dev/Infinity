@@ -20,6 +20,8 @@ const orderSchema = new Schema({
     required: true,
     default: Date.now() + 9 * 60 * 60 * 1000
   },
+  orderProd: {
+      type: Object,
   orderProds: {
       type: [orderProdSchema],
       required: true,

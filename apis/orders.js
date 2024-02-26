@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Orders, Product } = require('../models');
-
+const { Orders, OrderProds } = require('../models');
 const asyncHandler = require('../utils/async-handler');
 const cryptoJS = require('crypto-js');
 const ObjectId = require('mongodb').ObjectId;
@@ -34,49 +33,26 @@ router.get(
  * 주문 추가 API
  * 주문이 발생했을 때 해당 주문의 정보를 DB에 저장합니다.
  */
-router.post(
-  '/',
-  asyncHandler(async (req, res) => {
-    let {
-      orderId,
-      orderProds,
-      orderAddress,
-      orderDetailAddress,
-      orderZipCode,
-      orderName,
-      orderPhoneNum,
-      orderReq
-    } = req.body;
-
+router.post('/', asyncHandler(async (req, res) => {
+    let { orderId, orderProds, orderAddress, orderDetailAddress, orderZipCode, orderName, orderPhoneNum, orderReq } = req.body;
+  
     let orderDate;
     let orderState;
-    for (orderProd of orderProds) {
-        orderProdCount = Number(orderProd.orderProdCount)
-    };
-    /**
-     * orderDetailAddress, orderPhoneNum 필드 관련 특이사항
-     * 핸드폰 번호, 상세주소 등의 정보는 개인정보에 해당하므로 암호화된 데이터로 삽입하는것이 권장됩니다.
-     * 하지만 아직 어떤 암복호화 체계를 채택할 지 결정하지 못했기 때문에, 상세주소와 핸드폰 번호는 일단 평문으로 저장하겠습니다.
-     */
+    let orderList = [];
     
-    await Orders.create({
-      orderId,
-      orderProds,
-      orderDate,
-      orderAddress,
-      orderDetailAddress,
-      orderZipCode,
-      orderName,
-      orderPhoneNum,
-      orderReq,
-      orderState
-    });
-    
-    
+    for (const orderProd of orderProds) {
+        orderList.push({
+            prodName: orderProd.prodName,
+            prodCost: orderProd.prodCost,
+            orderProdCount: orderProd.orderProdCount
+        });
+    }
+
+    await Orders.create({ orderId, orderProd: orderList, orderDate, orderAddress, orderDetailAddress, orderZipCode, orderName, orderPhoneNum, orderReq, orderState});
     const orders = await Orders.findOne({ orderId });
     res.json(orders);
-  })
-);
+
+}));
 
 /**
  * 작성자: 이정은
