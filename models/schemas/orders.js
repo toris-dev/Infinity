@@ -21,8 +21,7 @@ const orderSchema = new Schema({
     default: Date.now() + 9 * 60 * 60 * 1000
   },
   orderProd: {
-      type: [orderProds],
-      required: true,
+      type: [orderProds]
   },
   //배송주소
   orderAddress: {

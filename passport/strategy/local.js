@@ -7,11 +7,11 @@ const { User } = require('../../models');
  * passport.js를 이용해 구현할 로그인 API입니다.
  */
 const local = new LocalStrategy({
-  usernameField: 'id',// 'id' 필드 사용하도록 설정
+  usernameField: 'email',// 'email' 필드 사용하도록 설정
   passwordField: 'pwd'// 'password' 필드 사용하도록 설정
-}, async (id, pwd, done) => {
+}, async (email, pwd, done) => {
     try {
-      const user = await User.findOne({ id });
+      const user = await User.findOne({ email });
       if (!user) {
         throw new Error('회원을 찾을 수 없습니다.');
       }

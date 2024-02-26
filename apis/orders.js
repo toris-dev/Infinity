@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { Orders } = require('../models');
+const { Orders, OrderProd } = require('../models');
 const asyncHandler = require('../utils/async-handler');
 const cryptoJS = require('crypto-js');
-
+const ObjectId = require('mongodb').ObjectId;
 /**
  * 작성자 : 이고헌
  * 작성시작일 : 2024.02.23
@@ -27,7 +27,7 @@ router.get('/',asyncHandler(async (req, res) => {
  */
 router.post('/', asyncHandler(async (req, res) => {
     const { orderId, orderProd, orderAddress, orderDetailAddress, orderZipCode, orderName, orderPhoneNum, orderReq } = req.body;
-    
+
     
     let orderDate;
     let orderState;
@@ -37,9 +37,11 @@ router.post('/', asyncHandler(async (req, res) => {
      * 핸드폰 번호, 상세주소 등의 정보는 개인정보에 해당하므로 암호화된 데이터로 삽입하는것이 권장됩니다.
      * 하지만 아직 어떤 암복호화 체계를 채택할 지 결정하지 못했기 때문에, 상세주소와 핸드폰 번호는 일단 평문으로 저장하겠습니다.
      */
+    const newOrderProd = await OrderProd.create({prodNum: new ObjectId(1), prodName:'asd', prodCost:100, orderProdCount:100})
 
-    const newOrder = await Orders.create({ orderId, orderProd: orderProd, orderDate, orderAddress, orderDetailAddress, orderZipCode, orderName, orderPhoneNum, orderReq, orderState});
-    
+    const newOrder = await Orders.create({ orderId, orderProd: [newOrderProd], orderDate, orderAddress, orderDetailAddress, orderZipCode, orderName, orderPhoneNum, orderReq, orderState});
+    console.log(newOrder);
+
     for (const prodData of orderProds) {
         const { prodNum, prodName, prodCost, orderProdCount } = prodData;
 
@@ -49,8 +51,7 @@ router.post('/', asyncHandler(async (req, res) => {
         // 새로 생성한 서브 도큐먼트를 주문에 추가
         newOrder.orderProd.push(newOrderProd);
     }
-    console.log('여기까진 옴?');
-    console.log(`orderProd::${orderProd}`);
+    
     const orders = await Orders.findOne({ orderId });
     res.json(orders);
 }));
