@@ -33,6 +33,7 @@ export default class extends AbstractView {
                   />
                 </p>
               </div>
+
               <div class="field">
                 <div class="sentence">
                   <label>아이디 *</label>
@@ -42,8 +43,8 @@ export default class extends AbstractView {
                 </div>
                 <p class="control">
                   <input
-                    class="input IdInput"
-                    type="id"
+                    class="input idInput"
+                    type="text"
                     placeholder="ID"
                   />
                 </p>
@@ -79,13 +80,13 @@ export default class extends AbstractView {
                 </p>
               </div>
 
-              <div class="field answer">
-                <label class="is-small">비밀번호 확인 답변 *</label>
+              <div class="field nameInputBox">
+                <label class="is-small">이름</label>
                 <p class="control">
                   <input
-                    class="input"
+                    class="input nameInput"
                     type="text"
-                    placeholder="비밀번호 확인 답변"
+                    placeholder="이름"
                   />
                 </p>
               </div>
