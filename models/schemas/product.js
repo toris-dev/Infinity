@@ -1,14 +1,14 @@
 const { Schema } = require('mongoose');
 const prodImg = require('./prodImg');
-const prodSubCat = require('./prodSubCat');
+const prodSubCategory = require('./prodSubCategory');
 
 const productSchema = new Schema({
   prodName: {
     type: String,
     required: true,
   },
-  prodSubCat: {
-    type: prodSubCat,
+  prodSubCategory: {
+    type: prodSubCategory,
     required: true,
   },
   prodCost: {
