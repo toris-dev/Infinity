@@ -7,7 +7,7 @@ const path = require('path');
 const viewsRouter = express.Router();
 
 // SPA 이기 때문에 index.html 만 제공
-viewsRouter.get('/^(?!admin$|auth$|login$|product$|users$|orders).*$', (req, res) => {
+viewsRouter.get('/^(?!api).*$', (req, res) => {
   res.sendFile(path.resolve('views', 'index.html'));
 });
 
