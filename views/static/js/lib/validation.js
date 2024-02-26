@@ -2,6 +2,7 @@
 
 import {
   emailRegex,
+  idRegex,
   passwordRegex,
   phoneNumberRegex
 } from '../constans/regex.js';
@@ -91,8 +92,21 @@ const radioCheckValidation = (radio) => {
   return true;
 };
 
+/**
+ *
+ * @param {string} id - id 8글자 이상 32글자 이하
+ * @returns {boolean}
+ */
+const idValidation = (id) => {
+  if (!idRegex.test(id)) {
+    return false;
+  }
+  return true;
+};
+
 export {
   emailValidation,
+  idValidation,
   nullCheckValidation,
   passwordValidation,
   phoneNumberValidation,

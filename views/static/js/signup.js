@@ -1,6 +1,7 @@
 import { ExecDaumPostcode } from './lib/daumPostCode.js';
 import {
   emailValidation,
+  idValidation,
   nullCheckValidation,
   passwordValidation,
   phoneNumberValidation,
@@ -14,6 +15,7 @@ export const signup = () => {
   const $passwordInput = document.querySelector('.input.password');
   const $passwordCheckInput = document.querySelector('.input.passwordCheck');
   const $postalCode = document.querySelector('.add_button.mt_add_2');
+  const $idInput = document.querySelector('.input.IdInput');
   validation($emailInput, emailValidation);
   // signup 전송 함수
   function handleSubmit(e) {
@@ -47,9 +49,17 @@ export const signup = () => {
       passwordInput.value,
       secondPasswordInput.value
     );
-
+    const isValidId = idValidation($idInput);
     const isValidEmail = emailValidation($emailInput.value);
     const isValidPhoneNumber = phoneNumberValidation(phoneNumber);
+    if (!isValidEmail) {
+      alert('Email 형식이 맞지 않습니다.');
+      return;
+    }
+    if (!isValidId) {
+      alert('ID를 입력해주세요');
+      return;
+    }
     if (isValidPassword === 'no') {
       alert('입력한 패스워드가 일치하지 않습니다.');
       return; // 폼 제출을 중단합니다.
@@ -58,10 +68,6 @@ export const signup = () => {
       alert(
         '비밀번호는 영문자, 숫자, 특수 기호를 포함하여 8자 이상 24자 이하이어야 합니다.'
       );
-      return;
-    }
-    if (!isValidEmail) {
-      alert('Email 형식이 맞지 않습니다.');
       return;
     }
     if (!isValidPhoneNumber) {

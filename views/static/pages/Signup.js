@@ -33,6 +33,21 @@ export default class extends AbstractView {
                   />
                 </p>
               </div>
+              <div class="field">
+                <div class="sentence">
+                  <label>아이디 *</label>
+                  <div class="sentence_txt">
+                    <span>(영어소대문자/숫자, 8 - 32자)</span>
+                  </div>
+                </div>
+                <p class="control">
+                  <input
+                    class="input IdInput"
+                    type="id"
+                    placeholder="ID"
+                  />
+                </p>
+              </div>
 
               <div class="field passwordInput">
                 <div class="sentence">
