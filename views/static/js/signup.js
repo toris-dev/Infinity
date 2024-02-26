@@ -1,4 +1,7 @@
 import { ExecDaumPostcode } from './lib/daumPostCode.js';
+import { navigateTo } from '../../router/index.js';
+import { getCookie } from './lib/getCookie.js';
+import { BASE_URI } from './constant/url.js';
 import {
   emailValidation,
   idValidation,
@@ -10,24 +13,33 @@ import {
 } from './lib/validation.js';
 
 export const signup = () => {
+  const cookie = getCookie('cookie');
+  if (cookie === undefined) {
+    navigateTo(BASE_URI);
+  }
+
   const $formEl = document.querySelector('.form');
   const $emailInput = document.querySelector('.input.emailInput');
   const $passwordInput = document.querySelector('.input.password');
   const $passwordCheckInput = document.querySelector('.input.passwordCheck');
   const $postalCode = document.querySelector('.add_button.mt_add_2');
-  const $idInput = document.querySelector('.input.IdInput');
+  const $idInput = document.querySelector('.idInput');
+  const $postCode = document.querySelector('#sample4_postcode');
+  const $roadAddress = document.querySelector('#sample4_roadAddress');
+  const $detailAddress = document.querySelector('#sample4_detailAddress');
+  const $nameInput = document.querySelector('.nameInput');
+
   validation($emailInput, emailValidation);
   // signup 전송 함수
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     const [
       emailInput,
+      idInput,
       passwordInput,
       secondPasswordInput,
-      // eslint-disable-next-line no-unused-vars
-      passwordAnswer,
-      question,
+      nameInput,
       phoneNumber1,
       phoneNumber2,
       phoneNumber3,
@@ -49,7 +61,8 @@ export const signup = () => {
       passwordInput.value,
       secondPasswordInput.value
     );
-    const isValidId = idValidation($idInput);
+
+    const isValidId = idValidation($idInput.value);
     const isValidEmail = emailValidation($emailInput.value);
     const isValidPhoneNumber = phoneNumberValidation(phoneNumber);
     if (!isValidEmail) {
@@ -77,9 +90,10 @@ export const signup = () => {
 
     const nullChecked = nullCheckValidation([
       emailInput.value,
+      idInput.value,
       passwordInput.value,
       secondPasswordInput.value,
-      question.value,
+      nameInput.value,
       phoneNumber1.value,
       phoneNumber2.value,
       phoneNumber3.value,
@@ -99,6 +113,35 @@ export const signup = () => {
     }
 
     // 데이터 패칭 후
+
+    const postData = {
+      id: $idInput.value,
+      pwd: $passwordInput.value,
+      name: $nameInput.value,
+      email: $emailInput.value,
+      zipCode: $postCode.value,
+      address: $roadAddress.value,
+      detailAddress: $detailAddress.value,
+      phoneNum: phoneNumber
+    };
+
+    const dataJson = JSON.stringify(postData);
+    const apiUrl = `http://localhost:3000/api/users`;
+
+    const res = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: dataJson
+    });
+
+    if (res.ok) {
+      navigateTo('http://localhost:3000/');
+    } else {
+      alert('회원가입에 실패하였습니다...');
+    }
+
     // fetch(
     //   {
     //     email: emailInput,
