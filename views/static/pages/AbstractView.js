@@ -7,6 +7,7 @@ export default class {
    *
    * @param {string} title 문서의 제목을 변경한다
    */
+
   setTitle(title) {
     document.title = title;
   }

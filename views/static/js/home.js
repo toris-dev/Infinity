@@ -1,6 +1,7 @@
 import { infinityScroll } from './lib/infinityScroll.js';
 
 export function home() {
+  // eslint-disable-next-line no-undef
   const swiper = new Swiper('.main.swiper', {
     loop: true,
     slidesPerView: 3,

@@ -9,15 +9,14 @@
 const passwordValidation = (password, secondPassword) => {
   // 영문자, 숫자, 특수기호 포함되어있는지 확인
   const passwordRegex =
-    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()\-_=+\\\|\[\]{};:\'",.<>?]).{8,}$/;
+    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()\-=+\\|[\]{};:'",.<>?]).{8,}$/;
   if (password !== secondPassword) {
     return 'no';
   }
   if (password.length > 24 && !passwordRegex.test(password)) {
     return 'less';
-  } else {
-    return 'ok';
   }
+  return 'ok';
 };
 
 /**

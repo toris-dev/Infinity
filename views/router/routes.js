@@ -11,14 +11,14 @@ import OrderCompleted from '../static/pages/OrderCompleted.js';
 import Signup from '../static/pages/Signup.js';
 
 export const routes = [
-  { path: '/', view: Home, script: home },
-  { path: '/signin', view: Login, script: login },
-  { path: '/signup', view: Signup, script: signup },
+  { Path: '/', View: Home, Script: home },
+  { Path: '/signin', View: Login, Script: login },
+  { Path: '/signup', View: Signup, Script: signup },
   {
-    path: '/categorys/:categoryProducts',
-    view: CategoryProducts,
-    script: categoryProducts
+    Path: '/categorys/:categoryProducts',
+    View: CategoryProducts,
+    Script: categoryProducts
   },
-  { path: '/orderCompleted', view: OrderCompleted, script: orderCompleted },
-  { path: '/error', view: error }
+  { Path: '/orderCompleted', View: OrderCompleted, Script: orderCompleted },
+  { Path: '/error', View: error }
 ];

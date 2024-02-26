@@ -1,3 +1,1 @@
-export const error = () => {
-  console.log(`Error Page`);
-};
+export const error = () => {};
