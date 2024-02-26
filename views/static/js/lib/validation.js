@@ -1,4 +1,11 @@
 // 패스워드검증을 위한 함수
+
+import {
+  emailRegex,
+  passwordRegex,
+  phoneNumberRegex
+} from '../constans/regex.js';
+
 /**
  *
  * @param {string} password - 비밀번호
@@ -8,8 +15,6 @@
  */
 const passwordValidation = (password, secondPassword) => {
   // 영문자, 숫자, 특수기호 포함되어있는지 확인
-  const passwordRegex =
-    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()\-=+\\|[\]{};:'",.<>?]).{8,}$/;
   if (password !== secondPassword) {
     return 'no';
   }
@@ -25,7 +30,6 @@ const passwordValidation = (password, secondPassword) => {
  * @returns {boolean}
  */
 const emailValidation = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     return false;
   }
@@ -38,8 +42,7 @@ const emailValidation = (email) => {
  * @return {boolean}
  */
 const phoneNumberValidation = (phoneNumber) => {
-  const phoneRegex = /^\d{3}\d{3,4}\d{4}$/;
-  if (!phoneRegex.test(phoneNumber)) {
+  if (!phoneNumberRegex.test(phoneNumber)) {
     return false;
   }
   return true;

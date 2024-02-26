@@ -1,4 +1,4 @@
-import { sample4ExecDaumPostcode } from './lib/daumPostCode.js';
+import { ExecDaumPostcode } from './lib/daumPostCode.js';
 import {
   emailValidation,
   nullCheckValidation,
@@ -120,10 +120,8 @@ export const signup = () => {
     const password = $passwordCheckInput.value || '';
     if (passwordValidation(e.target.value, password) === 'ok') {
       $passwordInput.classList.remove('faild');
-      $passwordCheckInput.classList.remove('faild');
     } else {
       $passwordInput.classList.add('faild');
-      $passwordCheckInput.classList.add('faild');
     }
   });
 
@@ -138,5 +136,5 @@ export const signup = () => {
   });
 
   // 도로명 주소 검색
-  $postalCode.addEventListener('click', sample4ExecDaumPostcode);
+  $postalCode.addEventListener('click', ExecDaumPostcode);
 };
