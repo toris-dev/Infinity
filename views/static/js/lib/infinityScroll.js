@@ -1,4 +1,4 @@
-import { productCount } from '../constans/product.js';
+import { productCount } from '../constant/product.js';
 
 export const infinityScroll = () => {
   const $productsContainer = document.querySelector('.products');

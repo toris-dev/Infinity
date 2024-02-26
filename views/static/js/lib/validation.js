@@ -5,7 +5,7 @@ import {
   idRegex,
   passwordRegex,
   phoneNumberRegex
-} from '../constans/regex.js';
+} from '../constant/regex.js';
 
 /**
  *
