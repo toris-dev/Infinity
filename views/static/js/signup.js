@@ -1,7 +1,7 @@
-import { ExecDaumPostcode } from './lib/daumPostCode.js';
 import { navigateTo } from '../../router/index.js';
-import { getCookie } from './lib/getCookie.js';
 import { BASE_URI } from './constant/url.js';
+import { ExecDaumPostcode } from './lib/daumPostCode.js';
+import { getCookie } from './lib/getCookie.js';
 import {
   emailValidation,
   idValidation,
@@ -13,8 +13,8 @@ import {
 } from './lib/validation.js';
 
 export const signup = () => {
-  const cookie = getCookie('cookie');
-  if (cookie === undefined) {
+  const cookie = getCookie('token');
+  if (cookie !== undefined) {
     navigateTo(BASE_URI);
   }
 

@@ -26,7 +26,6 @@ const router = async () => {
     await view.getHtml();
   match.route.Script();
 
-  console.log(match);
   // head 에 css 코드 추가
   const linkCss = document.getElementById('mycss');
   linkCss.href = view.getCss();
