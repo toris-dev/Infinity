@@ -2,6 +2,7 @@ import { categoryProducts } from '../static/js/categoryProducts.js';
 import { errorFnc } from '../static/js/errorFnc.js';
 import { home } from '../static/js/home.js';
 import { login } from '../static/js/login.js';
+import { order } from '../static/js/order.js';
 import { orderCompleted } from '../static/js/orderCompleted.js';
 import { product } from '../static/js/product.js';
 import { signup } from '../static/js/signup.js';
@@ -19,7 +20,7 @@ export const routes = [
   { Path: '/login', View: Login, Script: login },
   { Path: '/signup', View: Signup, Script: signup },
   { Path: '/product', View: Product, Script: product },
-  { Path: '/order', View: Order },
+  { Path: '/order', View: Order, Script: order },
   {
     Path: '/categorys/:categoryProducts',
     View: CategoryProducts,
