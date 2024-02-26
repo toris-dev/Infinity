@@ -11,7 +11,7 @@ const getUserFromJWT = require('../middlewares/get-user-from-jwt');
 
 router.use('/auth', authRouter);
 router.use('/users', usersRouter);
-router.use('/admin', getUserFromJWT, isAdmin, adminRouter);
+router.use('/admin', adminRouter);
 router.use('/product', productRouter);
 router.use('/orders', orderRouter);
 
