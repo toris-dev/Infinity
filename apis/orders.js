@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Orders } = require('../models');
+const { Orders, Product } = require('../models');
 const asyncHandler = require('../utils/async-handler');
 const cryptoJS = require('crypto-js');
 
@@ -86,6 +86,21 @@ router.delete('/orders', asyncHandler(async (req, res, next) => {
     } else {
         throw new Error('주문을 찾을 수 없습니다.');
     }
+}));
+
+/**
+ * 작성자: 이정은
+ * 작성 시작일: 2024.02.26
+ * 주문 정보에 주문 상품 정보를 배열로 담아오기 위한 API입니다.
+ */
+router.get('/orderProds', asyncHandler(async(req, res) => {
+    const { orderProds } = req.body;
+
+    const prodNums = orderProds.map(orderProd => orderProd.prodNum);
+    const products = await Product.find({ prodNum: { $in: prodNums } });
+    
+    res.json(products);
+
 }));
 
 module.exports = router;
