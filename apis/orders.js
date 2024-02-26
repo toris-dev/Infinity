@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Orders, OrderProds } = require('../models');
+const { Orders, Product } = require('../models');
 const asyncHandler = require('../utils/async-handler');
 const cryptoJS = require('crypto-js');
 const ObjectId = require('mongodb').ObjectId;
@@ -99,14 +99,13 @@ router.delete('/orders', asyncHandler(async (req, res, next) => {
  * 작성 시작일: 2024.02.26
  * 주문 정보에 주문 상품 정보를 배열로 담아오기 위한 API입니다.
  */
-router.get('/orderProds', asyncHandler(async(req, res) => {
-    const { orderProds } = req.body;
+router.get('/orderProds', asyncHandler(async (req, res) => {
+    const { orderProds } = req.query;
+    const prodNums = orderProds.split(','); // 쉼표로 구분된 문자열을 배열로 분할하여 prodNums에 할당
 
-    const prodNums = orderProds.map(orderProd => orderProd.prodNum);
-    const products = await Product.find({ prodNum: { $in: prodNums } });
+    const products = await Product.find({ _id: { $in: prodNums } });
     
     res.json(products);
-
 }));
 
 module.exports = router;
