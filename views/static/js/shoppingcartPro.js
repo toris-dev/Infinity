@@ -1,4 +1,4 @@
-function count(type) {
+export function shoppingcartPro(type) {
   // 결과를 표시할 element
   const resultElement = document.getElementById('result');
 
