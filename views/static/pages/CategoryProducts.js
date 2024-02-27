@@ -22,10 +22,6 @@ export default class extends AbstractView {
     this.count = 12; // 검색 결과에 따른 count
   }
 
-  getCss() {
-    return '/static/css/category.css';
-  }
-
   async getHtml() {
     if (!this.catetory.includes(this.params.categoryProducts)) {
       window.history.pushState(null, '', '/product/error');
