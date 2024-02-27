@@ -84,6 +84,7 @@ legend {
   color: #000;
   background: none;
   border: 1px solid #999;
+  margin-top: 10px;
 }
 
 .login fieldset .btnJoin:hover {

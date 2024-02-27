@@ -29,7 +29,7 @@ export default class extends AbstractView {
   async getHtml() {
     if (!this.catetory.includes(this.params.categoryProducts)) {
       window.history.pushState(null, '', '/product/error');
-      return;
+      return '';
     }
     return `
     <div class="titleContainer">

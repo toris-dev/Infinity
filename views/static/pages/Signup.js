@@ -34,6 +34,22 @@ export default class extends AbstractView {
                 </p>
               </div>
 
+              <div class="field">
+                <div class="sentence">
+                  <label>아이디 *</label>
+                  <div class="sentence_txt">
+                    <span>(영어소대문자/숫자, 8 - 32자)</span>
+                  </div>
+                </div>
+                <p class="control">
+                  <input
+                    class="input idInput"
+                    type="text"
+                    placeholder="ID"
+                  />
+                </p>
+              </div>
+
               <div class="field passwordInput">
                 <div class="sentence">
                   <label>비밀번호 *</label>
@@ -64,29 +80,13 @@ export default class extends AbstractView {
                 </p>
               </div>
 
-              <div class="field verification">
-                <label class="is-small">비밀번호 확인 질문</label>
-                <p class="control has-icons-left">
-                  <span class="select">
-                    <select class="question">
-                      <option selected>기억에 남는 추억의 장소는</option>
-                      <option>가장 친한 친구의 이름은?</option>
-                      <option>다니던 초등학교의 이름은?</option>
-                    </select>
-                  </span>
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-globe"></i>
-                  </span>
-                </p>
-              </div>
-
-              <div class="field answer">
-                <label class="is-small">비밀번호 확인 답변 *</label>
+              <div class="field nameInputBox">
+                <label class="is-small">이름</label>
                 <p class="control">
                   <input
-                    class="input"
+                    class="input nameInput"
                     type="text"
-                    placeholder="비밀번호 확인 답변"
+                    placeholder="이름"
                   />
                 </p>
               </div>

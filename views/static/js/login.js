@@ -1,55 +1,56 @@
+import { navigateTo } from '../../router/index.js';
+import { BASE_URI } from './constant/url.js';
+import { getCookie } from './lib/getCookie.js';
+
 export const login = () => {
-  const LoginBtn = document.querySelector('.btnLogin');
-  const userInputId = document.querySelector('.inputId');
-  const userInputPassword = document.querySelector('.inputPassword');
-
-  function validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  // 리다이렉트를 login 을 화면에 뿌리고 나서 home 으로 이동하여서 좀 버벅임이 있다.
+  const cookie = getCookie('token');
+  if (cookie !== undefined) {
+    navigateTo(BASE_URI);
   }
+  const $LoginBtn = document.querySelector('.btnLogin');
+  const $userInputId = document.querySelector('.inputId');
+  const $userInputPassword = document.querySelector('.inputPassword');
 
-  function validatePassword(password) {
-    const passwordRegex =
-      /^(?=.[a-zA-Z])(?=.[0-9])(?=.[!@#$%^&()-_=+\|[]{};:'",.<>?]).{8,}$/;
-    return passwordRegex.test(password);
-  }
+  // function validateEmail(email) {
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   return emailRegex.test(email);
+  // }
 
-  LoginBtn.addEventListener('click', function () {
-    const enteredEmail = userInputId.value;
-    const enteredPassword = userInputPassword.value;
+  // function validatePassword(password) {
+  //   return passwordRegex.test(password);
+  // }
 
-    if (!validateEmail(enteredEmail)) {
-      alert('이메일이 형식에 맞지 않습니다.');
-      return;
-    }
+  $LoginBtn.addEventListener('click', () => {
+    const enteredEmail = $userInputId.value;
+    const enteredPassword = $userInputPassword.value;
 
-    const minLength = 8;
-    const maxLength = 24;
+    // if (!validateEmail(enteredEmail)) {
+    //   alert('이메일이 형식에 맞지 않습니다.');
+    //   return;
+    // }
 
-    // 길이 확인
-    if (
-      enteredPassword.length < minLength ||
-      enteredPassword.length >= maxLength
-    ) {
-      alert('비밀번호는 8자리 이상 24자리 미만이어야 합니다');
-      return;
-    }
-
-    // 영문자 확인
-    const containsLetter = /[a-zA-Z]/.test(enteredPassword);
-
-    // 숫자 확인
-    const containsNumber = /[0-9]/.test(enteredPassword);
-
-    // 특수 기호 확인
-    const containsSpecialChar = /[!@#$%^&*()_+{}\[\]|\\:;"'<,>.?/]/.test(
-      enteredPassword
-    );
-
-    if (!containsLetter || !containsNumber || !containsSpecialChar) {
-      alert('비밀번호는 영문자, 숫자, 특수 기호를 포함해야 합니다');
-    } else {
-      alert('로그인 성공');
-    }
+    // if (!validatePassword(enteredPassword)) {
+    //   alert('비밀번호는 영문자, 숫자, 특수 기호를 포함해야 합니다');
+    //   return;
+    // }
+    // 암호화를 하기 위해서는 secretKey가 필요한데 접근 불가
+    fetch('http://localhost:3000/api/auth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: enteredEmail,
+        pwd: enteredPassword
+      })
+    }).then((res) => {
+      if (!res.ok) {
+        alert('없는 사용자 입니다.');
+        throw new Error('네트워크 응답이 정상이 아닙니다.');
+      }
+      res.headers.get('Set-Cookie');
+      navigateTo(BASE_URI);
+    });
   });
 };

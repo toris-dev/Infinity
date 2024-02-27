@@ -1,17 +1,15 @@
 const LocalStrategy = require('passport-local').Strategy;
 const { User } = require('../../models');
 
-const config = {
-  usernameField: 'id',// 'id' 필드 사용하도록 설정
-  passwordField: 'pwd'// 'password' 필드 사용하도록 설정
-};
-
 /**
  * 작성자 : 이정은
  * 작성일: 2024.02.20
  * passport.js를 이용해 구현할 로그인 API입니다.
  */
-const local = new LocalStrategy(config, async (id, pwd, done) => {
+const local = new LocalStrategy({
+  usernameField: 'id',// 'id' 필드 사용하도록 설정
+  passwordField: 'pwd'// 'password' 필드 사용하도록 설정
+}, async (id, pwd, done) => {
     try {
       const user = await User.findOne({ id });
       if (!user) {

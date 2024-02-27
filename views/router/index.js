@@ -1,19 +1,13 @@
-import Error from '../static/pages/Error.js';
+import { errorFnc } from '../static/js/errorFnc.js';
+import ErrorPage from '../static/pages/ErrorPage.js';
 import { getParams, pathToRegex } from './navigate.js';
 import { routes } from './routes.js';
 
-const navigateTo = (url) => {
-  history.pushState(null, null, url);
-  router();
-};
-
 const router = async () => {
-  const potentialMatches = routes.map((route) => {
-    return {
-      route: route,
-      result: location.pathname.match(pathToRegex(route.path))
-    };
-  });
+  const potentialMatches = routes.map((route) => ({
+    route,
+    result: window.location.pathname.match(pathToRegex(route.Path))
+  }));
   let match = potentialMatches.find(
     (potentialMatch) => potentialMatch.result !== null
   );
@@ -21,22 +15,25 @@ const router = async () => {
   // route에 정의된 곳으로 이동하지 않는다면 기본값으로 되돌린다.
   if (!match) {
     match = {
-      route: { path: '/error', view: Error },
-      result: [location.pathname]
+      route: { Path: '/error', View: ErrorPage, Script: errorFnc },
+      result: [window.location.pathname]
     };
     window.history.pushState(null, '', '/error');
   }
-
-  const view = new match.route.view(getParams(match));
-  // contents_main element 에 추가
+  const view = new match.route.View(getParams(match));
+  // contents_main element 에 추가https://eslint.org/docs/latest/rules/new-cap
   document.querySelector('#container>#contents_main').innerHTML =
     await view.getHtml();
+  match.route.Script();
 
   // head 에 css 코드 추가
   const linkCss = document.getElementById('mycss');
   linkCss.href = view.getCss();
+};
 
-  match.route.script();
+export const navigateTo = (url) => {
+  window.history.pushState(null, null, url);
+  router();
 };
 
 window.addEventListener('popstate', router);

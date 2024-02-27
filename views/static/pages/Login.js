@@ -21,13 +21,13 @@ export default class extends AbstractView {
                 <input type="text" placeholder="ID" class="inputId">
             </label>
             <label class="password" title="Password">
-                <input type="text" placeholder="Password" class="inputPassword">
+                <input type="password" placeholder="Password" class="inputPassword">
             </label>
             <button class="btnLogin">Login</button>
-            <ul class="forgot">
+            <!--<ul class="forgot">
                 <li><a>Forgot ID</a></li>
                 <li><a>Fogot Password</a></li>
-            </ul>
+            </ul>-->
             <a href="/signup" class="btnJoin" data-link>Register</a>
             </fieldset>
         </div>
