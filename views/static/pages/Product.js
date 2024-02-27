@@ -6,14 +6,6 @@ export default class extends AbstractView {
     this.setTitle('Product');
   }
 
-  getCss() {
-    return './static/css/product.css';
-  }
-
-  getJs() {
-    return './static/js/product.js';
-  }
-
   async getHtml() {
     return `
     <div class="detail-product">

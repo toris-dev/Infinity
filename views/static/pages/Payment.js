@@ -6,13 +6,6 @@ export default class extends AbstractView {
     this.setTitle('Payment');
   }
 
-  getCss() {
-    return './static/css/Payment.css';
-  }
-  //   getJs() {
-  //     return './static/js/home.js';
-  //   }
-
   async getHtml() {
     return `
     <div class="titleArea">

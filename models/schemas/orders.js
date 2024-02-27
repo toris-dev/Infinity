@@ -1,5 +1,4 @@
 const { Schema } = require('mongoose');
-const { orderProds } = require('./orderProds');
 
 const orderSchema = new Schema({
   /*
@@ -20,9 +19,20 @@ const orderSchema = new Schema({
     required: true,
     default: Date.now() + 9 * 60 * 60 * 1000
   },
-  orderProd: {
-      type: [orderProds],
-      required: true,
+  orderProds: {
+    type: [
+      {
+        prodNum: {
+          type: Schema.Types.ObjectId,
+          required: true
+        },
+        orderProdCount: {
+          type: Number,
+          required: true
+        }
+      }
+    ]
+    // type: [orderProd],
   },
   //배송주소
   orderAddress: {

@@ -1,3 +1,14 @@
+@import url('/static/css/category.css');
+@import url('/static/css/error.css');
+@import url('/static/css/home.css');
+@import url('/static/css/login.css');
+@import url('/static/css/order.css');
+@import url('/static/css/orderCompleted.css');
+@import url('/static/css/payment.css');
+@import url('/static/css/product.css');
+@import url('/static/css/shoppingcartPro.css');
+@import url('/static/css/signup.css');
+
 @font-face {
   font-family: 'hazel_mp';
   src: url('/web/upload/hazel/hazel_mp_b.eot');

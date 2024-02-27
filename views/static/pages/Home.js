@@ -6,10 +6,6 @@ export default class extends AbstractView {
     this.setTitle('Home');
   }
 
-  getCss() {
-    return '/static/css/home.css';
-  }
-
   async getHtml() {
     return `
     <div class="main-img">

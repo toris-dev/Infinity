@@ -6,10 +6,6 @@ export default class extends AbstractView {
     this.setTitle('Order');
   }
 
-  getCss() {
-    return '/static/css/order.css';
-  }
-
   async getHtml() {
     return `
     <div class="titleArea">

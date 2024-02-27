@@ -7,8 +7,7 @@ const passport = require('passport');
 
 const apiRouter = require('./routes/api');
 
-const getUserFromJWT = require('./middlewares/get-user-from-jwt');
-const errorHandler = require('./middlewares/error-handler');
+const { errorHandler } = require('./middlewares/error-handler');
 
 require('./passport')();
 
@@ -22,23 +21,18 @@ mongoose.connection.on('connected', () => {
 
 var app = express();
 
+
+app.use(passport.initialize());
 app.use(logger('dev'));
 app.use(express.json());
+app.use(cookieParser());
+app.use('/api', apiRouter);
 app.use('/static', express.static(path.resolve(__dirname, 'views', 'static')));
 app.use(express.static('views'));
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use('/api', apiRouter);
 
-app.use(passport.initialize());
-app.use(getUserFromJWT);
 
 app.use(errorHandler);
-
-// 로그아웃 위치 router, path
-app.post('/logout', function (req, res, next) {
-  return res.cookie('token', '').json({ message: 'done' });
-});
 
 app.use('/', (req, res) => res.sendFile(path.resolve('views', 'index.html')));
 

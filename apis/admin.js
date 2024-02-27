@@ -1,9 +1,11 @@
 const express = require('express');
 const ObjectId = require('mongodb').ObjectId;
 
-const { Product, Orders, ProdCat } = require('../models/index');
+const { Product, Orders, ProdCategory } = require('../models/index');
 
 const asyncHandler = require('../utils/async-handler');
+const getUserFromJWT = require('../middlewares/get-user-from-jwt');
+const isAdmin = require('../middlewares/isAdmin');
 
 const router = express.Router();
 
@@ -11,10 +13,12 @@ const router = express.Router();
 //상품 추가 API
 router.post(
   '/products',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
     const {
       prodName,
-      prodSubCat,
+      prodSubCategory,
       prodCost,
       prodContent,
       prodImgs,
@@ -26,7 +30,7 @@ router.post(
     } = req.body;
     const product = await Product.create({
       prodName,
-      prodSubCat,
+      prodSubCategory,
       prodCost,
       prodContent,
       prodImgs,
@@ -36,6 +40,7 @@ router.post(
       prodColor,
       prodCount
     });
+    // 상품 추가 후 응답??
     res.send(product);
   })
 );
@@ -43,12 +48,14 @@ router.post(
 //상품 수정
 router.put(
   '/products',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
     const { prodNum } = req.query;
     const prodObjectId = new ObjectId(prodNum);
     const {
       prodName,
-      prodSubCat,
+      prodSubCategory,
       prodCost,
       prodContent,
       prodImgs,
@@ -59,11 +66,11 @@ router.put(
       prodCount
     } = req.body;
 
-    const product = await Product.findOneAndUpdate(
+    await Product.findOneAndUpdate(
       { _id: prodObjectId },
       {
         prodName,
-        prodSubCat,
+        prodSubCategory,
         prodCost,
         prodContent,
         prodImgs,
@@ -75,6 +82,7 @@ router.put(
       }
     );
 
+    const product = await Product.find({_id: prodObjectId});
     res.json({ product });
   })
 );
@@ -82,6 +90,8 @@ router.put(
 //상품 삭제 -> 상품 삭제일 등록
 router.delete(
   '/products',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
     const { prodNum } = req.query;
     const prodObjectId = new ObjectId(prodNum);
@@ -102,16 +112,8 @@ router.delete(
  */
 router.get(
   '/orders',
-  asyncHandler(async (req, res) => {
-    const orders = await Orders.find({});
-    if (!orders) {
-      throw new Error('주문이 없습니다.');
-    }
-    res.json(orders);
-  })
-);
-router.get(
-  '/orders',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
     const orders = await Orders.find({});
     if (!orders) {
@@ -129,6 +131,8 @@ router.get(
  */
 router.put(
   '/orders',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
     const { orderNum } = req.query;
     const { orderState } = req.body;
@@ -159,6 +163,8 @@ router.put(
  */
 router.delete(
   '/orders',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
     const { orderNum } = req.query;
     const order = await Orders.findOne({ _id: orderNum });
@@ -184,96 +190,102 @@ router.delete(
 // 카테고리 추가 API
 router.post(
   '/category',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
-    const { prodMajorCat, prodSubCat } = req.body;
-    let prodCat = await ProdCat.find({ prodMajorCat });
+    const { prodMajorCategory, prodSubCategory } = req.body;
+    let prodCategory = await ProdCategory.find({ prodMajorCategory });
     // 대분류가 없는 경우 카테고리 추가
-    if (prodCat.length === 0) {
-      prodCat = await ProdCat.create({
-        prodMajorCat,
-        prodSubCats: [{ prodSubCat }]
+    if (prodCategory.length === 0) {
+      prodCategory = await ProdCategory.create({
+        prodMajorCategory,
+        prodSubCategorys: [{ prodSubCategory }]
       });
-      res.json({ prodCat });
+      res.json({ prodCategory });
     } else {
       //대분류가 있는 경우 서브카테고리 추가
-      let prodSubCat2 = {
-        prodSubCat: `${prodSubCat}`
+      let tempProdSubCategory = {
+        prodSubCategory: `${prodSubCategory}`
       };
 
-      prodCat = await ProdCat.updateOne(
-        { prodMajorCat },
-        { $push: { prodSubCats: prodSubCat2 } }
+      prodCategory = await ProdCategory.updateOne(
+        { prodMajorCategory },
+        { $push: { prodSubCategorys: tempProdSubCategory } }
       );
-      prodCat = await ProdCat.find({ prodMajorCat });
-      res.json({ prodCat });
+      prodCategory = await ProdCategory.find({ prodMajorCategory });
+      res.json({ prodCategory });
     }
   })
 );
 
 // 카테고리 수정 API
 router.put(
-  '/category/:prodMajorCat/:prodSubCat?',
+  '/category/:prodMajorCategory/:prodSubCategory?',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
-    const prodMajorCat = Number(req.params.prodMajorCat);
-    const { prodSubCat } = req.params;
-    const { updateProdMajorCat, updateProdSubCat } = req.body;
-    let prodCat = await ProdCat.find({ prodMajorCat });
-    if (prodCat.length === 0) {
+    const prodMajorCategory = Number(req.params.prodMajorCategory);
+    const { prodSubCategory } = req.params;
+    const { updateProdMajorCategory, updateProdSubCategory } = req.body;
+    let prodCategory = await ProdCategory.find({ prodMajorCategory });
+    if (prodCategory.length === 0) {
       //지정한 대분류 카테고리가 없는 경우
       throw new Error('카테고리가 없습니다.');
     }
-    if (!updateProdMajorCat && !updateProdSubCat) {
+    if (!updateProdMajorCategory && !updateProdSubCategory) {
       throw new Error('수정할 카테고리를 입력해주세요.');
-    } else if (prodMajorCat && !prodSubCat && updateProdSubCat) {
+    } else if (prodMajorCategory && !prodSubCategory && updateProdSubCategory) {
       //소분류 업데이트 정보가 있으나 업데이트할 소분류를 지정하지 않은 경우
       throw new Error('업데이트할 소분류가 지정되지 않았습니다.');
-    } else if (prodSubCat && !updateProdMajorCat && updateProdSubCat) {
+    } else if (prodSubCategory && !updateProdMajorCategory && updateProdSubCategory) {
       //소분류만 변경
-      await ProdCat.updateOne(
-        { prodMajorCat, 'prodSubCats.prodSubCat': prodSubCat },
-        { $set: { 'prodSubCats.$.prodSubCat': updateProdSubCat } }
+      await ProdCategory.updateOne(
+        { prodMajorCategory, 'prodSubCategorys.prodSubCategory': prodSubCategory },
+        { $set: { 'prodSubCategorys.$.prodSubCategory': updateProdSubCategory } }
       );
-      prodCat = await ProdCat.find({ prodMajorCat });
-    } else if (updateProdMajorCat && !updateProdSubCat) {
+      prodCategory = await ProdCategory.find({ prodMajorCategory });
+    } else if (updateProdMajorCategory && !updateProdSubCategory) {
       //대분류만 변경
-      await ProdCat.updateOne(
-        { prodMajorCat },
-        { prodMajorCat: updateProdMajorCat }
+      await ProdCategory.updateOne(
+        { prodMajorCategory },
+        { prodMajorCategory: updateProdMajorCategory }
       );
-      prodCat = await ProdCat.find({ prodMajorCat: updateProdMajorCat });
+      prodCategory = await ProdCategory.find({ prodMajorCategory: updateProdMajorCategory });
     } else {
       //모두 변경
-      await ProdCat.updateOne(
-        { prodMajorCat, 'prodSubCats.prodSubCat': prodSubCat },
+      await ProdCategory.updateOne(
+        { prodMajorCategory, 'prodSubCategorys.prodSubCategory': prodSubCategory },
         {
-          prodMajorCat: updateProdMajorCat,
-          $set: { 'prodSubCats.$.prodSubCat': updateProdSubCat }
+          prodMajorCategory: updateProdMajorCategory,
+          $set: { 'prodSubCategorys.$.prodSubCategory': updateProdSubCategory }
         }
       );
-      prodCat = await ProdCat.find({ prodMajorCat: updateProdMajorCat });
+      prodCategory = await ProdCategory.find({ prodMajorCategory: updateProdMajorCategory });
     }
-    res.json(prodCat);
+    res.json(prodCategory);
   })
 );
 
 //카테고리 삭제
 router.delete(
-  '/category/:prodMajorCat/:prodSubCat?',
+  '/category/:prodMajorCategory/:prodSubCategory?',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
-    const prodMajorCat = Number(req.params.prodMajorCat);
-    const { prodSubCat } = req.params;
-    if (!prodSubCat) {
+    const prodMajorCategory = Number(req.params.prodMajorCategory);
+    const { prodSubCategory } = req.params;
+    if (!prodSubCategory) {
       //대분류 삭제
-      await ProdCat.deleteOne({ prodMajorCat });
+      await ProdCategory.deleteOne({ prodMajorCategory });
     } else {
       //소분류 삭제
-      await ProdCat.updateOne(
-        { prodMajorCat: prodMajorCat },
-        { $pull: { prodSubCats: { prodSubCat: prodSubCat } } }
+      await ProdCategory.updateOne(
+        { prodMajorCategory: prodMajorCategory },
+        { $pull: { prodSubCategorys: { prodSubCategory: prodSubCategory } } }
       );
     }
-    const prodCat = await ProdCat.find({});
-    res.json(prodCat);
+    const prodCategory = await ProdCategory.find({});
+    res.json(prodCategory);
   })
 );
 

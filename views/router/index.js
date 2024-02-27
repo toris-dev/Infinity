@@ -1,6 +1,7 @@
 import { errorFnc } from '../static/js/errorFnc.js';
 import ErrorPage from '../static/pages/ErrorPage.js';
 import { getParams, pathToRegex } from './navigate.js';
+import { rightbar } from './navigation.js';
 import { routes } from './routes.js';
 
 const router = async () => {
@@ -25,10 +26,6 @@ const router = async () => {
   document.querySelector('#container>#contents_main').innerHTML =
     await view.getHtml();
   match.route.Script();
-
-  // head 에 css 코드 추가
-  const linkCss = document.getElementById('mycss');
-  linkCss.href = view.getCss();
 };
 
 export const navigateTo = (url) => {
@@ -39,6 +36,7 @@ export const navigateTo = (url) => {
 window.addEventListener('popstate', router);
 
 document.addEventListener('DOMContentLoaded', () => {
+  rightbar();
   document.body.addEventListener('click', (e) => {
     if (e.target.matches('[data-link]')) {
       e.preventDefault();

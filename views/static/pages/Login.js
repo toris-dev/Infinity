@@ -6,10 +6,6 @@ export default class extends AbstractView {
     this.setTitle('로그인');
   }
 
-  getCss() {
-    return '/static/css/login.css';
-  }
-
   async getHtml() {
     // console.log(this.params); // params 불러오기 가능
     return `
@@ -18,7 +14,7 @@ export default class extends AbstractView {
         <fieldset>
             <legend>회원로그인</legend>
             <label class="id" title="ID">
-                <input type="text" placeholder="ID" class="inputId">
+                <input type="text" placeholder="Email" class="inputEmail">
             </label>
             <label class="password" title="Password">
                 <input type="password" placeholder="Password" class="inputPassword">

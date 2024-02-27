@@ -20,16 +20,18 @@ router.get(
   })
 );
 
-//상품 목록 조회 API
+//상품 목록 조회 API, 무한 스크롤 폼 count default = 1, 요청시마다 ++
 router.get(
   '/list',
   asyncHandler(async (req, res) => {
-    const product = await Product.find({});
+    const count = req.count || 1;
+    const product = await Product.find({}).sort({_id: -1}).skip(12*(count-1)).limit(12);
     if (!product) {
       throw new Error('상품을 찾을 수 없습니다.');
     }
     res.json(product);
   })
 );
+
 
 module.exports = router;

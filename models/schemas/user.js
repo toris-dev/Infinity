@@ -9,7 +9,6 @@ const UserSchema = new Schema ({
     pwd: {
         type: String,
         required: true,
-        unique: true,
     },
     name: {
         type: String,
