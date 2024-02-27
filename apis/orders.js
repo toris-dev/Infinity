@@ -108,7 +108,7 @@ router.put(
     const order = await Orders.findOne({ _id: orderNum });
 
     //요청 유저와 정보 유저가 동일하지 않을 경우
-    if (req.user !== order.orderId) {
+    if (req.user.id !== order.orderId) {
       throw new Error('권한이 없습니다.');
     }
 
@@ -151,7 +151,7 @@ router.delete(
     const order = await Orders.findOne({ _id: orderNum });
 
     //요청 유저와 정보 유저가 동일하지 않을 경우
-    if (req.user !== order.orderId) {
+    if (req.user.id !== order.orderId) {
       throw new Error('권한이 없습니다.');
     }
 

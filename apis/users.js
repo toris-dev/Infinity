@@ -11,6 +11,7 @@ router.get(
   '/',
   getUserFromJWT,
   asyncHandler(async (req, res) => {
+
     const { id } = req.query;
     const user = await User.findOne({ id });
 
@@ -21,7 +22,7 @@ router.get(
     //관리자가 아닌 경우
     if (!req.user.roleId) {
       //로그인한 본인이 아닌 경우
-      if (req.user !== user.id) {
+      if (req.user.id !== user.id) {
         throw new Error('권한이 없습니다.');
       }
     }
@@ -103,7 +104,7 @@ router.put(
       throw new Error('회원을 찾을 수 없습니다.');
     }
     //로그인한 본인이 아닌 경우
-    if (req.id !== userFounded.id) {
+    if (req.user.id !== userFounded.id) {
       throw new Error('잘못된 요청입니다.');
     }
 
@@ -129,7 +130,7 @@ router.delete(
     const userFounded = await User.findOne({ id });
 
     //로그인 본인이 아닌 경우
-    if (req.id !== userFounded.id) {
+    if (req.user.id !== userFounded.id) {
       throw new Error('잘못된 접근입니다.');
     }
 
