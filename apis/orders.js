@@ -94,7 +94,7 @@ router.put(
         res.json(updatedOrder);
       } else {
         throw new Error('주문이 처리중입니다. 주문을 수정할 수 없습니다.');
-      }
+      } 
     } else {
       throw new Error('주문을 찾을 수 없습니다.');
     }

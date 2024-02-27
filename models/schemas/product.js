@@ -1,5 +1,4 @@
 const { Schema } = require('mongoose');
-const prodImg = require('./prodImg');
 const prodSubCat = require('./prodSubCat');
 
 const productSchema = new Schema({
@@ -19,7 +18,7 @@ const productSchema = new Schema({
     type: String,
   },
   prodImgs: {
-    type: [prodImg],
+    type: [String],
   },
   prodUseYn: {
     type: Date,
