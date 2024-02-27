@@ -6,5 +6,5 @@ const orderSchema = require('./schemas/orders');
 
 exports.User = mongoose.model('User', UserSchema);
 exports.Product = mongoose.model('Product', ProductSchema);
-exports.ProdCategory = mongoose.model('ProdCat', prodCategorySchema);
+exports.ProdCategory = mongoose.model('ProdCategory', prodCategorySchema);
 exports.Orders = mongoose.model('orders', orderSchema);

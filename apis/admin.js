@@ -6,6 +6,7 @@ const { Product, Orders, ProdCategory } = require('../models/index');
 const asyncHandler = require('../utils/async-handler');
 const getUserFromJWT = require('../middlewares/get-user-from-jwt');
 const isAdmin = require('../middlewares/isAdmin');
+const { NotFoundError } = require('../middlewares/error-handler');
 
 const router = express.Router();
 
@@ -82,7 +83,7 @@ router.put(
       }
     );
 
-    const product = await Product.find({_id: prodObjectId});
+    const product = await Product.find({ _id: prodObjectId });
     res.json({ product });
   })
 );
@@ -95,12 +96,20 @@ router.delete(
   asyncHandler(async (req, res) => {
     const { prodNum } = req.query;
     const prodObjectId = new ObjectId(prodNum);
-    const product = await Product.findOneAndUpdate(
+    const productFounded = await Product.findOne({ _id: prodObjectId });
+
+    if (productFounded === null || productFounded.prodUseYn) {
+      throw new NotFoundError('상품');
+    }
+
+    await Product.findOneAndUpdate(
       { _id: prodObjectId },
       { prodUseYn: Date.now() + 9 * 60 * 60 * 1000 }
     );
-    const { prodUseYn } = product;
-    res.json({ prodUseYn });
+
+    const deletedProduct = await Product.findOne({ _id: prodObjectId });
+    const deletedTime = deletedProduct.prodUseYn;
+    res.json({ deletedTime });
   })
 );
 /* ----------------------주문 API----------------------------- */
@@ -117,7 +126,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const orders = await Orders.find({});
     if (!orders) {
-      throw new Error('주문이 없습니다.');
+      throw new NotFoundError('주문');
     }
     res.json(orders);
   })
@@ -150,7 +159,7 @@ router.put(
       }
     } else {
       // 주문을 찾을 수 없는 경우 에러 처리
-      throw new Error('주문을 찾을 수 없습니다.');
+      throw new NotFoundError('주문');
     }
   })
 );
@@ -181,7 +190,7 @@ router.delete(
         throw new Error('이미 사용자가 취소한 주문입니다.');
       }
     } else {
-      throw new Error('주문을 찾을 수 없습니다.');
+      throw new NotFoundError('주문');
     }
   })
 );
@@ -237,11 +246,20 @@ router.put(
     } else if (prodMajorCategory && !prodSubCategory && updateProdSubCategory) {
       //소분류 업데이트 정보가 있으나 업데이트할 소분류를 지정하지 않은 경우
       throw new Error('업데이트할 소분류가 지정되지 않았습니다.');
-    } else if (prodSubCategory && !updateProdMajorCategory && updateProdSubCategory) {
+    } else if (
+      prodSubCategory &&
+      !updateProdMajorCategory &&
+      updateProdSubCategory
+    ) {
       //소분류만 변경
       await ProdCategory.updateOne(
-        { prodMajorCategory, 'prodSubCategorys.prodSubCategory': prodSubCategory },
-        { $set: { 'prodSubCategorys.$.prodSubCategory': updateProdSubCategory } }
+        {
+          prodMajorCategory,
+          'prodSubCategorys.prodSubCategory': prodSubCategory
+        },
+        {
+          $set: { 'prodSubCategorys.$.prodSubCategory': updateProdSubCategory }
+        }
       );
       prodCategory = await ProdCategory.find({ prodMajorCategory });
     } else if (updateProdMajorCategory && !updateProdSubCategory) {
@@ -250,17 +268,24 @@ router.put(
         { prodMajorCategory },
         { prodMajorCategory: updateProdMajorCategory }
       );
-      prodCategory = await ProdCategory.find({ prodMajorCategory: updateProdMajorCategory });
+      prodCategory = await ProdCategory.find({
+        prodMajorCategory: updateProdMajorCategory
+      });
     } else {
       //모두 변경
       await ProdCategory.updateOne(
-        { prodMajorCategory, 'prodSubCategorys.prodSubCategory': prodSubCategory },
+        {
+          prodMajorCategory,
+          'prodSubCategorys.prodSubCategory': prodSubCategory
+        },
         {
           prodMajorCategory: updateProdMajorCategory,
           $set: { 'prodSubCategorys.$.prodSubCategory': updateProdSubCategory }
         }
       );
-      prodCategory = await ProdCategory.find({ prodMajorCategory: updateProdMajorCategory });
+      prodCategory = await ProdCategory.find({
+        prodMajorCategory: updateProdMajorCategory
+      });
     }
     res.json(prodCategory);
   })

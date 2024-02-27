@@ -7,9 +7,9 @@ const authRouter = require('../apis/auth');
 const productRouter = require('../apis/product');
 const orderRouter = require('../apis/orders');
 const categoryRouter = require('../apis/category');
-const isAdmin = require('../middlewares/isAdmin');
 const getUserFromJWT = require('../middlewares/get-user-from-jwt');
 const imageRouter = require('../apis/image');
+
 router.use('/auth', authRouter);
 router.use('/users', usersRouter);
 router.use('/admin', adminRouter);

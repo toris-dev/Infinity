@@ -5,6 +5,10 @@ const { Orders, Product } = require('../models');
 const asyncHandler = require('../utils/async-handler');
 const cryptoJS = require('crypto-js');
 const getUserFromJwt = require('../middlewares/get-user-from-jwt');
+const {
+  NotFoundError,
+  AuthError
+} = require('../middlewares/error-handler');
 const ObjectId = require('mongodb').ObjectId;
 
 /**
@@ -23,8 +27,12 @@ router.get(
     //요청 유저와 정보 유저가 동일하지 않은 경우
     if (!req.user.roleId) {
       if (req.user.id !== orders.orderId) {
-        throw new Error('권한이 없습니다.');
+        throw new AuthError();
       }
+    }
+
+    if (orders.length === 0) {
+      throw new NotFoundError('주문내역');
     }
 
     for (order of orders) {
@@ -73,22 +81,26 @@ router.post(
       });
     }
 
-    await Orders.create({
-      //요청된 토큰의 id로 주문 생성
-      orderId: orderId,
-      orderProds: newOrderProds,
-      orderDate,
-      orderAddress,
-      orderDetailAddress,
-      orderZipCode,
-      orderName,
-      orderPhoneNum,
-      orderReq,
-      orderState
-    });
+    try {
+      await Orders.create({
+        //요청된 토큰의 id로 주문 생성
+        orderId: orderId,
+        orderProds: newOrderProds,
+        orderDate,
+        orderAddress,
+        orderDetailAddress,
+        orderZipCode,
+        orderName,
+        orderPhoneNum,
+        orderReq,
+        orderState
+      });
 
-    const orders = await Orders.find({ orderId }).sort({_id: -1}).limit(1);
-    res.json(orders);
+      const orders = await Orders.find({ orderId }).sort({ _id: -1 }).limit(1);
+      res.json(orders);
+    } catch (e) {
+      throw new Error(e);
+    }
   })
 );
 
@@ -103,6 +115,7 @@ router.put(
   asyncHandler(async (req, res) => {
     const { orderNum } = req.query;
     const {
+      orderProds,
       orderAddress,
       orderDetailAddress,
       orderZipCode,
@@ -113,33 +126,42 @@ router.put(
 
     const order = await Orders.findOne({ _id: orderNum });
 
+    if (order === null) {
+      throw new NotFoundError('주문');
+    }
     //요청 유저와 정보 유저가 동일하지 않을 경우
     if (req.user.id !== order.orderId) {
-      throw new Error('권한이 없습니다.');
+      throw new AuthError();
     }
 
-    if (order) {
-      if (order.orderState === '처리전') {
-        // 처리전의 주문만 수정 허용
-        await Orders.updateOne(
-          { _id: orderNum },
-          {
-            orderAddress,
-            orderDetailAddress,
-            orderZipCode,
-            orderName,
-            orderPhoneNum,
-            orderReq,
-            orderUpdateDate: Date.now() + 9 * 60 * 60 * 1000
-          }
-        );
-        const updatedOrder = await Orders.findOne({ _id: orderNum });
-        res.json(updatedOrder);
-      } else {
-        throw new Error('주문이 처리중입니다. 주문을 수정할 수 없습니다.');
+    if (order.orderState === '처리전') {
+      // 처리전의 주문만 수정 허용
+      let newOrderProds = [];
+
+      for (let orderProd of orderProds) {
+        newOrderProds.push({
+          prodNum: new ObjectId(orderProd.prodNum),
+          // prodNum: orderProd.prodNum,
+          orderProdCount: Number(orderProd.orderProdCount)
+        });
       }
+      await Orders.updateOne(
+        { _id: orderNum },
+        {
+          orderAddress,
+          orderProds: newOrderProds,
+          orderDetailAddress,
+          orderZipCode,
+          orderName,
+          orderPhoneNum,
+          orderReq,
+          orderUpdateDate: Date.now() + 9 * 60 * 60 * 1000
+        }
+      );
+      const updatedOrder = await Orders.findOne({ _id: orderNum });
+      res.json(updatedOrder);
     } else {
-      throw new Error('주문을 찾을 수 없습니다.');
+      throw new Error('주문이 처리중입니다. 주문을 수정할 수 없습니다.');
     }
   })
 );
@@ -156,25 +178,22 @@ router.delete(
   asyncHandler(async (req, res, next) => {
     const { orderNum } = req.query;
     const order = await Orders.findOne({ _id: orderNum });
-
+    if (order === null || order.orderDeleteDate) {
+      throw new NotFoundError('주문');
+    }
     //요청 유저와 정보 유저가 동일하지 않을 경우
     if (req.user.id !== order.orderId) {
-      throw new Error('권한이 없습니다.');
+      throw new AuthError();
     }
-
-    if (order) {
-      if (order.orderState === '처리전') {
-        await Orders.updateOne(
-          { _id: orderNum },
-          { orderDeleteDate: Date.now() + 9 * 60 * 60 * 1000 }
-        );
-        const deletedOrder = await Orders.findOne({ _id: orderNum });
-        res.json({ deletedOrder });
-      } else {
-        throw new Error('주문을 처리중입니다. 주문을 삭제할 수 없습니다.');
-      }
+    if (order.orderState === '처리전') {
+      await Orders.updateOne(
+        { _id: orderNum },
+        { orderDeleteDate: Date.now() + 9 * 60 * 60 * 1000 }
+      );
+      const deletedOrder = await Orders.findOne({ _id: orderNum });
+      res.json({ deletedOrder });
     } else {
-      throw new Error('주문을 찾을 수 없습니다.');
+      throw new Error('주문을 처리중입니다. 주문을 삭제할 수 없습니다.');
     }
   })
 );
