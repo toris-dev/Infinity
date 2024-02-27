@@ -13,6 +13,6 @@ router.use('/auth', authRouter);
 router.use('/users', usersRouter);
 router.use('/admin', adminRouter);
 router.use('/product', productRouter);
-router.use('/orders', orderRouter);
+router.use('/orders', getUserFromJWT, orderRouter);
 
 module.exports = router;
