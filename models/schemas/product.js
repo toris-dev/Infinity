@@ -19,7 +19,7 @@ const productSchema = new Schema({
     type: String,
   },
   prodImgs: {
-    type: [prodImg],
+    type: [String],
   },
   prodUseYn: {
     type: Date,

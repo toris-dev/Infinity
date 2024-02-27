@@ -4,6 +4,8 @@ const ObjectId = require('mongodb').ObjectId;
 const { Product, Orders, ProdCategory } = require('../models/index');
 
 const asyncHandler = require('../utils/async-handler');
+const getUserFromJWT = require('../middlewares/get-user-from-jwt');
+const isAdmin = require('../middlewares/isAdmin');
 
 const router = express.Router();
 
@@ -11,6 +13,8 @@ const router = express.Router();
 //상품 추가 API
 router.post(
   '/products',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
     const {
       prodName,
@@ -44,6 +48,8 @@ router.post(
 //상품 수정
 router.put(
   '/products',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
     const { prodNum } = req.query;
     const prodObjectId = new ObjectId(prodNum);
@@ -84,6 +90,8 @@ router.put(
 //상품 삭제 -> 상품 삭제일 등록
 router.delete(
   '/products',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
     const { prodNum } = req.query;
     const prodObjectId = new ObjectId(prodNum);
@@ -104,16 +112,8 @@ router.delete(
  */
 router.get(
   '/orders',
-  asyncHandler(async (req, res) => {
-    const orders = await Orders.find({});
-    if (!orders) {
-      throw new Error('주문이 없습니다.');
-    }
-    res.json(orders);
-  })
-);
-router.get(
-  '/orders',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
     const orders = await Orders.find({});
     if (!orders) {
@@ -131,6 +131,8 @@ router.get(
  */
 router.put(
   '/orders',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
     const { orderNum } = req.query;
     const { orderState } = req.body;
@@ -161,6 +163,8 @@ router.put(
  */
 router.delete(
   '/orders',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
     const { orderNum } = req.query;
     const order = await Orders.findOne({ _id: orderNum });
@@ -186,6 +190,8 @@ router.delete(
 // 카테고리 추가 API
 router.post(
   '/category',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
     const { prodMajorCategory, prodSubCategory } = req.body;
     let prodCategory = await ProdCategory.find({ prodMajorCategory });
@@ -215,6 +221,8 @@ router.post(
 // 카테고리 수정 API
 router.put(
   '/category/:prodMajorCategory/:prodSubCategory?',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
     const prodMajorCategory = Number(req.params.prodMajorCategory);
     const { prodSubCategory } = req.params;
@@ -261,6 +269,8 @@ router.put(
 //카테고리 삭제
 router.delete(
   '/category/:prodMajorCategory/:prodSubCategory?',
+  getUserFromJWT,
+  isAdmin,
   asyncHandler(async (req, res) => {
     const prodMajorCategory = Number(req.params.prodMajorCategory);
     const { prodSubCategory } = req.params;
