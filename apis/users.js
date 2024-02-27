@@ -18,7 +18,7 @@ router.get(
 
     //가입이 되어 있지 않거나, 이미 탈퇴한 경우
     if (!user || user.useYn) {
-      throw new DuplicateError(`${id}`);
+      throw new Error(`${id}`);
     }
     //관리자가 아닌 경우
     if (!req.user.roleId) {
