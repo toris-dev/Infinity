@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 class CustomError extends Error {
     constructor(message, status) {
         super(message);
@@ -15,20 +16,20 @@ class NotFoundError extends CustomError {
 
 class AuthError extends CustomError {
     constructor() {
-        super('권한이 없습니다.', 403);
+        super('권한이 없습니다.', 401);
     }
 }
 
 class DuplicateError extends CustomError {
     constructor(property) {
-        super(`이미 사용중인 ${property} 입니다.`);
+        super(`이미 사용중인 ${property} 입니다.`, 403);
         this.property = property;
     }
 }
-module.exports = (err, req, res, next) => {
+const errorHandler = (err, req, res, next) => {
     let statusCode;
 
-    if (err instanceof NotFoundError || err instanceof AuthError || err instanceof DuplicateError) {
+    if (err instanceof NotFoundError || err instanceof AuthError || err instanceof DuplicateError || err instanceof jwt.JsonWebTokenError) {
         statusCode = err.status;
     } else {
         statusCode = err.status || 500;
@@ -42,3 +43,5 @@ module.exports = (err, req, res, next) => {
         res.status(statusCode).send(`에러가 발생했습니다. 관리자에게 문의해주세요. [ERROR]:${err}`);
     }
 };
+
+module.exports = { errorHandler, NotFoundError, AuthError, DuplicateError };

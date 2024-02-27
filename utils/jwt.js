@@ -10,3 +10,5 @@ exports.setUserToken = (res, user) => {
   // 토큰을 쿠키로 전달
   res.cookie('token',token);
 }
+
+// 만료된 토큰 에러 처리 -> 인지하고 있음

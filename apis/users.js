@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { User } = require('../models');
+const { NotFoundError, AuthError, DuplicateError } = require('../middlewares/error-handler')
 
 const asyncHandler = require('../utils/async-handler');
 const getUserFromJWT = require('../middlewares/get-user-from-jwt');
@@ -17,7 +18,7 @@ router.get(
 
     //가입이 되어 있지 않거나, 이미 탈퇴한 경우
     if (!user || user.useYn) {
-      throw new Error('회원을 찾을 수 없습니다.');
+      throw new Error(`${id}`);
     }
     //관리자가 아닌 경우
     if (!req.user.roleId) {

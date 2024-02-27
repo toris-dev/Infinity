@@ -7,7 +7,7 @@ const passport = require('passport');
 
 const apiRouter = require('./routes/api');
 
-const errorHandler = require('./middlewares/error-handler');
+const { errorHandler } = require('./middlewares/error-handler');
 
 require('./passport')();
 
