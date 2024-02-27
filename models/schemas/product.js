@@ -1,5 +1,4 @@
 const { Schema } = require('mongoose');
-const prodImg = require('./prodImg');
 const prodSubCategory = require('./prodSubCategory');
 
 const productSchema = new Schema({
