@@ -6,6 +6,7 @@ import { order } from '../static/js/order.js';
 import { orderCompleted } from '../static/js/orderCompleted.js';
 import { product } from '../static/js/product.js';
 import { signup } from '../static/js/signup.js';
+import { mypage } from '../static/js/mypage.js';
 import CategoryProducts from '../static/pages/CategoryProducts.js';
 import ErrorPage from '../static/pages/ErrorPage.js';
 import Home from '../static/pages/Home.js';
@@ -14,6 +15,8 @@ import Order from '../static/pages/Order.js';
 import OrderCompleted from '../static/pages/OrderCompleted.js';
 import Product from '../static/pages/Product.js';
 import Signup from '../static/pages/Signup.js';
+import Mypage from '../static/pages/Mypage.js';
+import MypageEdit from '../static/pages/MypageEdit.js';
 
 export const routes = [
   { Path: '/', View: Home, Script: home },
@@ -27,5 +30,7 @@ export const routes = [
     Script: categoryProducts
   },
   { Path: '/orderCompleted', View: OrderCompleted, Script: orderCompleted },
-  { Path: '/error', View: ErrorPage, Script: errorFnc }
+  { Path: '/error', View: ErrorPage, Script: errorFnc },
+  { Path: '/mypage', View: Mypage, Script: mypage },
+  { Path: '/mypageEdit', View: MypageEdit, Script: mypageEdit }
 ];
