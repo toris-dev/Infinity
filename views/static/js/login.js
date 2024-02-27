@@ -41,7 +41,7 @@ export const login = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        id: enteredEmail,
+        email: enteredEmail,
         pwd: enteredPassword
       })
     }).then((res) => {
