@@ -12,10 +12,6 @@ export default class extends AbstractView {
     this.orderMethod = '무통장입금';
   }
 
-  getCss() {
-    return '/static/css/orderCompleted.css';
-  }
-
   async getHtml() {
     return `
 

@@ -6,10 +6,6 @@ export default class extends AbstractView {
     this.setTitle('회원가입');
   }
 
-  getCss() {
-    return '/static/css/signup.css';
-  }
-
   async getHtml() {
     return `
     <div class="titleArea">

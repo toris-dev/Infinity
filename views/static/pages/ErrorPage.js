@@ -6,9 +6,7 @@ export default class extends AbstractView {
     this.setTitle('404');
   }
 
-  getCss() {
-    return '/static/css/error.css';
-  }
+
 
   async getHtml() {
     return `

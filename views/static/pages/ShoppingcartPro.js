@@ -6,10 +6,6 @@ export default class extends AbstractView {
     this.setTitle('장바구니');
   }
 
-  getCss() {
-    return '/static/css/shoppingcartPro.css';
-  }
-
   async getHtml() {
     // <!--여기에 작성-->
     // <div class="titleArea">

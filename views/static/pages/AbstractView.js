@@ -19,12 +19,4 @@ export default class {
   async getHtml() {
     return '';
   }
-
-  /**
-   *
-   * @returns {string} - css의 주소(기준은 index.html)
-   */
-  getCss() {
-    return '';
-  }
 }

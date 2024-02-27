@@ -6,9 +6,6 @@ export default class extends AbstractView {
     this.setTitle('로그인');
   }
 
-  getCss() {
-    return '/static/css/login.css';
-  }
 
   async getHtml() {
     // console.log(this.params); // params 불러오기 가능
