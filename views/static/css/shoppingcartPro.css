@@ -1,4 +1,3 @@
-
 .titleArea {
   margin: 0 0 30px;
   text-align: center;
@@ -136,6 +135,20 @@
 .cart_table .tr3_td2 {
   border-left: none;
   text-align: right;
+}
+
+.shoppingcart {
+  text-align: center;
+  margin-top: 250px;
+}
+
+.shoppingcart > img {
+  width: 250px;
+  height: 200px;
+}
+
+.shoppingcart > p {
+  margin-bottom: 120px;
 }
 
 .all_product {

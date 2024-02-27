@@ -1,5 +1,5 @@
-export function shoppingcartPro(type) {
-  // 결과를 표시할 element
+export const shoppingcartPro = (type) => {
+  // 추후에 수정
   const resultElement = document.getElementById('result');
 
   // 현재 화면에 표시된 값
@@ -14,4 +14,4 @@ export function shoppingcartPro(type) {
 
   // 결과 출력
   resultElement.innerText = number;
-}
+};
