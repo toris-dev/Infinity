@@ -1,6 +1,7 @@
 import { errorFnc } from '../static/js/errorFnc.js';
 import ErrorPage from '../static/pages/ErrorPage.js';
 import { getParams, pathToRegex } from './navigate.js';
+import { rightbar } from './navigation.js';
 import { routes } from './routes.js';
 
 const router = async () => {
@@ -35,6 +36,7 @@ export const navigateTo = (url) => {
 window.addEventListener('popstate', router);
 
 document.addEventListener('DOMContentLoaded', () => {
+  rightbar();
   document.body.addEventListener('click', (e) => {
     if (e.target.matches('[data-link]')) {
       e.preventDefault();
