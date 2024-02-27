@@ -121,10 +121,10 @@ router.delete(
         const deletedOrder = await Orders.findOne({ _id: orderNum });
         res.json({ deletedOrder });
       } else {
-        throw new Error('주문을 처리중입니다. 주문을 삭제할 수 없습니다.');
+        throw new CustomError('주문을 처리중입니다. 주문을 삭제할 수 없습니다.');
       }
     } else {
-      throw new Error('주문을 찾을 수 없습니다.');
+      throw new CustomError('rufwp');
     }
 }));
 

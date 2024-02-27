@@ -10,7 +10,7 @@ router.get('/', asyncHandler(async function(req, res, next) {
   const { id } = req.query;
     const user = await User.findOne({id});
     if (!user) {
-      throw new Error('회원 없음');
+      throw new Error('회원');
     }
     res.json(user);
 }));
