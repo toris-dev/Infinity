@@ -4,6 +4,7 @@ const { Orders, Product } = require('../models');
 
 const asyncHandler = require('../utils/async-handler');
 const cryptoJS = require('crypto-js');
+const getUserFromJwt = require('../middlewares/get-user-from-jwt');
 const ObjectId = require('mongodb').ObjectId;
 
 /**
@@ -14,11 +15,12 @@ const ObjectId = require('mongodb').ObjectId;
 
 router.get(
   '/',
+  getUserFromJwt,
   asyncHandler(async (req, res) => {
     const { userId } = req.query;
     const orders = await Orders.find({ orderId: userId });
 
-    //어드민 권한이 없거나 요청 유저와 정보 유저가 동일하지 않은 경우
+    //요청 유저와 정보 유저가 동일하지 않은 경우
     if (!req.user.roleId) {
       if (req.user.id !== orders.orderId) {
         throw new Error('권한이 없습니다.');
@@ -37,7 +39,6 @@ router.get(
   })
 );
 
-
 /**
  * 작성자: 이정은
  * 작성시작일: 2024.02.22
@@ -47,9 +48,9 @@ router.get(
 
 router.post(
   '/',
+  getUserFromJwt,
   asyncHandler(async (req, res) => {
     let {
-      orderId,
       orderProds,
       orderAddress,
       orderDetailAddress,
@@ -58,6 +59,7 @@ router.post(
       orderPhoneNum,
       orderReq
     } = req.body;
+    const orderId = req.user.id;
 
     let orderDate;
     let orderState;
@@ -74,7 +76,7 @@ router.post(
 
     await Orders.create({
       //요청된 토큰의 id로 주문 생성
-      orderId: req.user.id,
+      orderId: orderId,
       orderProds: newOrderProds,
       orderDate,
       orderAddress,
@@ -86,7 +88,7 @@ router.post(
       orderState
     });
 
-    const orders = await Orders.findOne({ orderId });
+    const orders = await Orders.find({ orderId }).sort({_id: -1}).limit(1);
     res.json(orders);
   })
 );
@@ -98,6 +100,7 @@ router.post(
  */
 router.put(
   '/',
+  getUserFromJwt,
   asyncHandler(async (req, res) => {
     const { orderNum } = req.query;
     const {
@@ -150,6 +153,7 @@ router.put(
  */
 router.delete(
   '/',
+  getUserFromJwt,
   asyncHandler(async (req, res, next) => {
     const { orderNum } = req.query;
     const order = await Orders.findOne({ _id: orderNum });
@@ -181,13 +185,16 @@ router.delete(
  * 작성 시작일: 2024.02.26
  * 주문 정보에 주문 상품 정보를 배열로 담아오기 위한 API입니다.
  */
-router.get('/orderProds', asyncHandler(async (req, res) => {
-  const { orderProds } = req.query;
-  const prodNums = orderProds.split(','); // 쉼표로 구분된 문자열을 배열로 분할하여 prodNums에 할당
+router.get(
+  '/orderProds',
+  asyncHandler(async (req, res) => {
+    const { orderProds } = req.query;
+    const prodNums = orderProds.split(','); // 쉼표로 구분된 문자열을 배열로 분할하여 prodNums에 할당
 
-  const products = await Product.find({ _id: { $in: prodNums } });
-  
-  res.json(products);
-}));
+    const products = await Product.find({ _id: { $in: prodNums } });
+
+    res.json(products);
+  })
+);
 
 module.exports = router;
