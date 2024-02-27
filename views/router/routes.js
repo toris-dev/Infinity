@@ -8,6 +8,7 @@ import { payment } from '../static/js/payment.js';
 import { product } from '../static/js/product.js';
 import { shoppingcartPro } from '../static/js/shoppingcartPro.js';
 import { signup } from '../static/js/signup.js';
+import { mypage } from '../static/js/mypage.js';
 import CategoryProducts from '../static/pages/CategoryProducts.js';
 import ErrorPage from '../static/pages/ErrorPage.js';
 import Home from '../static/pages/Home.js';
@@ -18,6 +19,8 @@ import Payment from '../static/pages/Payment.js';
 import Product from '../static/pages/Product.js';
 import ShoppingcartPro from '../static/pages/ShoppingcartPro.js';
 import Signup from '../static/pages/Signup.js';
+import Mypage from '../static/pages/Mypage.js';
+import MypageEdit from '../static/pages/MypageEdit.js';
 
 export const routes = [
   { Path: '/', View: Home, Script: home },
@@ -33,5 +36,6 @@ export const routes = [
   },
   { Path: '/orderCompleted', View: OrderCompleted, Script: orderCompleted },
   { Path: '/error', View: ErrorPage, Script: errorFnc },
-  { Path: '/payment', View: Payment, Script: payment }
+  { Path: '/mypage', View: Mypage, Script: mypage },
+  { Path: '/mypageEdit', View: MypageEdit, Script: mypageEdit }
 ];
