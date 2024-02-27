@@ -51,6 +51,7 @@ export const login = () => {
       }
       res.headers.get('Set-Cookie');
       navigateTo(BASE_URI);
+      window.location.reload();
     });
   });
 };
