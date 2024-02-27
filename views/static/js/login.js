@@ -15,16 +15,16 @@ export const login = () => {
   $LoginBtn.addEventListener('click', () => {
     const enteredEmail = $userInputEmail.value;
     const enteredPassword = $userInputPassword.value;
-
     if (!emailValidation(enteredEmail)) {
       alert('이메일이 형식에 맞지 않습니다.');
       return;
     }
 
-    if (!passwordValidation(enteredPassword)) {
+    if (!passwordValidation(enteredPassword) === 'less') {
       alert('비밀번호는 영문자, 숫자, 특수 기호를 포함해야 합니다');
       return;
     }
+
     // 암호화를 하기 위해서는 secretKey가 필요한데 접근 불가
     fetch('http://localhost:3000/api/auth', {
       method: 'POST',
@@ -33,7 +33,7 @@ export const login = () => {
       },
       body: JSON.stringify({
         email: enteredEmail,
-        pwd: enteredPassword
+        pwd: CryptoJS.SHA256(enteredPassword).toString()
       })
     }).then((res) => {
       if (!res.ok) {
