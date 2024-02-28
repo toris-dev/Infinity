@@ -1,1 +1,1 @@
-export const mypageEdit = {};
+export const mypageEdit = () => {};
