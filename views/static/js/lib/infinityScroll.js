@@ -1,15 +1,16 @@
-import { productCount } from '../constant/product.js';
+import { BASE_URI } from '../constant/url.js';
 
 export const infinityScroll = () => {
   const $productsContainer = document.querySelector('.products');
   let $lastContainer = document.querySelector('.products:last-child');
+  let fetchCount = 1;
 
   // 상품 요소 생성 함수
-  function createProduct(product) {
+  const createProduct = (product) => {
     const $prodElement = document.createElement('li');
     $prodElement.innerHTML = `
         <a>
-          <img src="${product.src}" alt="${product.prodName}">
+          <img src="${product.prodImgs[0]}" alt="${product.prodName}">
           <div>
             <p>${product.prodName}</p>
             <span class="sale-before">₩${product.prodCost}</span><br/>
@@ -17,21 +18,26 @@ export const infinityScroll = () => {
           </div>
         </a>`;
     return $productsContainer.appendChild($prodElement); // 상품 요소를 추가합니다.
-  }
+  };
 
   // 데이터 로드 함수
-  function loadProducts() {
-    for (let index = 0; index < productCount; index += 1) {
-      const product = {
-        src: '/static/images/test1.webp',
-        prodName: '스카이 퍼 더블니 데님',
-        prodCost: '59,000'
-      };
-      if (index === 11) {
-        $lastContainer = createProduct(product);
+  const loadProducts = async () => {
+    const res = await fetch(
+      `${BASE_URI}/api/product/list?count=${fetchCount}`,
+      {
+        method: 'GET'
       }
-    }
-  }
+    );
+    const product = await res.json();
+    product.map((prod, index) => {
+      createProduct(prod);
+      if (index === 11) {
+        // 마지막 상품일 때 observe 변경
+        $lastContainer = createProduct(prod);
+      }
+    });
+    fetchCount++;
+  };
 
   const getProduct = (entries, observer) => {
     entries.forEach((entry) => {
@@ -43,7 +49,7 @@ export const infinityScroll = () => {
       }
     });
   };
-  const io = new IntersectionObserver(getProduct, { threshold: 0 });
+  const io = new IntersectionObserver(getProduct, { threshold: 0.7 });
 
   // 초기 페이지 로드 시 데이터 로드
   loadProducts();

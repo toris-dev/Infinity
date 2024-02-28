@@ -116,7 +116,7 @@ export const signup = () => {
 
     const postData = {
       id: $idInput.value,
-      pwd: $passwordInput.value,
+      pwd: CryptoJS.SHA256($passwordInput.value).toString(),
       name: $nameInput.value,
       email: $emailInput.value,
       zipCode: $postCode.value,
@@ -141,24 +141,6 @@ export const signup = () => {
     } else {
       alert('회원가입에 실패하였습니다...');
     }
-
-    // fetch(
-    //   {
-    //     email: emailInput,
-    //     password: passwordInput,
-    //     question,
-    //     phoneNumber,
-    //     ... 각종 정보들
-    //   },
-    //   {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     }
-    //   }
-    // );
-    // document.cookie = "cookie=res.cookie"
-    // window.location.href="/home"
   }
 
   // form submit
