@@ -29,7 +29,7 @@ router.post(
       prodColor,
       prodCount
     } = req.body;
-    const product = await Product.create({
+    await Product.create({
       prodName,
       prodSubCategory,
       prodCost,
@@ -41,7 +41,7 @@ router.post(
       prodColor,
       prodCount
     });
-    // 상품 추가 후 응답??
+    const product = await Product.find().sort({ _id: -1 }).limit(1);
     res.send(product);
   })
 );
@@ -204,6 +204,19 @@ router.post(
   asyncHandler(async (req, res) => {
     const { prodMajorCategory, prodSubCategory } = req.body;
     let prodCategory = await ProdCategory.find({ prodMajorCategory });
+
+    let errorMessages = '';
+    if (!prodSubCategory) {
+      errorMessages += '소분류 ';
+    }
+    if (!prodMajorCategory) {
+      errorMessages += '대분류 ';
+    }
+    if (errorMessages !== '') {
+      errorMessages += '를 입력해주세요.';
+      throw new Error(errorMessages);
+    }
+
     // 대분류가 없는 경우 카테고리 추가
     if (prodCategory.length === 0) {
       prodCategory = await ProdCategory.create({
@@ -236,22 +249,45 @@ router.put(
     const prodMajorCategory = Number(req.params.prodMajorCategory);
     const { prodSubCategory } = req.params;
     const { updateProdMajorCategory, updateProdSubCategory } = req.body;
-    let prodCategory = await ProdCategory.find({ prodMajorCategory });
-    if (prodCategory.length === 0) {
-      //지정한 대분류 카테고리가 없는 경우
-      throw new Error('카테고리가 없습니다.');
+    if (prodMajorCategory === updateProdMajorCategory) {
+      if (
+        prodSubCategory === updateProdSubCategory &&
+        updateProdSubCategory !== undefined
+      ) {
+        throw new Error('소분류에 변경된 내용이 없습니다.');
+      }
+      throw new Error('대분류에 변경된 내용이 없습니다.');
     }
+
+    //입력 정보로 대분류 조회(서브카테고리 포함 모두)
+    let prodCategory = await ProdCategory.find({ prodMajorCategory });
+    //대분류 카테고리가 없는 경우
+    if (prodCategory.length === 0) {
+      throw new NotFoundError('카테고리 대분류');
+    }
+
+    //update 정보가 Major, Sub 둘 다 없는 경우
     if (!updateProdMajorCategory && !updateProdSubCategory) {
-      throw new Error('수정할 카테고리를 입력해주세요.');
-    } else if (prodMajorCategory && !prodSubCategory && updateProdSubCategory) {
+      throw new Error('수정할 내용을 입력해주세요.');
+
       //소분류 업데이트 정보가 있으나 업데이트할 소분류를 지정하지 않은 경우
-      throw new Error('업데이트할 소분류가 지정되지 않았습니다.');
+    } else if (prodMajorCategory && !prodSubCategory && updateProdSubCategory) {
+      throw new Error('업데이트할 소분류를 입력해주세요.');
+
+      //소분류만 변경
     } else if (
       prodSubCategory &&
       !updateProdMajorCategory &&
       updateProdSubCategory
     ) {
-      //소분류만 변경
+      const categoryFounded = await ProdCategory.find({
+        prodMajorCategory,
+        'prodSubCategorys.prodCategory': prodSubCategory
+      });
+      if (categoryFounded.length === 0) {
+        throw new NotFoundError('카테고리 소분류');
+      }
+
       await ProdCategory.updateOne(
         {
           prodMajorCategory,
@@ -262,8 +298,9 @@ router.put(
         }
       );
       prodCategory = await ProdCategory.find({ prodMajorCategory });
-    } else if (updateProdMajorCategory && !updateProdSubCategory) {
+
       //대분류만 변경
+    } else if (updateProdMajorCategory && !updateProdSubCategory) {
       await ProdCategory.updateOne(
         { prodMajorCategory },
         { prodMajorCategory: updateProdMajorCategory }
@@ -271,8 +308,9 @@ router.put(
       prodCategory = await ProdCategory.find({
         prodMajorCategory: updateProdMajorCategory
       });
-    } else {
+
       //모두 변경
+    } else {
       await ProdCategory.updateOne(
         {
           prodMajorCategory,
@@ -299,11 +337,41 @@ router.delete(
   asyncHandler(async (req, res) => {
     const prodMajorCategory = Number(req.params.prodMajorCategory);
     const { prodSubCategory } = req.params;
+
+    console.log(prodMajorCategory, prodSubCategory);
+
+    if (!prodMajorCategory && !prodSubCategory) {
+      throw new Error('삭제할 카테고리를 입력해주세요.');
+    }
+
+    if (!Number.isInteger(prodMajorCategory)) {
+      throw new Error('대분류는 숫자 형태로 입력되어야 합니다.');
+    }
+
     if (!prodSubCategory) {
       //대분류 삭제
+      const categoryFounded = await ProdCategory.find({ prodMajorCategory });
+      if (categoryFounded.length === 0) {
+        throw new NotFoundError('대분류');
+      }
       await ProdCategory.deleteOne({ prodMajorCategory });
     } else {
       //소분류 삭제
+      const categoryFounded = await ProdCategory.find({
+        prodMajorCategory,
+        'prodSubCategorys.prodSubCategory': prodSubCategory
+      });
+      if (categoryFounded.length === 0) {
+        let errorMessages = '';
+        const majorCategoryFounded = await ProdCategory.find({
+          prodMajorCategory
+        });
+        if (majorCategoryFounded.length === 0) {
+          errorMessages += '대분류 ';
+        }
+        errorMessages += '소분류';
+        throw new NotFoundError(errorMessages);
+      }
       await ProdCategory.updateOne(
         { prodMajorCategory: prodMajorCategory },
         { $pull: { prodSubCategorys: { prodSubCategory: prodSubCategory } } }
