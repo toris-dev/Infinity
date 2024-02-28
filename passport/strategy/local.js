@@ -11,7 +11,7 @@ const local = new LocalStrategy({
   passwordField: 'pwd'// 'password' 필드 사용하도록 설정
 }, async (email, pwd, done) => {
     try {
-      const user = await User.findOne({ email });
+      const user = await User.findOne({$and: [{email}, {useYn: {$exists: false}}] });
       if (!user) {
         throw new Error('이메일 또는 비밀번호를 잘못 입력하셨습니다.');
       }
