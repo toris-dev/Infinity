@@ -165,7 +165,7 @@ export default class extends AbstractView {
                     </li>
                     <li>
                         <div>
-                            <a class="get-product-btn">Buy Now</a>
+                            <a href="/payment" class="get-product-btn" data-link>Buy Now</a>
                             <a class="add-product-btn">Add to Cart</a>
                         </div>
                     </li>
