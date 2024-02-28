@@ -30,8 +30,8 @@ router.get(
 router.get(
   '/list',
   asyncHandler(async (req, res) => {
-    const count = req.count || 1;
-    const product = await Product.find({}).sort({_id: -1}).skip(12*(count-1)).limit(12);
+    const count = req.query.count || 1;
+    const product = await Product.find({prodUseYn:{$exists: false}}).sort({_id: -1}).skip(12*(count-1)).limit(12);
     if (!product) {
       throw new NotFoundError('상품');
     }

@@ -125,7 +125,7 @@ router.get(
   isAdmin,
   asyncHandler(async (req, res) => {
     const orders = await Orders.find({});
-    if (!orders) {
+    if (orders.length === 0) {
       throw new NotFoundError('주문');
     }
     res.json(orders);
@@ -282,7 +282,7 @@ router.put(
     ) {
       const categoryFounded = await ProdCategory.find({
         prodMajorCategory,
-        'prodSubCategorys.prodCategory': prodSubCategory
+        'prodSubCategorys.prodSubCategory': prodSubCategory
       });
       if (categoryFounded.length === 0) {
         throw new NotFoundError('카테고리 소분류');

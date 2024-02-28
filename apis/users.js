@@ -49,7 +49,7 @@ router.post(
     } = req.body;
 
     let useYn, regDate;
-    //DB 중복 체크, 중첩 상태 확인?? (아이디, 이메일, 핸드폰 번호)
+
     const idFounded = await User.find({ id });
     const emailFounded = await User.find({ email });
     const phoneNumFounded = await User.find({ phoneNum });

@@ -22,11 +22,10 @@ router.get(
   getUserFromJwt,
   asyncHandler(async (req, res) => {
     const { userId } = req.query;
-    const orders = await Orders.find({ orderId: userId });
-
-    //요청 유저와 정보 유저가 동일하지 않은 경우
+    const orders = await Orders.find({"$and": [{orderId: userId }, {orderDeleteDate:{$exists: false}}]});
+    //요청 유저와 정보 유저가 동일하지 않은 경우, 어드민 제외
     if (!req.user.roleId) {
-      if (req.user.id !== orders.orderId) {
+      if (req.user.id !== userId) {
         throw new AuthError();
       }
     }
@@ -209,7 +208,7 @@ router.get(
     const { orderProds } = req.query;
     const prodNums = orderProds.split(','); // 쉼표로 구분된 문자열을 배열로 분할하여 prodNums에 할당
 
-    const products = await Product.find({ _id: { $in: prodNums } });
+    const products = await Product.find({"$and": [{_id: { $in: prodNums } }, {prodUseYn:{$exists: false}}]});
 
     res.json(products);
   })
