@@ -16,7 +16,7 @@ export default class extends AbstractView {
     <h1>마이페이지</h1>
   </div>
   
-  <div class="form-wrap">
+  <div class="form-wrap mypage-fix">
     <div class="profile-img">
       <img src="/static/images/Mason.png" alt="프로필">
     </div>
@@ -26,15 +26,15 @@ export default class extends AbstractView {
         <div class="profile">
           <p class="profile-name">김인피 님</p>
           <br />
-          <p class="profile-p">회원구분 *</p>
+          <!--<p class="profile-p">회원구분 *</p>-->
         </div>
   
-        <div class="check-box">
+        <!--<div class="check-box">
           <input type="checkbox" id="personal" name="membership" />
           <label for="personal">개인회원</label>
           <input type="checkbox" id="admin" name="membership" />
           <label for="admin">관리자</label>
-        </div>
+        </div>-->
   
         <div class="sentence">
           <label>아이디 *</label>
@@ -65,21 +65,27 @@ export default class extends AbstractView {
           </p>
         </div>
   
-        <div class="fulladdress">
+        <div class="filed fulladdress mypage">
           <label>주소 *</label>
-          <div class="ad-Number">
-            <input type="text" id="postcode" class="input" placeholder="우편번호" />
-            <div>
-              <input type="button" class="ad-btn" value="우편번호" />
-            </div>
-          </div>
-          <br />
-          <div class="ad-input">
-            <input type="text" id="postcode" class="input" />
-            <span class="dash">-</span>
-            <div class="address-input">
-              <input type="text" id="postcode" class="input" />
-            </div>
+          <div class="address-input">
+            <input type="text" id="sample4_postcode" class="input zipcode" placeholder="우편번호">
+            <input type="button" class="add_button mt_add_2 find-address" value="우편번호 찾기">
+            <br><br>
+            <input type="text" id="sample4_roadAddress" class="input address" placeholder="도로명주소">
+            <input type="text" id="sample4_detailAddress" class="input detailAddress" placeholder="상세주소">
+            <!-- <input
+              class="input address"
+              type="text"
+              placeholder="주소"
+              disabled
+            />
+            <button
+              type="button"
+              class="button is-light"
+              onclick="postalCode(this)"
+            >
+              우편번호
+            </button> -->
           </div>
         </div>
         <br />
@@ -87,15 +93,15 @@ export default class extends AbstractView {
         <div class="phoneNumber">
           <label class="is-small">전화번호 *</label>
           <div class="number_box">
-            <input class="input" type="tel" placeholder="010" maxlength="3" />
+            <input class="input phone1" type="tel" placeholder="010" maxlength="3" />
             <span class="dash">-</span>
-            <input class="input" type="tel" placeholder="1234" maxlength="4" />
+            <input class="input phone2" type="tel" placeholder="1234" maxlength="4" />
             <span class="dash">-</span>
-            <input class="input" type="tel" placeholder="5678" maxlength="4" />
+            <input class="input phone3" type="tel" placeholder="5678" maxlength="4" />
           </div>
         </div>
   
-        <div class="name-InputBox">
+        <div class="name-InputBox mypage">
           <label class="is-emall">이메일</label>
           <p class="control">
             <input class="input nameInput" type="text" placeholder="infinity@naver.com" />
