@@ -16,7 +16,7 @@ export const rightbar = () => {
 
   $rightBar.innerHTML = `
       <div class="cart-txt">
-        <a href="/cart" data-link>Cart ― 0</a>
+        <a href="/shoppingCart" data-link>Cart ― 0</a>
       </div>
       <div class="right-element">
         <a href="/order" data-link>Order</a>
