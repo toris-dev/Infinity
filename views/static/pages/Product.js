@@ -6,6 +6,14 @@ export default class extends AbstractView {
     this.setTitle('Product');
   }
 
+  getCss() {
+    return './static/css/product.css';
+  }
+
+  getJs() {
+    return './static/js/product.js';
+  }
+
   async getHtml() {
     return `
     <div class="detail-product">
@@ -101,50 +109,48 @@ export default class extends AbstractView {
                 <div>
                     <p>color</p>
                     <div class="select">
-                        <select>
+                        <select id="clothColor">
                             <option selected>color</option>
-                            <option>그레이</option>
-                            <option>딥그린</option>
-                            <option>코코아</option>
-                            <option>블랙</option>
-                            <option>화이트</option>
-                            <option>인디핑크</option>
+                            <option value="그레이">그레이</option>
+                            <option value="딥그린">딥그린</option>
+                            <option value="코코아">코코아</option>
+                            <option value="블랙">블랙</option>
+                            <option value="화이트">화이트</option>
+                            <option value="인디핑크">인디핑크</option>
                         </select>
                     </div>
                 </div>
                 <div>
                     <p>size</p>
                     <div class="select">
-                        <select>
+                        <select id="clothSize">
                             <option selected>size</option>
-                            <option>롱기장</option>
-                            <option>기본기장</option>
+                            <option value="롱기장">롱기장</option>
+                            <option value"기본기장">기본기장</option>
                         </select>
                     </div>
                 </div>
             </div>
 
-            <div class="result" style="display: none;">
-                <ul>
+            <div class="result">
+                <ul id="cart-items">
                     <li>
                         <div>
-                            <p>[자체 제작]인피니티 에센셜 스웻 팬츠</p>
-                            <span>- 딥그린 / 롱기장</span>
+                            <p class="titleName"></p>
+                            <span class="colorSize"></span>
                         </div>
                     </li>
                     <li>
                         <div class="result-wrap">
-                            <p>1</p><a>+</a><a>-</a>
+                            <p class="quantity">1</p><a id="increase">+</a><a id="decrease">-</a>
                         </div>
                     </li>
                     <li>
-                        <div class="result-number">
-                            ₩36,000
-                        </div>
+                        <div class="result-number"></div>
                     </li>
                     <li>
                         <div>
-                            <a>X</a>
+                            <a class="delete-item">X</a>
                         </div>
                     </li>
                 </ul>
@@ -154,7 +160,7 @@ export default class extends AbstractView {
                 <ul>
                     <li>
                         <div>
-                            <p><b>Total</b>(Qty) : <b>0</b> (0개)</p>
+                            <p><b>Total</b>(Qty) : <b id="total-price">0</b> (<span id="quantity2">0</span>개)</p>
                         </div>
                     </li>
                     <li>

@@ -4,7 +4,7 @@ module.exports = (req, res, next) => {
   const user = req.user;
   if (user.roleId === 'admin') {
     next();
-    return
+    return;
   }
   //403 error
   throw new AuthError();

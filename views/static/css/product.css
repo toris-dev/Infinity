@@ -69,6 +69,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .result ul li:first-child {
@@ -173,4 +174,8 @@
 
 .comment-box ul li > div > div > p {
   line-height: 1.5;
+}
+
+.no-cart {
+  text-align: center;
 }
