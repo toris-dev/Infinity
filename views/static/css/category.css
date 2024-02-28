@@ -31,10 +31,18 @@
   margin: 0 2% 80px;
 }
 
+.New-arrival ul li a {
+  display: block;
+}
+
 .sale-before {
   text-decoration: line-through;
 }
 
 .rotate {
   transform: rotate(-180deg);
+}
+
+.titleContainer {
+  text-align: center;
 }
