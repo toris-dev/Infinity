@@ -101,12 +101,12 @@ router.put(
     const userFounded = await User.findOne({ id });
 
     //회원이 없거나 탈퇴한 경우
-    if (!userFounded.id || userFounded.useYn) {
-      throw new NotFoundError('회원을 찾을 수 없습니다.');
+    if (!userFounded || userFounded.useYn) {
+      throw new NotFoundError('회원');
     }
     //로그인한 본인이 아닌 경우
     if (req.user.id !== userFounded.id) {
-      throw new AuthError('잘못된 요청입니다.');
+      throw new AuthError();
     }
 
     await User.updateOne(
@@ -129,20 +129,23 @@ router.delete(
   asyncHandler(async (req, res) => {
     const { id } = req.params;
     const userFounded = await User.findOne({ id });
+    let { useYn } = userFounded;
 
-    //로그인 본인이 아닌 경우
-    if(!userFounded) {
+    //회원이 없는 경우, 이미 탈퇴한 경우
+    if(!userFounded || useYn) {
       throw new NotFoundError(`${ id }`);
-    } if (req.user.id !== userFounded.id) {
+    } 
+    const ID = userFounded.id;
+    //로그인 본인이 아닌 경우
+    if (req.user.id !== ID) {
       throw new AuthError();
-    }
+    }  
     
     await User.updateOne({ id }, { useYn: Date.now() + 9 * 60 * 60 * 1000 });
     const user = await User.findOne({ id });
-    const { useYn } = user;
 
     //탈퇴처리 된 시간을 응답
-    res.json({ useYn });
+    res.json({"탈퇴 시간": user.useYn});
   })
 );
 
