@@ -10,6 +10,9 @@ import { payment } from '../static/js/payment.js';
 import { product } from '../static/js/product.js';
 import { shoppingcartPro } from '../static/js/shoppingcartPro.js';
 import { signup } from '../static/js/signup.js';
+import { admin } from '../../admin/js/admin.js';
+import { adminManagement } from '../../admin/js/adminManagement.js';
+import { adminSetting } from '../../admin/js/adminSetting.js';
 import CategoryProducts from '../static/pages/CategoryProducts.js';
 import ErrorPage from '../static/pages/ErrorPage.js';
 import Home from '../static/pages/Home.js';
@@ -39,6 +42,5 @@ export const routes = [
   { Path: '/error', View: ErrorPage, Script: errorFnc },
   { Path: '/mypage', View: Mypage, Script: mypage },
   { Path: '/payment', View: Payment, Script: payment },
-
   { Path: '/mypageEdit', View: MypageEdit, Script: mypageEdit }
 ];
