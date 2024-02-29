@@ -1,8 +1,9 @@
 const passport = require('passport');
+const { AuthError } = require('../middlewares/error-handler')
 
 module.exports = (req, res, next) => {
   if (!req.cookies.token) {
-    throw new Error('로그인이 필요한 기능입니다.')
+    throw new AuthError()
   }
 
   return passport.authenticate('jwt', { session: false })(req, res, next);

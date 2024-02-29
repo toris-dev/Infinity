@@ -1,6 +1,6 @@
 /** signup **/
 .address-input > input {
-  width: 248px;
+  width: 49%;
 }
 
 .address-input > input.add_button {
@@ -106,4 +106,10 @@
 
 .input.details {
   width: 40%;
+}
+
+.control .emailInput {
+  border: 0;
+  background-color: transparent;
+  border-bottom: 1px solid;
 }

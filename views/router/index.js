@@ -1,6 +1,7 @@
 import { errorFnc } from '../static/js/errorFnc.js';
 import ErrorPage from '../static/pages/ErrorPage.js';
 import { getParams, pathToRegex } from './navigate.js';
+import { rightbar } from './navigation.js';
 import { routes } from './routes.js';
 
 const router = async () => {
@@ -35,6 +36,7 @@ export const navigateTo = (url) => {
 window.addEventListener('popstate', router);
 
 document.addEventListener('DOMContentLoaded', () => {
+  rightbar();
   document.body.addEventListener('click', (e) => {
     if (e.target.matches('[data-link]')) {
       e.preventDefault();
@@ -42,4 +44,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   router();
+});
+
+document.querySelectorAll('.menu-list li a').forEach((item) => {
+  item.addEventListener('click', function (event) {
+    // 현재 클릭한 항목에 이미 is-active 클래스가 있을 경우에는 토글 동작을 수행하지 않습니다.
+    if (!this.classList.contains('is-active')) {
+      // 기존에 is-active 클래스가 지정된 항목들을 모두 찾습니다.
+      const activeItems = document.querySelectorAll(
+        '.menu-list li a.is-active'
+      );
+
+      // 기존에 is-active 클래스가 지정된 항목들에서 현재 클릭한 항목을 제외한 나머지 항목들의 is-active 클래스를 제거합니다.
+      activeItems.forEach((activeItem) => {
+        if (activeItem !== this) {
+          activeItem.classList.remove('is-active');
+        }
+      });
+
+      // 현재 클릭한 항목에 is-active 클래스를 토글합니다.
+      this.classList.toggle('is-active');
+    }
+  });
 });
