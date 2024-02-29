@@ -6,43 +6,34 @@ export default class extends AbstractView {
     super(params);
     this.setTitle('Payment');
   }  
-  
-  getCss() {
-    return './static/css/payment.css';
-  }
-
-  getJs() {
-    return './static/js/payment.js';
-  }
-
   async getHtml() {
-    // const res = await fetch(
-    //     `${BASE_URI}/api/payments?orderNum=${this.params.orderNum}`,
-    //     {
-    //       method: 'GET'
-    //     }
-    //   );
-    // const targetOrder = await userResponse.json();
-    
-    //주문 내 상품 번호 문자열 생성
-    let orderedProds ='';
-    for (let i=0; i<targetOrder.orderProds.length; i++) {
-        if (i == targetOrder.orderProds.length-1) {
-            orderedProds += `${targetOrder.orderProds.orderProdNum}`;
-            return;    
-        }
-        orderedProds += `${targetOrder.orderProds.orderProdNum},`;
-    }
-    //상품 상세 정보 요청
-    const prodRes = await fetch(
-        `${BASE_URI}/api/orders/orderProds?orderProds=${orderedProds}`,
+    const res = await fetch(
+        `${BASE_URI}/api/payments?${this.params.orderNum}`,
         {
           method: 'GET'
         }
       );
-    const prods = await prodRes.json();
+    const targetOrder = await res.json();
     
-
+    // //주문 내 상품 번호 문자열 생성
+    // let orderedProds ='';
+    // for (let i=0; i<targetOrder.orderProds.length; i++) {
+    //     if (i == targetOrder.orderProds.length-1) {
+    //         orderedProds += `${targetOrder.orderProds.orderProdNum}`;
+    //         return;    
+    //     }
+    //     orderedProds += `${targetOrder.orderProds.orderProdNum},`;
+    // }
+    // //상품 상세 정보 요청
+    // const prodRes = await fetch(
+    //     `${BASE_URI}/api/orders/orderProds?orderProds=${orderedProds}`,
+    //     {
+    //       method: 'GET'
+    //     }
+    //   );
+    // const prods = await prodRes.json();
+    
+    // console.log(prods);
 
     return `
     <div class="titleArea">
@@ -82,8 +73,8 @@ export default class extends AbstractView {
                 </li>
                 <li class="order__item delivery__item__info">
                     <span class="order__item__label">주소</span>
-                    <div class="order__item__area" id="delivery-addr">(${targetOrder.orderZipCode
-                    }) ${targetOrder.orderAddress} ${targetOrder.orderDetailAddress}</div>
+                    <div class="order__item__area" id="delivery-addr">(${targetOrder.orderZipCode}) ${targetOrder.orderAddress} ${targetOrder.orderDetailAddress
+                    }</div>
                 </li> 
                 <li class="order__item order__item--overflow delivery__item__info">
                     <span class="order__item__label">배송 요청사항</span>
