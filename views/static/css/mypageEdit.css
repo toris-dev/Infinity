@@ -138,3 +138,12 @@
   align-items: center;
   height: 150px;
 }
+
+.fulladdress.mypage,
+.name-InputBox.mypage {
+  margin-top: 0.75rem;
+}
+
+.mypage-fix {
+  padding: 10px;
+}
