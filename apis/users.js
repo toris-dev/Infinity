@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
+const cryptoJS = require('crypto-js');
+
 const { User } = require('../models');
 const {
   NotFoundError,
   AuthError,
   DuplicateError
 } = require('../middlewares/error-handler');
-
-const asyncHandler = require('../utils/async-handler');
 const getUserFromJWT = require('../middlewares/get-user-from-jwt');
+const asyncHandler = require('../utils/async-handler');
 
 // 사용자 ID를 가져오는 API
 router.get('/getUserId', getUserFromJWT, (req, res) => {
@@ -23,8 +24,8 @@ router.get(
   getUserFromJWT,
   asyncHandler(async (req, res) => {
     const { id } = req.query;
-    const user = await User.findOne({ id });
 
+    const user = await User.findOne({ id });
     //가입이 되어 있지 않거나, 이미 탈퇴한 경우
     if (!user || user.useYn) {
       throw new NotFoundError(`${id}회원`);
@@ -36,6 +37,12 @@ router.get(
         throw new AuthError('권한이 없습니다.');
       }
     }
+    user.detailAddress = cryptoJS.enc.Base64.parse(user.detailAddress).toString(
+      cryptoJS.enc.Utf8
+    );
+    user.phoneNum = cryptoJS.enc.Base64.parse(user.phoneNum).toString(
+      cryptoJS.enc.Utf8
+    );
 
     res.json(user);
   })
