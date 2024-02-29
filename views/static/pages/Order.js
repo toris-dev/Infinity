@@ -62,17 +62,25 @@ export default class extends AbstractView {
         `;
       });
 
+      // 주문 상태에 따라 다른 클래스를 추가하는 조건문
+      let orderStatusClass = '';
+      if (order.orderState === '처리전') {
+        orderStatusClass = 'delivery-reject';
+      } else {
+        orderStatusClass = 'delivery-success';
+      }
+
       orderRows += `
         <tr>
           <td>
-            ${productInfo}
+            <div class="order-imgpage">${productInfo}</div>
           </td>
           <td>${$orderDate}</td>
           <td>${orderDetailAddress}</td>
           <td>${orderProdData.prodCost}원(${orderSum}개)</td>
           <td>
             <div>
-              <a class="delivery-btn-status delivery-reject">${order.orderState}</a>
+              <a class="delivery-btn-status ${orderStatusClass}">${order.orderState}</a>
             </div>
           </td>
         </tr>
