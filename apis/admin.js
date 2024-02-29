@@ -221,7 +221,7 @@ router.post(
     if (prodCategory.length === 0) {
       prodCategory = await ProdCategory.create({
         prodMajorCategory,
-        prodSubCategorys: [{ prodSubCategory }]
+        prodSubCategories: [{ prodSubCategory }]
       });
       res.json({ prodCategory });
     } else {
@@ -232,7 +232,7 @@ router.post(
 
       prodCategory = await ProdCategory.updateOne(
         { prodMajorCategory },
-        { $push: { prodSubCategorys: tempProdSubCategory } }
+        { $push: { prodSubCategories: tempProdSubCategory } }
       );
       prodCategory = await ProdCategory.find({ prodMajorCategory });
       res.json({ prodCategory });
@@ -242,22 +242,13 @@ router.post(
 
 // 카테고리 수정 API
 router.put(
-  '/category/:prodMajorCategory/:prodSubCategory?',
+  '/category/:prodMajorCategory/prodSubCategories/:prodSubCategory?',
   getUserFromJWT,
   isAdmin,
   asyncHandler(async (req, res) => {
     const prodMajorCategory = Number(req.params.prodMajorCategory);
     const { prodSubCategory } = req.params;
     const { updateProdMajorCategory, updateProdSubCategory } = req.body;
-    if (prodMajorCategory === updateProdMajorCategory) {
-      if (
-        prodSubCategory === updateProdSubCategory &&
-        updateProdSubCategory !== undefined
-      ) {
-        throw new Error('소분류에 변경된 내용이 없습니다.');
-      }
-      throw new Error('대분류에 변경된 내용이 없습니다.');
-    }
 
     //입력 정보로 대분류 조회(서브카테고리 포함 모두)
     let prodCategory = await ProdCategory.find({ prodMajorCategory });
@@ -282,7 +273,7 @@ router.put(
     ) {
       const categoryFounded = await ProdCategory.find({
         prodMajorCategory,
-        'prodSubCategorys.prodSubCategory': prodSubCategory
+        'prodSubCategories.prodSubCategory': prodSubCategory
       });
       if (categoryFounded.length === 0) {
         throw new NotFoundError('카테고리 소분류');
@@ -291,10 +282,10 @@ router.put(
       await ProdCategory.updateOne(
         {
           prodMajorCategory,
-          'prodSubCategorys.prodSubCategory': prodSubCategory
+          'prodSubCategories.prodSubCategory': prodSubCategory
         },
         {
-          $set: { 'prodSubCategorys.$.prodSubCategory': updateProdSubCategory }
+          $set: { 'prodSubCategories.$.prodSubCategory': updateProdSubCategory }
         }
       );
       prodCategory = await ProdCategory.find({ prodMajorCategory });
@@ -314,11 +305,11 @@ router.put(
       await ProdCategory.updateOne(
         {
           prodMajorCategory,
-          'prodSubCategorys.prodSubCategory': prodSubCategory
+          'prodSubCategories.prodSubCategory': prodSubCategory
         },
         {
           prodMajorCategory: updateProdMajorCategory,
-          $set: { 'prodSubCategorys.$.prodSubCategory': updateProdSubCategory }
+          $set: { 'prodSubCategories.$.prodSubCategory': updateProdSubCategory }
         }
       );
       prodCategory = await ProdCategory.find({
@@ -331,7 +322,7 @@ router.put(
 
 //카테고리 삭제
 router.delete(
-  '/category/:prodMajorCategory/:prodSubCategory?',
+  '/category/:prodMajorCategory/prodSubCategories/:prodSubCategory?',
   getUserFromJWT,
   isAdmin,
   asyncHandler(async (req, res) => {
@@ -359,7 +350,7 @@ router.delete(
       //소분류 삭제
       const categoryFounded = await ProdCategory.find({
         prodMajorCategory,
-        'prodSubCategorys.prodSubCategory': prodSubCategory
+        'prodSubCategories.prodSubCategory': prodSubCategory
       });
       if (categoryFounded.length === 0) {
         let errorMessages = '';
@@ -374,7 +365,7 @@ router.delete(
       }
       await ProdCategory.updateOne(
         { prodMajorCategory: prodMajorCategory },
-        { $pull: { prodSubCategorys: { prodSubCategory: prodSubCategory } } }
+        { $pull: { prodSubCategories: { prodSubCategory: prodSubCategory } } }
       );
     }
     const prodCategory = await ProdCategory.find({});
