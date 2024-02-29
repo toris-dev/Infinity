@@ -242,7 +242,7 @@ router.post(
 
 // 카테고리 수정 API
 router.put(
-  '/category/:prodMajorCategory/:prodSubCategory?',
+  '/category/:prodMajorCategory/prodSubCategories/:prodSubCategory?',
   getUserFromJWT,
   isAdmin,
   asyncHandler(async (req, res) => {
@@ -331,7 +331,7 @@ router.put(
 
 //카테고리 삭제
 router.delete(
-  '/category/:prodMajorCategory/:prodSubCategory?',
+  '/category/:prodMajorCategory/prodSubCategories/:prodSubCategory?',
   getUserFromJWT,
   isAdmin,
   asyncHandler(async (req, res) => {
