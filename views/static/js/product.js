@@ -8,7 +8,6 @@ import {
   updateCart
 } from './lib/shoppingcart.js';
 
-// 제 정신이 아니다...
 export const product = async () => {
   // eslint-disable-next-line no-undef
   const swiper = new Swiper('.mySwiper.detail2', {
