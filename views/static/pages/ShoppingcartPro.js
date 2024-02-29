@@ -41,48 +41,14 @@ export default class extends AbstractView {
             <th class="th8">선택</th>
           </tr>
         </thead>
-        <tbody>
-          <tr class="tr2">
-            <td colspan="3" class="tr2_td1">
-              <div class="product_infor">
-                <input type="checkbox" id="checkbox2" /><img
-                  src="/static/images/상품이미지1.png"
-                  class="img"
-                />
-                <p>[자체제작] 플렌티 스웻 팬츠</p>
-              </div>
-            </td>
-            <td>
-              <input
-                type="button"
-                class="plus"
-                onclick='count("plus")'
-                value="+"
-              />
-              <input
-                type="button"
-                class="minus"
-                onclick='count("minus")'
-                value="-"
-              />
-              <div id="result">0</div>
-            </td>
-            <td>₩42800</td>
-            <td>기본배송</td>
-            <td>무료</td>
-            <td>
-              <div class="order_delete">
-                <a href="#" class="select_order">주문하기</a>
-                <a href="#" class="delete_product">삭제하기</a>
-              </div>
-            </td>
-          </tr>
-          <tr class="tr3">
-            <td class="tr3_td1" colspan="2">[개별배송]</td>
-            <td class="tr3_td2" colspan="6">
-              상품구매금액 42800+배송비0 = 42800
-            </td>
-          </tr>
+        <tbody class="tbody">
+
+        <tr class="tr3">
+          <td class="tr3_td1" colspan="2">[개별배송]</td>
+          <td class="tr3_td2" colspan="6">
+            상품구매금액 42800+배송비0 = 42800
+          </td>
+        </tr>
         </tbody>
       </table>
       <p class="discount_guide">
@@ -92,7 +58,7 @@ export default class extends AbstractView {
       <h2 style="font-size: 15px">
         선택상품을<a
           href="#"
-          class="delete_product"
+          class="select_delete"
           style="margin: 0 0 5px 15px"
           >삭제하기</a
         >
@@ -105,12 +71,7 @@ export default class extends AbstractView {
             <th class="price_th3">결제예정금액</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>₩42800</td>
-            <td>+ ₩0</td>
-            <td>= ₩42800</td>
-          </tr>
+        <tbody class="paymentPrice">
         </tbody>
       </table>
     </div>
