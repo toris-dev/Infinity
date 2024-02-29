@@ -29,6 +29,7 @@ html {
   -moz-text-size-adjust: none;
   -ms-text-size-adjust: none;
   background: rgba(255, 168, 168, 0.13);
+  scroll-behavior: smooth;
 }
 
 body,

@@ -9,8 +9,8 @@ export const infinityScroll = () => {
   const createProduct = (product) => {
     const $prodElement = document.createElement('li');
     $prodElement.innerHTML = `
-        <a>
-          <img src="${product.prodImgs[0]}" alt="${product.prodName}">
+        <a href=/product/${product._id} data-link>
+          <img src="${product.prodImgs[0]}" alt="${product.prodName}" >
           <div>
             <p>${product.prodName}</p>
             <span class="sale-before">₩${product.prodCost}</span><br/>
@@ -29,6 +29,12 @@ export const infinityScroll = () => {
       }
     );
     const product = await res.json();
+
+    // 받을 상품이 없으면 return
+    if (!product.length) {
+      observer.unobserve($lastContainer);
+      return;
+    }
     product.map((prod, index) => {
       createProduct(prod);
       if (index === 11) {
@@ -40,20 +46,17 @@ export const infinityScroll = () => {
   };
 
   const getProduct = (entries, observer) => {
-    entries.forEach((entry) => {
+    entries.forEach(async (entry) => {
       if (entry.isIntersecting) {
         // 데이터 로드 함수 호출
         observer.unobserve($lastContainer);
-        loadProducts();
+        await loadProducts();
         observer.observe($lastContainer);
       }
     });
   };
   const io = new IntersectionObserver(getProduct, { threshold: 0.7 });
 
-  // 초기 페이지 로드 시 데이터 로드
-  loadProducts();
-
   // Intersection Observer를 상품 요소에 연결
-  io.observe($productsContainer.lastElementChild);
+  io.observe($lastContainer);
 };

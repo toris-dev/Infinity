@@ -1,11 +1,26 @@
+import { categorysEnum } from '../static/js/constant/categorys.js';
+import { BASE_URI } from '../static/js/constant/url.js';
 import { getCookie } from '../static/js/lib/getCookie.js';
-export const rightbar = () => {
+export const rightbar = async () => {
   const $rightBar = document.getElementById('rightbar');
+  const $leftBar = document.querySelector('.menu-list');
+
+  const res = await fetch(`${BASE_URI}/api/category`, {
+    method: 'GET'
+  });
+  const categorys = await res.json();
+  console.log(categorys);
+  categorys.map((category) => {
+    $leftBar.innerHTML = `
+      <li><a href="${BASE_URI}/categorys/${categorysEnum[category.prodMajorCategory]}" data-link>${categorysEnum[category.prodMajorCategory]}</a></li>
+    `;
+  });
   const cookie = getCookie('token');
+
   if (!cookie) {
     $rightBar.innerHTML = `
     <div class="cart-txt">
-      <a href="/cart" data-link>Cart ― 0</a>
+      <a href="/shoppingCart" data-link class="totalCartCount">Cart ― 0</a>
     </div>
     <div class="right-element">
       <a href="/login" class="log" data-link>Log in</a>
@@ -16,7 +31,7 @@ export const rightbar = () => {
 
   $rightBar.innerHTML = `
       <div class="cart-txt">
-        <a href="/cart" data-link>Cart ― 0</a>
+        <a href="/shoppingCart" data-link class="totalCartCount">Cart ― 0</a>
       </div>
       <div class="right-element">
         <a href="/order" data-link>Order</a>
@@ -31,5 +46,6 @@ export const rightbar = () => {
       'token' + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     window.location.reload();
   });
+
   return;
 };
