@@ -5,6 +5,7 @@ const { Orders, Product } = require('../models');
 const asyncHandler = require('../utils/async-handler');
 const cryptoJS = require('crypto-js');
 const getUserFromJwt = require('../middlewares/get-user-from-jwt');
+const orderProdsHandler = require('../utils/orderProds-handler');
 const {
   NotFoundError,
   AuthError
@@ -79,7 +80,8 @@ router.post(
         orderProdCount: Number(orderProd.orderProdCount)
       });
     }
-
+    await orderProdsHandler(newOrderProds);
+    
     try {
       await Orders.create({
         //요청된 토큰의 id로 주문 생성

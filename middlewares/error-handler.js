@@ -36,11 +36,11 @@ const errorHandler = (err, req, res, next) => {
     }
     
     if (statusCode >= 400 && statusCode < 500) {
-        res.status(statusCode).send(`클라이언트 오류가 발생했습니다. [ERROR]: ${err.message}`);
+        res.status(statusCode).send(`클라이언트 오류가 발생했습니다. [ERROR]:\n${err.message}`);
     } else if (statusCode >= 500 && statusCode < 600) {
-        res.status(statusCode).send(`서버 오류가 발생했습니다. [ERROR]: ${err.message}`);
+        res.status(statusCode).send(`서버 오류가 발생했습니다. [ERROR]:\n${err.message}`);
     } else {
-        res.status(statusCode).send(`에러가 발생했습니다. 관리자에게 문의해주세요. [ERROR]:${err}`);
+        res.status(statusCode).send(`에러가 발생했습니다. 관리자에게 문의해주세요. [ERROR]:\n${err}`);
     }
 };
 
