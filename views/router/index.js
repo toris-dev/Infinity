@@ -1,4 +1,5 @@
 import { errorFnc } from '../static/js/errorFnc.js';
+import { totalCountCalc } from '../static/js/lib/shoppingcart.js';
 import ErrorPage from '../static/pages/ErrorPage.js';
 import { getParams, pathToRegex } from './navigate.js';
 import { rightbar } from './navigation.js';
@@ -26,6 +27,8 @@ const router = async () => {
   document.querySelector('#container>#contents_main').innerHTML =
     await view.getHtml();
   match.route.Script();
+
+  await totalCountCalc();
 };
 
 export const navigateTo = (url) => {
@@ -38,12 +41,30 @@ window.addEventListener('popstate', router);
 document.addEventListener('DOMContentLoaded', () => {
   rightbar();
   document.body.addEventListener('click', (e) => {
-    if (e.target.matches('[data-link]')) {
+    if (
+      e.target.tagName === 'IMG' &&
+      e.target.parentElement.tagName === 'A' &&
+      e.target.parentElement.hasAttribute('data-link')
+    ) {
+      // 이미지가 클릭된 경우 부모 <a> 태그의 기본 동작 막기
       e.preventDefault();
-      navigateTo(e.target.href);
+      window.scroll({ top: 0 });
+      navigateTo(e.target.parentElement.href);
+    } else if (e.target.tagName === 'A' && e.target.hasAttribute('data-link')) {
+      // 클릭된 요소가 <a> 태그이고 data-link 속성을 가지고 있는 경우
+      e.preventDefault(); // 기본 동작 막기
+      navigateTo(e.target.href); // 링크 처리
     }
   });
   router();
+});
+document.querySelector('.logo').addEventListener('click', (e) => {
+  const activeItems = document.querySelectorAll('.menu-list li a.is-active');
+
+  // 기존에 is-active 클래스가 지정된 항목들에서 현재 클릭한 항목을 제외한 나머지 항목들의 is-active 클래스를 제거합니다.
+  activeItems.forEach((activeItem) => {
+    activeItem.classList.remove('is-active');
+  });
 });
 
 document.querySelectorAll('.menu-list li a').forEach((item) => {

@@ -6,7 +6,7 @@ const prodCategorySchema = new Schema({
     type: Number,
     required: true,
   },
-  prodSubCategorys: {
+  prodSubCategories: {
     type: [prodSubSchema],
     required: true,
   },
