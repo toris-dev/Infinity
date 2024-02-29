@@ -10,7 +10,7 @@ export const infinityScroll = () => {
     const $prodElement = document.createElement('li');
     $prodElement.innerHTML = `
         <a href=/product/${product._id} data-link>
-          <img src="${product.prodImgs[0]}" alt="${product.prodName}">
+          <img src="${product.prodImgs[0]}" alt="${product.prodName}" >
           <div>
             <p>${product.prodName}</p>
             <span class="sale-before">₩${product.prodCost}</span><br/>
