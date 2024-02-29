@@ -204,7 +204,7 @@ export default class extends AbstractView {
             </div>
 
             <div class="center-content">
-                <a>결제하기</a>
+                <a href="orderCompleted" data-link>결제하기</a>
             </div>
         </div>
     </div>

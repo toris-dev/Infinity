@@ -7,7 +7,7 @@ export default class extends AbstractView {
   }
 
   getCss() {
-    return '/static/css/mypage.css';
+    return './static/css/mypage.css';
   }
 
   async getHtml() {
@@ -24,7 +24,7 @@ export default class extends AbstractView {
         <div class="infoBox_script">
           <span class="name">김인피 님</span><br>
           <span class="email">qwer1234@naver.com</span><br>
-          <a href="#" class="info_edit">정보수정</a>
+          <a href="/mypageEdit" class="info_edit" data-link>정보수정</a>
         </div>
     </div>
 

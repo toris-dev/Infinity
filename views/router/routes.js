@@ -27,7 +27,7 @@ export const routes = [
   { Path: '/', View: Home, Script: home },
   { Path: '/login', View: Login, Script: login },
   { Path: '/signup', View: Signup, Script: signup },
-  { Path: '/product', View: Product, Script: product },
+  { Path: '/product/:prodId', View: Product, Script: product },
   { Path: '/order', View: Order, Script: order },
   { Path: '/shoppingCart', View: ShoppingcartPro, Script: shoppingcartPro },
   {

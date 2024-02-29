@@ -1,4 +1,15 @@
-export const product = () => {
+import { colorSizeRegex } from './constant/regex.js';
+import {
+  addItemToCart,
+  getCartItemByKey,
+  getCartItems,
+  getNextKey,
+  removeItemFromCart,
+  updateCart
+} from './lib/shoppingcart.js';
+
+// 제 정신이 아니다...
+export const product = async () => {
   // eslint-disable-next-line no-undef
   const swiper = new Swiper('.mySwiper.detail2', {
     spaceBetween: 5,
@@ -14,264 +25,165 @@ export const product = () => {
     }
   });
 
-  // 요소
-  const colorSelect = document.getElementById('clothColor');
-  const sizeSelect = document.getElementById('clothSize');
-  const costItem = document.querySelector('.result-number');
-  const titleItem = document.querySelector('.titleName');
-  const optionItem = document.querySelector('.colorSize');
-  const totalPrice2 = document.querySelector('#total-price');
-  const countItem = document.getElementById('quantity2');
-  var countNum = document.querySelector('.quantity').textContent;
-  const itemPrice2 = parseInt(
-    document
-      .querySelector('.detail-txt ul li:first-child span')
-      .textContent.replace('₩', '')
-      .replace(',', '')
-  );
-  const cartItemListElement = document.querySelector('.result');
+  await loadShopppingCart();
 
-  // IndexDB 생성
-  let db;
-  const request = window.indexedDB.open('cartDB', 1);
+  // 장바구니 추가
+  const $ulElements = document.querySelectorAll('.result>ul');
+  const $color = document.getElementById('clothColor');
+  const $price = document.querySelector('.price');
+  const $size = document.getElementById('clothSize');
+  const $titleName = document.getElementById('titleName');
+  const $addProductBtn = document.querySelector('.add-product-btn');
+  const $totalPrice = document.getElementById('total-price');
+  const $totalQuantity = document.getElementById('quantity2');
+  const totalCalc = (result) => {
+    let totalPrice = 0;
+    let totalQuantity = 0;
 
-  request.onerror = function (event) {
-    console.log('Database error: ' + event.target.errorCode);
-  };
-
-  request.onsuccess = function (event) {
-    console.log('Database opened successfully');
-    db = event.target.result;
-    // 페이지가 로드될 때 기존 장바구니 데이터를 불러옵니다.
-    loadCartItems();
-  };
-
-  request.onupgradeneeded = function (event) {
-    console.log('Database upgrade needed');
-    db = event.target.result;
-    const objectStore = db.createObjectStore('cart', {
-      keyPath: 'id',
-      autoIncrement: true
+    result.forEach((prod) => {
+      // 계산 후 결과 업데이트
+      totalPrice += parseInt(prod.price) * parseInt(prod.count);
+      totalQuantity += parseInt(prod.count);
     });
+
+    // 결과를 화면에 업데이트
+    $totalQuantity.innerHTML = totalQuantity;
+    $totalPrice.innerHTML = totalPrice.toLocaleString();
   };
 
-  function loadCartItems() {
-    const transaction = db.transaction(['cart'], 'readonly');
-    const objectStore = transaction.objectStore('cart');
+  $addProductBtn.addEventListener('click', async () => {
+    if ($color.value !== '선택해주세요' && $size.value !== '선택해주세요') {
+      await getCartItems(totalCalc);
+      const nextKey = await getNextKey();
+      await updateCartItemList({
+        color: $color.value,
+        size: $size.value,
+        name: $titleName.innerHTML,
+        price: parseInt($price.innerHTML),
+        id: nextKey,
+        count: 1
+      });
+      return;
+    }
+    alert('선택해주세요');
+    return;
+  });
+  $ulElements.forEach((prod) => {
+    prod.addEventListener('click', async (e) => {
+      await getCartItems(totalCalc);
 
-    const request = objectStore.getAll();
-    request.onsuccess = function (event) {
-      cartItems = event.target.result || [];
-      updateCartItemList();
-      updateTotal();
-    };
+      const $prodPrice = document.querySelector('.price');
+      const $quantity = prod.querySelector('.quantity');
+      const $prodTotalPrice = prod.querySelector('.result-number');
+      const colorSize = prod.querySelector('.colorSize').innerHTML;
+      const [_, color, size] = colorSize.match(colorSizeRegex);
+      const $prodName = prod.querySelector('.titleName');
+
+      if (e.target.id === 'increase') {
+        await updateCartItemList({
+          color,
+          size,
+          name: $prodName.innerHTML,
+          price: parseInt($prodPrice.innerHTML)
+        });
+      }
+      if (e.target.id === 'decrease') {
+        const product = await getCartItemByKey(parseInt(prod.id));
+        if (product.count <= 0) {
+          await removeItemFromCart(parseInt(prod.id));
+          prod.remove();
+          return;
+        }
+        await updateCart(parseInt(prod.id), product.count - 1);
+        $quantity.innerHTML = parseInt($quantity.innerHTML) - 1; // 개수 -1
+        $prodTotalPrice.innerHTML = (
+          parseInt($prodPrice.innerHTML) * parseInt($quantity.innerHTML)
+        ).toLocaleString();
+      }
+      if (e.target.className === 'delete-item') {
+        await removeItemFromCart(parseInt(prod.id));
+        prod.remove();
+        return;
+      }
+    });
+  });
+};
+
+// 페이지 로드 시 장바구니 불러오기
+const loadShopppingCart = async () => {
+  await getCartItems(loadCreateElement);
+};
+
+const updateCartItemList = async (prod) => {
+  const $results = document.querySelector('.result');
+
+  const result = await addItemToCart(prod);
+  console.log(result);
+  // 상품이 존재하는 체크 후 +1
+  if (result?.check) {
+    const product = await getCartItemByKey(result.id);
+    const $result = document.getElementById(result.id);
+    const $quantity = $result.querySelector('.quantity');
+    const $resultNumber = $result.querySelector('.result-number');
+
+    $quantity.innerHTML = parseInt($quantity.innerHTML) + 1;
+    $resultNumber.innerHTML = (product.price * product.count).toLocaleString();
+    return;
   }
-
-  let cartItems = [];
-  // 장바구니에 사용될 아이템 ID 카운터
-  let cartItemIdCounter = 1;
-
-  function addToCart(itemName, itemPrice, color, size) {
-    const transaction = db.transaction(['cart'], 'readwrite');
-    const objectStore = transaction.objectStore('cart');
-    // 아이템 ID 할당 후 증가
-    const newItem = {
-      id: cartItemIdCounter++,
-      name: itemName,
-      price: itemPrice,
-      color: color,
-      size: size
-    };
-
-    const request = objectStore.add(newItem);
-
-    request.onsuccess = function () {
-      console.log('Item added to the cart');
-    };
-
-    request.onerror = function () {
-      console.log('Error adding item to the cart');
-    };
-
-    // 장바구니 아이템 배열에 추가
-    cartItems.push(newItem);
-
-    // 장바구니에 추가한 아이템 목록 업데이트
-    updateCartItemList();
-  }
-
-  function updateCartItemList() {
-    cartItemListElement.innerHTML = ''; // 이전 목록 제거
-    console.log(cartItems);
-    cartItems.forEach((item) => {
-      const ul = document.createElement('ul');
-      ul.dataset.id = item.id; // data-id 속성 추가
-      ul.innerHTML = `
+  // 상품이 없을 시에 추가
+  $results.innerHTML += `
+      <ul id="${prod.id}">
         <li>
             <div>
-                <p class="titleName">${item.name}</p>
-                <span class="colorSize">- ${item.color} / ${item.size}</span>
+                <p class="titleName">${prod.name}</p>
+                <span class="colorSize">- ${prod.color} / ${prod.size}</span>
             </div>
         </li>
         <li>
             <div class="result-wrap">
-                <p class="quantity">1</p><a class="increase">+</a><a class="decrease">-</a>
+                <p class="quantity">${prod.count}</p><a id="increase">+</a><a id="decrease">-</a>
             </div>
         </li>
         <li>
-            <div class="result-number">36,000</div>
+            <div class="result-number">${(parseInt(prod.price) * parseInt(prod.count)).toLocaleString()} ₩</div>
         </li>
         <li>
             <div>
-                <a class="delete-item" data-id="${item.id}">X</a>
+                <a class="delete-item">X</a>
             </div>
         </li>
+    </ul>
       `;
-      cartItemListElement.appendChild(ul);
-    });
-  }
+  return;
+};
 
-  function removeFromCart(itemId) {
-    // 배열에서 해당 ID를 가진 아이템 제거
-    cartItems = cartItems.filter((item) => item.id !== itemId);
-    const transaction = db.transaction(['cart'], 'readwrite');
-    const objectStore = transaction.objectStore('cart');
+// page 로드 시 장바구니 제품 담기
+const loadCreateElement = (prod) => {
+  const $result = document.querySelector('.result');
 
-    const deleteRequest = objectStore.delete(itemId);
-
-    deleteRequest.onsuccess = function () {
-      console.log('Item deleted from the cart');
-    };
-
-    deleteRequest.onerror = function () {
-      console.log('Error deleting item from the cart');
-    };
-
-    // 장바구니 아이템 목록 업데이트
-    updateCartItemList();
-  }
-
-  function updateTotal() {
-    let totalQuantity = 0; // 총 수량 계산을 위한 변수
-    let totalPrice = 0; // 총 가격 계산을 위한 변수
-
-    // 각 아이템의 수량과 가격을 반복하여 총 수량과 총 가격을 계산
-    cartItems.forEach((item) => {
-      const quantityElement = document.querySelector(
-        `.result [data-id="${item.id}"] .quantity`
-      );
-      const quantity = parseInt(quantityElement.textContent);
-      if (!isNaN(quantity)) {
-        totalQuantity += quantity;
-        totalPrice += item.price * quantity;
-      }
-    });
-
-    // 총 수량과 총 가격을 화면에 업데이트
-    document.getElementById('quantity2').textContent = totalQuantity;
-
-    // 총 가격이 NaN이 아니면 그대로 업데이트, NaN이면 0으로 처리
-    if (isFinite(totalPrice)) {
-      // 수정된 부분
-      document.getElementById('total-price').textContent = totalPrice;
-    } else {
-      document.getElementById('total-price').textContent = '0';
-    }
-  }
-
-  sizeSelect.addEventListener('change', function () {
-    checkAndDisplay();
-    updateTotal(); // 사이즈 변경 시 총 가격 업데이트
+  prod.map((product) => {
+    $result.innerHTML += `
+      <ul id="${product.id}">
+        <li>
+            <div>
+                <p class="titleName">${product.name}</p>
+                <span class="colorSize">- ${product.color} / ${product.size}</span>
+            </div>
+        </li>
+        <li>
+            <div class="result-wrap">
+                <p class="quantity">${product.count}</p><a id="increase">+</a><a id="decrease">-</a>
+            </div>
+        </li>
+        <li>
+            <div class="result-number">${(product.price * product.count).toLocaleString()} ₩</div>
+        </li>
+        <li>
+            <div>
+                <a class="delete-item">X</a>
+            </div>
+        </li>
+    </ul>
+      `;
   });
-
-  const addToCartBtn = document.querySelector('.add-product-btn');
-
-  addToCartBtn.addEventListener('click', function () {
-    const itemName = document.querySelector('.title-product b').textContent;
-    const itemPriceElement = document.querySelector(
-      '.detail-txt ul li:first-child span'
-    );
-    const itemPrice = parseInt(
-      itemPriceElement.textContent.replace('₩', '').replace(',', '')
-    );
-    const color = colorSelect.value;
-    const size = sizeSelect.value;
-    addToCart(itemName, itemPrice, color, size);
-    updateTotal(); // 장바구니에 아이템을 추가한 후 총 가격 업데이트
-  });
-
-  // 각 아이템에 대한 이벤트 리스너 추가
-  document.querySelectorAll('.result').forEach((item) => {
-    item.addEventListener('click', function (event) {
-      const target = event.target;
-      const listItem = target.closest('ul');
-      const itemId = parseInt(listItem.dataset.id);
-
-      if (target.classList.contains('increase')) {
-        // + 버튼 클릭 시
-        const quantityElement = listItem.querySelector('.quantity');
-        let currentQuantity = parseInt(quantityElement.textContent);
-        const newQuantity = currentQuantity + 1;
-        quantityElement.textContent = newQuantity;
-
-        // 해당 아이템의 가격 업데이트
-        const itemPriceElement = listItem.querySelector('.result-number');
-        const itemIndex = cartItems.findIndex((item) => item.id === itemId);
-        if (itemIndex !== -1) {
-          const item = cartItems[itemIndex];
-          itemPriceElement.textContent = (
-            item.price * newQuantity
-          ).toLocaleString();
-        }
-
-        // 총 가격 업데이트
-        updateTotal();
-      } else if (target.classList.contains('decrease')) {
-        // - 버튼 클릭 시
-        const quantityElement = listItem.querySelector('.quantity');
-        let currentQuantity = parseInt(quantityElement.textContent);
-        if (currentQuantity > 1) {
-          const newQuantity = currentQuantity - 1;
-          quantityElement.textContent = newQuantity;
-
-          // 해당 아이템의 가격 업데이트
-          const itemPriceElement = listItem.querySelector('.result-number');
-          const itemIndex = cartItems.findIndex((item) => item.id === itemId);
-          if (itemIndex !== -1) {
-            const item = cartItems[itemIndex];
-            itemPriceElement.textContent = (
-              item.price * newQuantity
-            ).toLocaleString();
-          }
-
-          // 총 가격 업데이트
-          updateTotal();
-        }
-      } else if (target.classList.contains('delete-item')) {
-        // X 버튼 클릭 시
-        listItem.remove();
-        removeFromCart(itemId);
-
-        // 장바구니가 비었을 때의 처리
-        if (cartItems.length === 0) {
-          cartItemListElement.innerHTML =
-            '<p class="no-cart">장바구니가 비었습니다</p>';
-        }
-
-        // 장바구니 아이템을 제거한 후 총 가격 업데이트
-        updateTotal();
-      }
-    });
-  });
-
-  function checkAndDisplay() {
-    const colorValue = colorSelect.value;
-    const sizeValue = sizeSelect.value;
-
-    if (colorValue !== '' && sizeValue !== '') {
-      alert('값을 선택했네요');
-    } else {
-      alert('값을 선택안했네요');
-    }
-  }
 };
