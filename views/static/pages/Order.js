@@ -52,7 +52,7 @@ export default class extends AbstractView {
                 <td>39,000원(1개)</td>
                 <td>
                   <div>
-                    <a class="delivery-btn delivery-reject">환불완료</a>
+                    <a class="delivery-btn-status delivery-reject">환불완료</a>
                   </div>
                 </td>
               </tr>
@@ -74,7 +74,7 @@ export default class extends AbstractView {
                 <td>39,000원(1개)</td>
                 <td>
                   <div>
-                    <a class="delivery-btn delivery-success">배송완료</a>
+                    <a class="delivery-btn-status delivery-success">배송완료</a>
                   </div>
                 </td>
               </tr>
@@ -96,7 +96,7 @@ export default class extends AbstractView {
                 <td>39,000원(1개)</td>
                 <td>
                   <div>
-                    <a class="delivery-btn delivery-reject">환불완료</a>
+                    <a class="delivery-btn-status delivery-reject">환불완료</a>
                   </div>
                 </td>
               </tr>
@@ -118,7 +118,7 @@ export default class extends AbstractView {
                 <td>39,000원(1개)</td>
                 <td>
                   <div>
-                    <a class="delivery-btn delivery-success">배송완료</a>
+                    <a class="delivery-btn-status delivery-success">배송완료</a>
                   </div>
                 </td>
               </tr>
@@ -140,7 +140,7 @@ export default class extends AbstractView {
                 <td>39,000원(1개)</td>
                 <td>
                   <div>
-                    <a class="delivery-btn delivery-reject">환불완료</a>
+                    <a class="delivery-btn-status delivery-reject">환불완료</a>
                   </div>
                 </td>
               </tr>
@@ -162,7 +162,7 @@ export default class extends AbstractView {
                 <td>39,000원(1개)</td>
                 <td>
                   <div>
-                    <a class="delivery-btn delivery-success">배송완료</a>
+                    <a class="delivery-btn-status delivery-success">배송완료</a>
                   </div>
                 </td>
               </tr>

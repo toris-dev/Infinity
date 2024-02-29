@@ -3,8 +3,14 @@ const ObjectId = require('mongodb').ObjectId;
 
 const { Product } = require('../models/index');
 const asyncHandler = require('../utils/async-handler');
+const { NotFoundError } = require('../middlewares/error-handler');
 
 const router = express.Router();
+// const pipeline = [ { '$match': { 'fullDocument.prodRemains': 0 } } ];
+// const changeStream = Product.watch(pipeline);
+// changeStream.on("change", (data)=> {
+//   console.log(data)
+// })
 
 // 상품 단일 조회 API
 router.get(
@@ -14,7 +20,7 @@ router.get(
     const prodObjectId = new ObjectId(prodNum);
     const product = await Product.findOne({ _id: prodObjectId });
     if (!product) {
-      throw new Error('상품을 찾을 수 없습니다.');
+      throw new NotFoundError('상품');
     }
     res.json(product);
   })
@@ -24,10 +30,10 @@ router.get(
 router.get(
   '/list',
   asyncHandler(async (req, res) => {
-    const count = req.count || 1;
+    const count = req.query.count || 1;
     const product = await Product.find({}).sort({_id: -1}).skip(12*(count-1)).limit(12);
     if (!product) {
-      throw new Error('상품을 찾을 수 없습니다.');
+      throw new NotFoundError('상품');
     }
     res.json(product);
   })

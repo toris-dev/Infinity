@@ -2,17 +2,26 @@ const express = require('express');
 const router = express.Router();
 
 const { User } = require('../models');
-const { NotFoundError, AuthError, DuplicateError } = require('../middlewares/error-handler')
+const {
+  NotFoundError,
+  AuthError,
+  DuplicateError
+} = require('../middlewares/error-handler');
 
 const asyncHandler = require('../utils/async-handler');
 const getUserFromJWT = require('../middlewares/get-user-from-jwt');
+
+// 사용자 ID를 가져오는 API
+router.get('/getUserId', getUserFromJWT, (req, res) => {
+  const userId = req.user.id;
+  res.json({ userId });
+});
 
 //회원 정보 조회
 router.get(
   '/',
   getUserFromJWT,
   asyncHandler(async (req, res) => {
-
     const { id } = req.query;
     const user = await User.findOne({ id });
 
@@ -49,7 +58,7 @@ router.post(
     } = req.body;
 
     let useYn, regDate;
-    //DB 중복 체크, 중첩 상태 확인?? (아이디, 이메일, 핸드폰 번호)
+
     const idFounded = await User.find({ id });
     const emailFounded = await User.find({ email });
     const phoneNumFounded = await User.find({ phoneNum });
@@ -132,20 +141,20 @@ router.delete(
     let { useYn } = userFounded;
 
     //회원이 없는 경우, 이미 탈퇴한 경우
-    if(!userFounded || useYn) {
-      throw new NotFoundError(`${ id }`);
-    } 
+    if (!userFounded || useYn) {
+      throw new NotFoundError(`${id}`);
+    }
     const ID = userFounded.id;
     //로그인 본인이 아닌 경우
     if (req.user.id !== ID) {
       throw new AuthError();
-    }  
-    
+    }
+
     await User.updateOne({ id }, { useYn: Date.now() + 9 * 60 * 60 * 1000 });
     const user = await User.findOne({ id });
 
     //탈퇴처리 된 시간을 응답
-    res.json({"탈퇴 시간": user.useYn});
+    res.json({ '탈퇴 시간': user.useYn });
   })
 );
 

@@ -1,58 +1,86 @@
+import { BASE_URI } from '../js/constant/url.js';
 import AbstractView from './AbstractView.js';
 
 export default class extends AbstractView {
   constructor(params) {
     super(params);
+    console.log(this.params);
     this.setTitle('Product');
   }
 
+  getCss() {
+    return './static/css/product.css';
+  }
+
+  getJs() {
+    return './static/js/product.js';
+  }
+
   async getHtml() {
+    const res = await fetch(
+      `${BASE_URI}/api/product?prodNum=${this.params.prodId}`,
+      {
+        method: 'GET'
+      }
+    );
+    const prodData = await res.json();
+    console.log(prodData);
+    // 재고(prodRemains), 상품판매(prodCount)도 생각해야함
+    const swiperImage = prodData.prodImgs
+      .map((imgSrc) => {
+        return `<div class="swiper-slide">
+                    <img src="${imgSrc}"/>
+                </div>`;
+      })
+      .join('');
+    const selectColorInput = `<option>${prodData.prodColor}</option>`;
+    //   .map((prod, index) => {
+    //     if (index === 0) {
+    //       return `<option selected>${prod.prodColor}</option>`;
+    //     }
+    //     return `<option value="${prod.prodColor}">${prod.prodColor}</option>`;
+    //   })
+    //   .join('');
+
+    const selectSizeInput = `<option>${prodData.prodSize}</option>`;
+    //   .map((prod, index) => {
+    //     if (index === 0) {
+    //       return `<option selected>${prod.prodSize}</option>`;
+    //     }
+    //     return `<option value="${prod.prodSize}">${prod.prodSize}</option>`;
+    //   })
+    //   .join('');
+
+    const prodImage = prodData.prodImgs
+      .map((imgSrc) => {
+        return `<img src="${imgSrc}">`;
+      })
+      .join('');
+    console.log(prodImage);
     return `
     <div class="detail-product">
         <div class="leftside-area">
             <div class="swiper mySwiper2 detail1">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                    <img src="/static/images/testimage.jpeg" />
-                    </div>
-                    <div class="swiper-slide">
-                    <img src="/static/images/testimage.jpeg" />
-                    </div>
-                    <div class="swiper-slide">
-                    <img src="/static/images/testimage2.jpeg" />
-                    </div>
-                    <div class="swiper-slide">
-                    <img src="/static/images/testimage2.jpeg" />
-                    </div>
+                    ${swiperImage}
                 </div>
                 </div>
                 <div thumbsSlider="" class="swiper mySwiper detail2">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                    <img src="/static/images/testimage.jpeg" />
-                    </div>
-                    <div class="swiper-slide">
-                    <img src="/static/images/testimage.jpeg" />
-                    </div>
-                    <div class="swiper-slide">
-                    <img src="/static/images/testimage2.jpeg" />
-                    </div>
-                    <div class="swiper-slide">
-                    <img src="/static/images/testimage2.jpeg" />
-                    </div>
+                    ${swiperImage}
                 </div>
             </div>
         </div>
         <div class="rightside-area">
             <div class="title-product">
-                <h4><b>[자체 제작] 인피니티 에센셜 스웻 팬츠</b></h4>
+                <h4><b id="titleName">${prodData.prodName}</b></h4>
             </div>
             <div class="detail-txt">
                 <ul>
                     <li>
                         <div>
                             <p>Price</p>
-                            <span>₩36,000</span>
+                            <span class="price">${prodData.prodCost}</span>
                         </div>
                     </li>
                     <li>
@@ -61,11 +89,7 @@ export default class extends AbstractView {
                             <span>
                                 <i>only infinity</i>
                                 <br/>
-                                두 가지 기장감으로 출시<br/>
-                                딥하게 잡힌 원 핀턱 디테일<br/>
-                                데일리한 6가지 컬러 구성<br/>
-                                체형에 큰 구애 없이 편하게 착용 가능<br/>
-                                여러번의 핏 수정을 통한 최적의 일자 와이드핏
+                                ${prodData.prodContent}
                                 <br/><br/>
                                 <i>
                                     오직 infinity에서만 만나보실 수 있습니다.<br/>
@@ -76,14 +100,14 @@ export default class extends AbstractView {
                     </li>
                     <li>
                         <div>
-                            <p>6color</p>
-                            <span>gray / deep green / cocoa / black / white / indi pink</span>
+                            <p>color</p>
+                            <span>${prodData.prodColor}</span>
                         </div>
                     </li>
                     <li>
                         <div>
                             <p>fabric</p>
-                            <span>cotton 100</span>
+                            <span>${prodData.prodSize}</span>
                         </div>
                     </li>
                     <li>
@@ -101,65 +125,35 @@ export default class extends AbstractView {
                 <div>
                     <p>color</p>
                     <div class="select">
-                        <select>
-                            <option selected>color</option>
-                            <option>그레이</option>
-                            <option>딥그린</option>
-                            <option>코코아</option>
-                            <option>블랙</option>
-                            <option>화이트</option>
-                            <option>인디핑크</option>
+                        <select id="clothColor">
+                            <option selected>선택해주세요</option>
+                            ${selectColorInput}
                         </select>
                     </div>
                 </div>
                 <div>
                     <p>size</p>
                     <div class="select">
-                        <select>
-                            <option selected>size</option>
-                            <option>롱기장</option>
-                            <option>기본기장</option>
+                        <select id="clothSize">
+                            <option selected>선택해주세요</option>
+                            ${selectSizeInput}
                         </select>
                     </div>
                 </div>
             </div>
 
-            <div class="result" style="display: none;">
-                <ul>
-                    <li>
-                        <div>
-                            <p>[자체 제작]인피니티 에센셜 스웻 팬츠</p>
-                            <span>- 딥그린 / 롱기장</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="result-wrap">
-                            <p>1</p><a>+</a><a>-</a>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="result-number">
-                            ₩36,000
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <a>X</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            <div class="result"></div>
 
             <div class="total-amount">
                 <ul>
                     <li>
                         <div>
-                            <p><b>Total</b>(Qty) : <b>0</b> (0개)</p>
+                            <p><b>Total</b>(Qty) : <b id="total-price">0</b>₩ (<span id="quantity2">0</span>개)</p>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <a class="get-product-btn">Buy Now</a>
+                            <a href="/payment" class="get-product-btn" data-link>Buy Now</a>
                             <a class="add-product-btn">Add to Cart</a>
                         </div>
                     </li>
@@ -170,8 +164,7 @@ export default class extends AbstractView {
 
     <div class="img-section">
         <div>
-            <img src="/static/images/포스터.png">
-            <img src="/static/images/test2.png">
+        ${prodImage}
         </div>
     </div>
 
