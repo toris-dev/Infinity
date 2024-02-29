@@ -38,7 +38,7 @@ export const routes = [
   { Path: '/orderCompleted', View: OrderCompleted, Script: orderCompleted },
   { Path: '/error', View: ErrorPage, Script: errorFnc },
   { Path: '/mypage', View: Mypage, Script: mypage },
-  { Path: '/payment', View: Payment, Script: payment },
+  { Path: '/payment/:orderNum', View: Payment, Script: payment },
 
   { Path: '/mypageEdit', View: MypageEdit, Script: mypageEdit }
 ];
