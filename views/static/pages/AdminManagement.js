@@ -1,24 +1,13 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../css/adminManagement.css" />
-    <title>관리자 주문관리</title>
-  </head>
-  <body>
+import AbstractView from './AbstractView.js';
+
+export default class extends AbstractView {
+  constructor(params) {
+    super(params);
+    this.setTitle('관리자페이지');
+  }
+
+  async getHtml() {
+    return `
     <div class="columns">
       <aside class="column is-2 aside hero is-fullheight">
         <div>
@@ -325,5 +314,6 @@
         </div>
       </div>
     </div>
-  </body>
-</html>
+        `;
+  }
+}
