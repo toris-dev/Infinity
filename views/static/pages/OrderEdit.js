@@ -1,4 +1,5 @@
 import AbstractView from './AbstractView.js';
+import { BASE_URI } from '../js/constant/url.js';
 
 export default class extends AbstractView {
   constructor(params) {
@@ -7,6 +8,11 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
+    const res = await fetch(`${BASE_URI}/api/payments?${this.params.orderNum}`, {
+        method: 'GET'
+      });
+      const targetOrder = await res.json();
+
     return `
     <div class="titleArea">
         <h2>주문내역수정</h2>
@@ -51,8 +57,8 @@ export default class extends AbstractView {
                 </li>
                 <li class="order__item delivery__item__info">
                     <span class="order__item__label">주소</span>
-                    <div class="order__item__area" id="delivery-zipcode">(01234)</div>
-                    <div class="order__item__area" id="delivery-addr">서울특별시 강남구 성수동 엘리스 1004호</div>
+                    <div class="order__item__area" id="delivery-zipcode">${targetOrder.orderZipCode}</div>
+                    <div class="order__item__area" id="delivery-addr">${targetOrder.orderAddredd}</div>
                     <button type="button" class="order__button" id="find-address" >배송지 변경</button>
                 </li> 
                 <li class="order__item order__item--overflow delivery__item__info">
