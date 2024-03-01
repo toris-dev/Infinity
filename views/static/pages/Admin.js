@@ -17,31 +17,31 @@ export default class extends AbstractView {
             </a>
           </div>
           <div class="main">
-            <a href="#" class="item active">
+            <a href="#" class="item active" data-link>
               <span class="icon">
                 <i class="fa fa-home fa-fw"></i>
               </span>
               <span class="name">General</span>
             </a>
-            <a href="#" class="item">
+            <a href="#" class="item" data-link>
               <span class="icon">
                 <i class="fa fa-star"></i>
               </span>
               <span class="name">Sales History</span>
             </a>
-            <a href="#" class="item">
+            <a href="#" class="item" data-link>
               <span class="icon">
                 <i class="fa fa-envelope-o"></i>
               </span>
               <span class="name">Category</span>
             </a>
-            <a href="#" class="item">
+            <a href="#" class="item" data-link>
               <span class="icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="name">Product</span>
             </a>
-            <a href="#" class="item">
+            <a href="#" class="item" data-link>
               <span class="icon">
                 <i class="fa fa-inbox"></i>
               </span>
@@ -169,17 +169,17 @@ export default class extends AbstractView {
             </tbody>
           </table>
           <div class="change">
-            <a href="#" class="applyChange">변경사항 적용</a>
-            <a href="#" class="cancel">취소</a>
+            <a href="#" class="applyChange" data-link>변경사항 적용</a>
+            <a href="#" class="cancel" data-link>취소</a>
           </div>
           <div class="paging">
             <a class="backPage" href="#">＜</a>
-            <a href="#" class="currentPage">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a class="nextPage" href="#">＞</a>
+            <a href="#" class="currentPage" data-link>1</a>
+            <a href="#" data-link>2</a>
+            <a href="#" data-link>3</a>
+            <a href="#" data-link>4</a>
+            <a href="#" data-link>5</a>
+            <a class="nextPage" href="#" data-link>＞</a>
           </div>
         </div>
       </div>

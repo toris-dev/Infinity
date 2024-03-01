@@ -53,31 +53,31 @@ export default class extends AbstractView {
     </a>
     </div>
     <div class="main">
-    <a href="#" class="item active">
+    <a href="#" class="item active" data-link>
     <span class="icon">
     <i class="fa fa-home fa-fw"></i>
     </span>
     <span class="name">General</span>
     </a>
-    <a href="#" class="item">
+    <a href="#" class="item" data-link>
     <span class="icon">
     <i class="fa fa-star"></i>
     </span>
     <span class="name">Sales History</span>
     </a>
-    <a href="#" class="item">
+    <a href="#" class="item" data-link>
     <span class="icon">
     <i class="fa fa-envelope-o"></i>
     </span>
     <span class="name">Category</span>
     </a>
-    <a href="#" class="item">
+    <a href="#" class="item" data-link>
     <span class="icon">
     <i class="fa fa-folder-o"></i>
     </span>
     <span class="name">Product</span>
     </a>
-    <a href="#" class="item">
+    <a href="#" class="item" data-link>
     <span class="icon">
     <i class="fa fa-inbox"></i>
     </span>
