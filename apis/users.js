@@ -15,6 +15,7 @@ const asyncHandler = require('../utils/async-handler');
 // 사용자 ID를 가져오는 API
 router.get('/getUserId', getUserFromJWT, (req, res) => {
   const userId = req.user.id;
+  console.log(userId.userId)
   res.json({ userId });
 });
 
@@ -37,12 +38,6 @@ router.get(
         throw new AuthError('권한이 없습니다.');
       }
     }
-    user.detailAddress = cryptoJS.enc.Base64.parse(user.detailAddress).toString(
-      cryptoJS.enc.Utf8
-    );
-    user.phoneNum = cryptoJS.enc.Base64.parse(user.phoneNum).toString(
-      cryptoJS.enc.Utf8
-    );
 
     res.json(user);
   })

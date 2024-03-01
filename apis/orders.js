@@ -34,14 +34,6 @@ router.get(
       throw new NotFoundError('주문내역');
     }
 
-    for (order of orders) {
-      order.orderDetailAddress = cryptoJS.enc.Base64.parse(
-        order.orderDetailAddress
-      ).toString(cryptoJS.enc.Utf8);
-      order.orderPhoneNum = cryptoJS.enc.Base64.parse(
-        order.orderPhoneNum
-      ).toString(cryptoJS.enc.Utf8);
-    }
     res.json(orders);
   })
 );
