@@ -37,13 +37,13 @@ export default class extends AbstractView {
                             <span class="dash">-</span>
                             <input type="tel"
                                 placeholder="1234"
-                                maxlength="3" 
+                                maxlength="4" 
                                 class="phone2"
                             />
                             <span class="dash">-</span>
                             <input type="tel"
                                 placeholder="5678"
-                                maxlength="3" 
+                                maxlength="4" 
                                 class="phone3"
                             />
                         </ul>
@@ -51,7 +51,8 @@ export default class extends AbstractView {
                 </li>
                 <li class="order__item delivery__item__info">
                     <span class="order__item__label">주소</span>
-                    <div class="order__item__area" id="delivery-addr">(01234) 서울특별시 강남구 성수동 엘리스 1004호</div>
+                    <div class="order__item__area" id="delivery-zipcode">(01234)</div>
+                    <div class="order__item__area" id="delivery-addr">서울특별시 강남구 성수동 엘리스 1004호</div>
                     <button type="button" class="order__button" id="find-address" >배송지 변경</button>
                 </li> 
                 <li class="order__item order__item--overflow delivery__item__info">
