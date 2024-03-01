@@ -33,6 +33,7 @@ import Admin from '../static/pages/Admin.js';
 import AdminManagement from '../static/pages/AdminManagement.js';
 import AdminSetting from '../static/pages/AdminSetting.js';
 import AdminCategory from '../static/pages/AdminCategory.js';
+import AdminProductList from '../static/pages/AdminProductList.js';
 
 export const routes = [
   { Path: '/', View: Home, Script: home },
@@ -59,5 +60,10 @@ export const routes = [
     Script: adminManagement
   },
   { Path: '/admin/adminSetting', View: AdminSetting, Script: adminSetting },
-  { Path: '/admin/adminCategory', View: AdminCategory, Script: adminCategory }
+  { Path: '/admin/adminCategory', View: AdminCategory, Script: adminCategory },
+  {
+    Path: '/admin/adminProductList',
+    View: AdminProductList,
+    Script: adminProductList
+  }
 ];
