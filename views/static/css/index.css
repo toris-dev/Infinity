@@ -10,6 +10,9 @@
 @import url('/static/css/signup.css');
 @import url('/static/css/mypage.css');
 @import url('/static/css/mypageEdit.css');
+@import url('/static/css/admin.css');
+@import url('/static/css/adminManagement.css');
+@import url('/static/css/adminSetting.css');
 
 @font-face {
   font-family: 'hazel_mp';

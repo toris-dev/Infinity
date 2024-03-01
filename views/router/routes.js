@@ -10,6 +10,9 @@ import { payment } from '../static/js/payment.js';
 import { product } from '../static/js/product.js';
 import { shoppingcartPro } from '../static/js/shoppingcartPro.js';
 import { signup } from '../static/js/signup.js';
+import { admin } from '../static/js/admin.js';
+import { adminManagement } from '../static/js/adminManagement.js';
+import { adminSetting } from '../static/js/adminSetting.js';
 import CategoryProducts from '../static/pages/CategoryProducts.js';
 import ErrorPage from '../static/pages/ErrorPage.js';
 import Home from '../static/pages/Home.js';
@@ -22,6 +25,9 @@ import Payment from '../static/pages/Payment.js';
 import Product from '../static/pages/Product.js';
 import ShoppingcartPro from '../static/pages/ShoppingcartPro.js';
 import Signup from '../static/pages/Signup.js';
+import Admin from '../static/pages/Admin.js';
+import AdminManagement from '../static/pages/AdminManagement.js';
+import AdminSetting from '../static/pages/AdminSetting.js';
 
 export const routes = [
   { Path: '/', View: Home, Script: home },
@@ -39,5 +45,12 @@ export const routes = [
   { Path: '/error', View: ErrorPage, Script: errorFnc },
   { Path: '/mypage', View: Mypage, Script: mypage },
   { Path: '/payment', View: Payment, Script: payment },
-  { Path: '/mypageEdit', View: MypageEdit, Script: mypageEdit }
+  { Path: '/mypageEdit', View: MypageEdit, Script: mypageEdit },
+  { Path: '/admin', View: Admin, Script: admin },
+  {
+    Path: '/admin/adminManagement',
+    View: AdminManagement,
+    Script: adminManagement
+  },
+  { Path: '/admin/adminSetting', View: AdminSetting, Script: adminSetting }
 ];

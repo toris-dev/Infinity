@@ -32,7 +32,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(errorHandler);
 
-app.use('/admin', (req, res) => res.sendFile(path.resolve('admin', 'index.html')));
 app.use('/', (req, res) => res.sendFile(path.resolve('views', 'index.html')));
 
 module.exports = app;
