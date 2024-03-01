@@ -15,6 +15,7 @@ const asyncHandler = require('../utils/async-handler');
 // 사용자 ID를 가져오는 API
 router.get('/getUserId', getUserFromJWT, (req, res) => {
   const userId = req.user.id;
+  console.log(userId.userId)
   res.json({ userId });
 });
 

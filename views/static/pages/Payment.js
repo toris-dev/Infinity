@@ -1,12 +1,40 @@
+import { BASE_URI } from '../js/constant/url.js';
 import AbstractView from './AbstractView.js';
 
 export default class extends AbstractView {
   constructor(params) {
     super(params);
     this.setTitle('Payment');
-  }
-
+  }  
   async getHtml() {
+    const res = await fetch(
+        `${BASE_URI}/api/payments?${this.params.orderNum}`,
+        {
+          method: 'GET'
+        }
+      );
+    const targetOrder = await res.json();
+    
+    // //주문 내 상품 번호 문자열 생성
+    // let orderedProds ='';
+    // for (let i=0; i<targetOrder.orderProds.length; i++) {
+    //     if (i == targetOrder.orderProds.length-1) {
+    //         orderedProds += `${targetOrder.orderProds.orderProdNum}`;
+    //         return;    
+    //     }
+    //     orderedProds += `${targetOrder.orderProds.orderProdNum},`;
+    // }
+    // //상품 상세 정보 요청
+    // const prodRes = await fetch(
+    //     `${BASE_URI}/api/orders/orderProds?orderProds=${orderedProds}`,
+    //     {
+    //       method: 'GET'
+    //     }
+    //   );
+    // const prods = await prodRes.json();
+    
+    // console.log(prods);
+
     return `
     <div class="titleArea">
         <h2>Order / Payment</h2>
@@ -37,15 +65,16 @@ export default class extends AbstractView {
                     <span class="order__item__label">이름 / 연락처</span>
                     <div class="order__item__area">
                         <ul class="order__delivery__user">
-                            <li id="delivery-name">정영준</li>
-                            <li id="delivery-mobile">010-1234-1234</li>
+                            <li id="delivery-name">${targetOrder.orderName}</li>
+                             <li id="delivery-mobile">${targetOrder.orderPhoneNum}</li>
                             <li id="delivery-phone">010-1234-1234</li>
                         </ul>
                     </div>
                 </li>
                 <li class="order__item delivery__item__info">
                     <span class="order__item__label">주소</span>
-                    <div class="order__item__area" id="delivery-addr">(01234) 서울특별시 강남구 성수동 엘리스 1004호</div>
+                    <div class="order__item__area" id="delivery-addr">(${targetOrder.orderZipCode}) ${targetOrder.orderAddress} ${targetOrder.orderDetailAddress
+                    }</div>
                 </li> 
                 <li class="order__item order__item--overflow delivery__item__info">
                     <span class="order__item__label">배송 요청사항</span>
