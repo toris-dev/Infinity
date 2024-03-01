@@ -105,5 +105,6 @@ pm2 로 서버 시작할 경우
 
 ```shell
 npm install -g pm2
+
 npm run deploy
 ```
