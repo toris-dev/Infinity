@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Orders, User } = require('../models');
+const { Orders } = require('../models');
 
 const getUserFromJwt = require('../middlewares/get-user-from-jwt');
 const asyncHandler = require('../utils/async-handler');
@@ -18,7 +18,7 @@ router.get('/', getUserFromJwt, asyncHandler(async (req,res)=> {
     
     const orderInfo = await Orders.findOne({ _id: orderObjectId });
 
-    //주문정보가 없는 경우 not found error 반환
+    //주문정보가 없는 경우 
     if(!orderInfo) {
         throw new NotFoundError('주문정보');
     }
