@@ -3,7 +3,7 @@ import AbstractView from './AbstractView.js';
 export default class extends AbstractView {
   constructor(params) {
     super(params);
-    this.setTitle('Payment');
+    this.setTitle('Order Edit');
   }
 
   async getHtml() {
@@ -18,34 +18,41 @@ export default class extends AbstractView {
         <div>
             <ul class="order-list">
                 <li class="order__item delivery__item__info">
-                    <span class="order__item__label">배송지</span>
+                    <span class="order__item__label">이름</span>
                     <div class="order__item__area">
-                        <ul class="order__delivery__radio-wrap" id="quickDeliveryList">
-                            <li>
-                                <input type="radio" class="n-radio" id="delivery_choice_0" name="delivery_choice" value="" checked="">
-                                <label for="delivery_choice_0">정영준님 배송지</label>
-                            </li>
-                            <li>
-                                <input type="radio" class="n-radio" id="delivery_choice_1" name="delivery_choice" value="">
-                                <label for="delivery_choice_1">정영준님 배송지</label>
-                            </li>
+                        <ul class="order__delivery__user">
+                            <input type="text" id="delivery-name" placeholder="주문자명을 입력해주세요"/>
                         </ul>
-                        <button type="button" class="order__button">배송지 변경</button>
                     </div>
                 </li>
                 <li class="order__item delivery__item__info">
-                    <span class="order__item__label">이름 / 연락처</span>
+                    <span class="order__item__label">연락처</span>
                     <div class="order__item__area">
                         <ul class="order__delivery__user">
-                            <li id="delivery-name">정영준</li>
-                            <li id="delivery-mobile">010-1234-1234</li>
-                            <li id="delivery-phone">010-1234-1234</li>
+                            <input type="tel"
+                                placeholder="010"
+                                maxlength="3" 
+                                class="phone1"
+                            />
+                            <span class="dash">-</span>
+                            <input type="tel"
+                                placeholder="1234"
+                                maxlength="3" 
+                                class="phone2"
+                            />
+                            <span class="dash">-</span>
+                            <input type="tel"
+                                placeholder="5678"
+                                maxlength="3" 
+                                class="phone3"
+                            />
                         </ul>
                     </div>
                 </li>
                 <li class="order__item delivery__item__info">
                     <span class="order__item__label">주소</span>
                     <div class="order__item__area" id="delivery-addr">(01234) 서울특별시 강남구 성수동 엘리스 1004호</div>
+                    <button type="button" class="order__button" id="find-address" >배송지 변경</button>
                 </li> 
                 <li class="order__item order__item--overflow delivery__item__info">
                     <span class="order__item__label">배송 요청사항</span>
