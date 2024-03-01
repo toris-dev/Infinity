@@ -12,7 +12,6 @@ export default class extends AbstractView {
         method: 'GET'
       });
       const targetOrder = await res.json();
-
     return `
     <div class="titleArea">
         <h2>주문내역수정</h2>
@@ -27,7 +26,7 @@ export default class extends AbstractView {
                     <span class="order__item__label">이름</span>
                     <div class="order__item__area">
                         <ul class="order__delivery__user">
-                            <input type="text" id="delivery-name" placeholder="주문자명을 입력해주세요"/>
+                            <input type="text" id="delivery-name" placeholder="주문자명을 입력해주세요" value="${targetOrder.orderName}"/>
                         </ul>
                     </div>
                 </li>
@@ -39,28 +38,36 @@ export default class extends AbstractView {
                                 placeholder="010"
                                 maxlength="3" 
                                 class="phone1"
+                                value="010"
                             />
                             <span class="dash">-</span>
                             <input type="tel"
                                 placeholder="1234"
                                 maxlength="4" 
                                 class="phone2"
+                                value="${targetOrder.orderPhoneNum.substr(3,4)}"
                             />
                             <span class="dash">-</span>
                             <input type="tel"
                                 placeholder="5678"
                                 maxlength="4" 
                                 class="phone3"
+                                value="${targetOrder.orderPhoneNum.substr(7,4)}"
                             />
                         </ul>
                     </div>
                 </li>
                 <li class="order__item delivery__item__info">
                     <span class="order__item__label">주소</span>
-                    <div class="order__item__area" id="delivery-zipcode">${targetOrder.orderZipCode}</div>
-                    <div class="order__item__area" id="delivery-addr">${targetOrder.orderAddredd}</div>
-                    <button type="button" class="order__button" id="find-address" >배송지 변경</button>
+                    <input class="order__item__area" id="sample4_postcode" readonly value="(${targetOrder.orderZipCode})">
+                    <button type="button" class="order__button" id="find-address" >배송지 변경</button>                    
                 </li> 
+                <li class="order__item delivery__item__info">
+                    <span class="order__item__label"></span>
+                    <input width = "200px" id="sample4_roadAddress" readonly value="${targetOrder.orderAddress}">
+                    <span class="dash"></span>
+                    <input type="text" class="order__item__area" value="${targetOrder.orderDetailAddress}" />
+                </li>
                 <li class="order__item order__item--overflow delivery__item__info">
                     <span class="order__item__label">배송 요청사항</span>
                     <div class="order__item__area order__item__area--column">
@@ -156,7 +163,7 @@ export default class extends AbstractView {
             </div>
             
             <div class="center-orderedit">
-                <a href="orderCompleted" data-link>정보수정</a>
+                <button type="submit" id="orderEditLink">정보수정</a>
             </div>
         </div>
     </div>

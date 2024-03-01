@@ -43,5 +43,5 @@ export const routes = [
   { Path: '/payment', View: Payment, Script: payment },
 
   { Path: '/mypageEdit', View: MypageEdit, Script: mypageEdit },
-  { Path: '/orderEdit', View: OrderEdit, Script: orderEdit }
+  { Path: '/orderEdit/:orderNum', View: OrderEdit, Script: orderEdit }
 ];
