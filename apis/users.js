@@ -38,12 +38,6 @@ router.get(
         throw new AuthError('권한이 없습니다.');
       }
     }
-    user.detailAddress = cryptoJS.enc.Base64.parse(user.detailAddress).toString(
-      cryptoJS.enc.Utf8
-    );
-    user.phoneNum = cryptoJS.enc.Base64.parse(user.phoneNum).toString(
-      cryptoJS.enc.Utf8
-    );
 
     res.json(user);
   })
