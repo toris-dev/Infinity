@@ -130,11 +130,12 @@ export const mypageEdit = () => {
         $detailzipcode.value = zipCode;
         $detailaddress.value = address;
         $detailmoreAddress.value = detailAddress;
+
         const token = getCookie('token');
         const response = await fetch(`${BASE_URI}/api/users/${id}`, {
           method: 'PUT',
           body: JSON.stringify({
-            pwd: CryptoJS.SHA256($password.innerHTML).toString(),
+            pwd: CryptoJS.SHA256($password.value).toString(),
             name: $detailName.value,
             email: $detailEmail.value,
             zipCode: $detailzipcode.value,
