@@ -41,7 +41,12 @@ export const login = () => {
         throw new Error('네트워크 응답이 정상이 아닙니다.');
       }
       res.headers.get('Set-Cookie');
-      navigateTo(BASE_URI);
+      const roleId = getCookie('roleId');
+      if (roleId === 'admin') {
+        navigateTo(`${BASE_URI}/admin`);
+      } else {
+        navigateTo(BASE_URI);
+      }
       window.location.reload();
     });
   });

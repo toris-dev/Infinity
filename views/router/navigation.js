@@ -18,19 +18,20 @@ export const rightbar = async () => {
 
   // 중복을 제거한 prodMajorCategory 목록
   const uniqueMajorCategories = Array.from(
-    new Set(categorys.map((category) => category.prodMajorCategory))
+    new Set(
+      categorys.map((category) => [category._id, category.prodMajorCategory])
+    )
   );
 
   // 메뉴 아이템을 담을 변수
   let menuItems = '';
-
   // 각 prodMajorCategory에 대한 메뉴 아이템을 생성
-  uniqueMajorCategories.forEach((majorCategory) => {
+  uniqueMajorCategories.forEach((majorCategory, index) => {
     const category = categorys.find(
-      (category) => category.prodMajorCategory === majorCategory
+      (category) => category.prodMajorCategory === majorCategory[1]
     );
     menuItems += `
-      <li><a href="${BASE_URI}/categorys/${categorysEnum[category.prodMajorCategory]}" data-link>${categorysEnum[category.prodMajorCategory]}</a></li>
+      <li><a href="${BASE_URI}/categorys/${categorysEnum[category.prodMajorCategory]}?prodMajorCategoryId=${majorCategory[0]}" data-link>${categorysEnum[category.prodMajorCategory]}</a></li>
   `;
   });
 

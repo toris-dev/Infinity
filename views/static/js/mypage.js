@@ -113,7 +113,7 @@ export const mypage = () => {
                 <tbody>
                   <tr>
                     <td>
-                      <a href="${BASE_URI}/orders/${order.id}">
+                      <a href="${BASE_URI}/orders/${order.id}" data-link>
                         <button class="${foundIcon.img}"></button>
                       </a> 
                     </td>
