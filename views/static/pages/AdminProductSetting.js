@@ -111,11 +111,15 @@ export default class extends AbstractView {
         <div class="productSetting">
           <div class="addImage">
           <form id="imageForm">
-            <button type="button" class="submit">제출하기</button> </br>
-              <label class="productButton" for="product"
-                >이미지 업로드<br />
-                </label>
+            <div class="imageForm__inner">
+              <div class="imageForm__inner--btn">
+                <button type="button" class="submit">제출하기</button>
+              </div>
+              <div class="imageForm__inner--btn">
+                <label class="productButton" for="product">이미지 업로드</label>
                 <input type="file" id="product" multiple  accept="image/*"/>
+              </div>
+            </div>  
             <form>
             <div id="previewContainer">
               ${imgDiv}

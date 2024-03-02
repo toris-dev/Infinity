@@ -71,7 +71,7 @@ aside {
   height: 800px;
   text-align: center;
   vertical-align: middle;
-  margin-top: 150px;
+  margin-top: 100px;
 }
 .addImage img {
   margin-bottom: 30px;
@@ -81,7 +81,9 @@ aside {
   border-radius: 5px;
   color: #fff;
   cursor: pointer;
+  padding: 8px 14px;
 }
+
 #previewContainer {
   display: flex;
   align-items: center;
@@ -97,14 +99,14 @@ aside {
 }
 
 #product {
-  padding-top: 2rem;
+  display: none;
 }
+
 .submit {
-  margin-bottom: 3rem;
-  width: 20%;
-  height: 5%;
-  background-color: #fd9d9d;
+  background-color: #0078ff;
   border-radius: 10px;
+  padding: 8px 14px;
+  color: #fff;
 }
 .productInformation {
   height: 800px;
@@ -136,4 +138,18 @@ aside {
   border: 1px solid #fff;
   border-radius: 10px;
   margin: 15px 10px 0px 10px;
+}
+
+.imageForm__inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: 100px;
+}
+
+.imageForm__inner--btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

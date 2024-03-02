@@ -151,9 +151,27 @@ body {
 
 .update-href {
   font-size: 10px;
-  width: 20px;
   text-align: center;
+  color: #fff;
 }
+
 .des-more-content {
   width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #000;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.des-more-content:hover {
+  background: #fff;
+}
+
+.des-more-content:hover .update-href {
+  color: #000;
 }
