@@ -1,4 +1,3 @@
-import { navigateTo } from '../../router/index.js';
 import { BASE_URI } from '../js/constant/url.js';
 import AbstractView from './AbstractView.js';
 
@@ -48,8 +47,6 @@ export default class extends AbstractView {
     const urlParams = new URLSearchParams(window.location.search);
     const queryParam = urlParams.get('prodId');
     if (queryParam) {
-      navigateTo(`${BASE_URI}/admin`);
-
       const {
         prodName,
         prodCost,
