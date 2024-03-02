@@ -1,3 +1,4 @@
+import { navigateTo } from '../../router/index.js';
 import { BASE_URI } from './constant/url.js';
 import { getCookie } from './lib/getCookie.js';
 
@@ -55,7 +56,9 @@ export const adminProductSetting = () => {
 
   $prodUpdate.addEventListener('click', async () => {
     const urlParams = new URLSearchParams(location.search);
-    const prodId = urlParams.get('id');
+    const prodId = urlParams.get('prodId');
+    console.log(urlParams);
+    console.log(prodId);
 
     $previewContainer.forEach((imgTag) => {
       const alt = imgTag.alt;
@@ -87,22 +90,26 @@ export const adminProductSetting = () => {
     alert('상품이 수정되었습니다.');
   });
 
-  $prodDelete.addEventListener('click', () => {
+  $prodDelete.addEventListener('click', async () => {
     const urlParams = new URLSearchParams(location.search);
-    const prodId = urlParams.get('id');
+    const prodId = urlParams.get('prodId');
 
-    fetch(`${BASE_URI}/api/admin/products?prodNum=${prodId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
+    const res = await fetch(
+      `${BASE_URI}/api/admin/products?prodNum=${prodId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
       }
-    });
+    );
 
     if (!res.ok) {
       alert('상품이 삭제되지않았습니다.');
       throw new Error('상품이 삭제되지 않았습니다.');
     }
     alert('상품이 삭제되었습니다.');
+    navigateTo(`${BASE_URI}/admin/adminProductList`);
   });
 };
 
