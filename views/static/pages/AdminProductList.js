@@ -29,7 +29,7 @@ export default class extends AbstractView {
           <p class="des-Text">${prod.prodCost.toLocaleString()}원</p>
           </div>
           <div class="des-more-content">
-            <a href="${BASE_URI}/admin/adminProductSetting?prodId=${prod._id}" data-link class="update-href">수정하기</a>
+            <a href="/admin/adminProductSetting?prodId=${prod._id}" data-link class="update-href">수정하기</a>
           </div>
           </div>
           <div>
