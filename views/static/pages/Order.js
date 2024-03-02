@@ -83,7 +83,7 @@ export default class extends AbstractView {
           <td>${orderProdData.prodCost}원(${orderSum}개)</td>
           <td>
             <div>
-              <a class="delivery-btn-status ${orderStatusClass}" href="http://localhost/payment/orderNum=${orderNumId}">${order.orderState}</a>
+              <a class="delivery-btn-status ${orderStatusClass}" href="http://${BASE_URI}/payment/orderNum=${orderNumId}">${order.orderState}</a>
             </div>
           </td>
         </tr>
