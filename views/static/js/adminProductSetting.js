@@ -1,6 +1,9 @@
 import { BASE_URI } from './constant/url.js';
+import { getCookie } from './lib/getCookie.js';
 
 export const adminProductSetting = () => {
+  const cookie = getCookie('roleId');
+
   const $productInput = document.getElementById('product');
   const $submit = document.querySelector('.submit');
   const $previewContainer = document.querySelectorAll('#previewContainer img');

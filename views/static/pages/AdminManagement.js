@@ -1,15 +1,15 @@
-import AbstractView from './AbstractView.js';
 import { getCookie } from '../js/lib/getCookie.js';
+import AbstractView from './AbstractView.js';
 
 export default class extends AbstractView {
   constructor(params) {
     super(params);
-    this.setTitle('관리자페이지');
+    this.setTitle('주문관리');
     this.ordersData = []; // 전체 주문 데이터 배열
   }
 
   async getHtml() {
-    await this.fetchOrdersData(); // 전체 주문 데이터 가져오기
+    await this.fetchOrdersData();
 
     // 주문 데이터를 표시하는 HTML 생성
     const ordersHtml = this.ordersData
@@ -41,35 +41,29 @@ export default class extends AbstractView {
               </a>
             </div>
             <div class="main">
-              <a href="#" class="item active" data-link>
-                <span class="icon">
-                  <i class="fa fa-home fa-fw"></i>
-                </span>
-                <span class="name">General</span>
-              </a>
-              <a href="#" class="item" data-link>
+              <a href="/admin" class="item" data-link>
                 <span class="icon">
                   <i class="fa fa-star"></i>
                 </span>
-                <span class="name">Sales History</span>
+                <span class="name">사용자 판매내역</span>
               </a>
-              <a href="#" class="item" data-link>
+              <a href="/admin/adminCategory" class="item" data-link>
                 <span class="icon">
                   <i class="fa fa-envelope-o"></i>
                 </span>
-                <span class="name">Category</span>
+                <span class="name">카테고리</span>
               </a>
-              <a href="#" class="item" data-link>
+              <a href="/admin/adminProductList" class="item" data-link>
                 <span class="icon">
                   <i class="fa fa-folder-o"></i>
                 </span>
-                <span class="name">Product</span>
+                <span class="name">상품</span>
               </a>
-              <a href="#" class="item" data-link>
+              <a href="/admin/adminManagement" class="item" data-link>
                 <span class="icon">
                   <i class="fa fa-inbox"></i>
                 </span>
-                <span class="name">Order</span>
+                <span class="name">주문관리</span>
               </a>
             </div>
           </div>

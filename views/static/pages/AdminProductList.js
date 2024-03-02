@@ -47,46 +47,41 @@ export default class extends AbstractView {
     return `
     <div class="columns">
     <aside class="column is-2 aside hero is-fullheight">
+    <!-- 사이드 바 내용 -->
     <div>
-    <div class="compose has-text-centered">
-    <a class="button is-danger is-block is-bold">
-    <span class="compose">Infinity</span>
-    </a>
+      <div class="compose has-text-centered">
+        <a class="button is-danger is-block is-bold">
+          <span class="compose">Infinity</span>
+        </a>
+      </div>
+      <div class="main">
+        <a href="/admin" class="item" data-link>
+          <span class="icon">
+            <i class="fa fa-star"></i>
+          </span>
+          <span class="name">사용자 판매내역</span>
+        </a>
+        <a href="/admin/adminCategory" class="item" data-link>
+          <span class="icon">
+            <i class="fa fa-envelope-o"></i>
+          </span>
+          <span class="name">카테고리</span>
+        </a>
+        <a href="/admin/adminProductList" class="item" data-link>
+          <span class="icon">
+            <i class="fa fa-folder-o"></i>
+          </span>
+          <span class="name">상품</span>
+        </a>
+        <a href="/admin/adminManagement" class="item" data-link>
+          <span class="icon">
+            <i class="fa fa-inbox"></i>
+          </span>
+          <span class="name">주문관리</span>
+        </a>
+      </div>
     </div>
-    <div class="main">
-    <a href="/admin" class="item active" data-link >
-    <span class="icon">
-    <i class="fa fa-home fa-fw"></i>
-    </span>
-    <span class="name">General</span>
-    </a>
-    <a href="#" class="item" data-link>
-    <span class="icon">
-    <i class="fa fa-star"></i>
-    </span>
-    <span class="name">Sales History</span>
-    </a>
-    <a href="#" class="item" data-link>
-    <span class="icon">
-    <i class="fa fa-envelope-o"></i>
-    </span>
-    <span class="name">Category</span>
-    </a>
-    <a href="#" class="item" data-link>
-    <span class="icon">
-    <i class="fa fa-folder-o"></i>
-    </span>
-    <span class="name">Product</span>
-    </a>
-    <a href="#" class="item" data-link>
-    <span class="icon">
-    <i class="fa fa-inbox"></i>
-    </span>
-    <span class="name">Order</span>
-    </a>
-    </div>
-    </div>
-    </aside>
+  </aside>
     <div class="flexbox-Container">
     
       ${productsElements}

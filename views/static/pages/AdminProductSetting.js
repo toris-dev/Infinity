@@ -5,7 +5,7 @@ import AbstractView from './AbstractView.js';
 export default class extends AbstractView {
   constructor(params) {
     super(params);
-    this.setTitle('관리자페이지');
+    this.setTitle('상품 수정');
   }
 
   loadProduct = async (param) => {
@@ -67,52 +67,47 @@ export default class extends AbstractView {
     } = await this.loadProduct('65e07f03a552da5d179fa0ad');
     const imgDiv = prodImgs
       .map((src) => {
-        return `<img src="${src}" alt="${src}" />`;
+        return `<img src="${src}" class="prodImgs" alt="${src}" />`;
       })
       .join('');
     return `
     <div class="columns">
-        <aside class="column is-2 aside hero is-fullheight">
-          <div>
-            <div class="compose has-text-centered">
-              <a class="button is-danger is-block is-bold">
-                <span class="compose">Infinity</span>
-              </a>
-            </div>
-            <div class="main">
-              <a href="#" class="item active" data-link>
-                <span class="icon">
-                  <i class="fa fa-home fa-fw"></i>
-                </span>
-                <span class="name">General</span>
-              </a>
-              <a href="#" class="item" data-link>
-                <span class="icon">
-                  <i class="fa fa-star"></i>
-                </span>
-                <span class="name">Sales History</span>
-              </a>
-              <a href="#" class="item" data-link>
-                <span class="icon">
-                  <i class="fa fa-envelope-o"></i>
-                </span>
-                <span class="name">Category</span>
-              </a>
-              <a href="#" class="item" data-link>
-                <span class="icon">
-                  <i class="fa fa-folder-o"></i>
-                </span>
-                <span class="name">Product</span>
-              </a>
-              <a href="#" class="item" data-link>
-                <span class="icon">
-                  <i class="fa fa-inbox"></i>
-                </span>
-                <span class="name">Order</span>
-              </a>
-            </div>
-          </div>
-        </aside>
+    <aside class="column is-2 aside hero is-fullheight">
+    <!-- 사이드 바 내용 -->
+    <div>
+      <div class="compose has-text-centered">
+        <a class="button is-danger is-block is-bold">
+          <span class="compose">Infinity</span>
+        </a>
+      </div>
+      <div class="main">
+        <a href="/admin" class="item" data-link>
+          <span class="icon">
+            <i class="fa fa-star"></i>
+          </span>
+          <span class="name">사용자 판매내역</span>
+        </a>
+        <a href="/admin/adminCategory" class="item" data-link>
+          <span class="icon">
+            <i class="fa fa-envelope-o"></i>
+          </span>
+          <span class="name">카테고리</span>
+        </a>
+        <a href="/admin/adminProductList" class="item" data-link>
+          <span class="icon">
+            <i class="fa fa-folder-o"></i>
+          </span>
+          <span class="name">상품</span>
+        </a>
+        <a href="/admin/adminManagement" class="item" data-link>
+          <span class="icon">
+            <i class="fa fa-inbox"></i>
+          </span>
+          <span class="name">주문관리</span>
+        </a>
+      </div>
+    </div>
+  </aside>
         <div class="productSetting">
           <div class="addImage">
           <form id="imageForm">
