@@ -47,6 +47,7 @@ export default class extends AbstractView {
         new Date(order.orderDate)
       );
 
+      let prodSum=0;
       orderProdData.forEach((product) => {
         productInfo += `
           <div class="product-info">
@@ -60,6 +61,7 @@ export default class extends AbstractView {
             </div>
           </div>
         `;
+        prodSum += product.prodCost;
       });
 
       // 주문 상태에 따라 다른 클래스를 추가하는 조건문
@@ -80,10 +82,10 @@ export default class extends AbstractView {
           </td>
           <td>${$orderDate}</td>
           <td>${orderDetailAddress}</td>
-          <td>${orderProdData.prodCost}원(${orderSum}개)</td>
+          <td>${prodSum}원(${orderSum}개)</td>
           <td>
             <div>
-              <a class="delivery-btn-status ${orderStatusClass}" href="http://localhost/payment/orderNum=${orderNumId}">${order.orderState}</a>
+              <a class="delivery-btn-status ${orderStatusClass}" href="http://${BASE_URI}/payment/orderNum=${orderNumId}">${order.orderState}</a>
             </div>
           </td>
         </tr>
