@@ -1,4 +1,4 @@
-.center-orderedit a {
+.center-orderedit button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -14,3 +14,4 @@
   color: #fff;
   font-weight: bold;
 }
+

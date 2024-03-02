@@ -53,22 +53,5 @@ export const routes = [
   { Path: '/mypage', View: Mypage, Script: mypage },
   { Path: '/payment', View: Payment, Script: payment },
   { Path: '/mypageEdit', View: MypageEdit, Script: mypageEdit },
-  { Path: '/orderEdit', View: OrderEdit, Script: orderEdit },
-  { Path: '/admin', View: Admin, Script: admin },
-  {
-    Path: '/admin/adminManagement',
-    View: AdminManagement,
-    Script: adminManagement
-  },
-  {
-    Path: '/admin/adminProductSetting',
-    View: AdminProductSetting,
-    Script: adminProductSetting
-  },
-  { Path: '/admin/adminCategory', View: AdminCategory, Script: adminCategory },
-  {
-    Path: '/admin/adminProductList',
-    View: AdminProductList,
-    Script: adminProductList
-  }
+  { Path: '/orderEdit/:orderNum', View: OrderEdit, Script: orderEdit }
 ];
