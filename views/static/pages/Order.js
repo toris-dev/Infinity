@@ -64,8 +64,11 @@ export default class extends AbstractView {
 
       // 주문 상태에 따라 다른 클래스를 추가하는 조건문
       let orderStatusClass = '';
+      let orderNum = order._id;
+      let orderNumId
       if (order.orderState === '처리전') {
         orderStatusClass = 'delivery-reject';
+        orderNumId = `${orderNum}`;
       } else {
         orderStatusClass = 'delivery-success';
       }
@@ -80,7 +83,7 @@ export default class extends AbstractView {
           <td>${orderProdData.prodCost}원(${orderSum}개)</td>
           <td>
             <div>
-              <a class="delivery-btn-status ${orderStatusClass}">${order.orderState}</a>
+              <a class="delivery-btn-status ${orderStatusClass}" href="http://localhost/payment/orderNum=${orderNumId}">${order.orderState}</a>
             </div>
           </td>
         </tr>
