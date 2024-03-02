@@ -72,6 +72,12 @@ export default class extends AbstractView {
           </span>
           <span class="name">상품</span>
         </a>
+        <a href="/admin/adminProductSetting" class="item" data-link>
+        <span class="icon">
+          <i class="fa fa-folder-o"></i>
+        </span>
+        <span class="name">상품 생성하기</span>
+      </a>
         <a href="/admin/adminManagement" class="item" data-link>
           <span class="icon">
             <i class="fa fa-inbox"></i>
