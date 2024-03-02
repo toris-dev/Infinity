@@ -13,8 +13,14 @@ export default class extends AbstractView {
       method: 'GET'
     });
     const products = await res.json();
+
     const productsElements = products
       .map((prod) => {
+        const deleteDate = prod.prodUseYn
+          ? `삭제 날짜: ${new Intl.DateTimeFormat('ko-kr').format(
+              new Date(prod.prodUseYn)
+            )}`
+          : '삭제안됨';
         return `
 
       <div class="product-item">
@@ -34,6 +40,8 @@ export default class extends AbstractView {
           </div>
           <div>
             <p class="explain-item-main">상품설명</p>
+            <p class="explain-item-main">${deleteDate}</p>
+            </p>
             <p class="explain-item-sub">${prod.prodContent}</p>
           </div>
           <div class="product-status">
