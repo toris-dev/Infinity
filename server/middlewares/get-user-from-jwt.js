@@ -1,5 +1,5 @@
 const passport = require('passport');
-const { AuthError } = require('../middlewares/error-handler');
+const { AuthError } = require('./error-handler');
 
 module.exports = (req, res, next) => {
   if (!req.cookies.token) {
