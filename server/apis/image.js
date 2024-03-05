@@ -1,36 +1,45 @@
 const { Router } = require('express');
 const multer = require('multer');
 const path = require('path'); // path 모듈 임포트
-const { prodImg, Product } = require('../models/index');
-const prodSubCategorySchema = require('../models/schemas/prodSubCategory');
-
 const router = Router();
-
-// 이미지를 저장할 디렉토리 설정
-const storage = multer.diskStorage({
-  destination: function (req, file, done) {
-    done(null, path.join(__dirname, '../views/static/images/product'));
-  },
-  filename: function (req, file, done) {
-    const ext = path.extname(file.originalname); // 파일의 확장자
-    done(null, path.basename(file.originalname, ext) + ext);
+const { S3Client } = require('@aws-sdk/client-s3');
+const multerS3 = require('multer-s3');
+require('dotenv').config();
+const s3 = new S3Client({
+  region: 'ap-northeast-2',
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
   }
 });
 
-// 파일 업로드를 처리하는 미들웨어 설정
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 }
-});
+const allowedExtensions = ['.png', '.jpg', '.webp', 'bmp'];
 
-router.get('/upload', (req, res) => {
-  res.sendFile(
-    path.join(__dirname, '../views/static/images/product/test1.webp')
-  );
+// 이미지를 저장할 디렉토리 설정
+const imageUploader = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'infinityimage',
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    key: (req, file, callback) => {
+      const uploadDirectory = req.query.directory ?? '';
+      const extension = path.extname(file.originalname);
+      if (!allowedExtensions.includes(extension)) {
+        return callback(new Error('wrong extension'));
+      }
+      callback(null, `${uploadDirectory}/${Date.now()}_${file.originalname}`);
+    },
+    acl: 'public-read-write'
+  })
+});
+router.post('/img', imageUploader.single('img'), (req, res) => {
+  console.log(req.file);
+  res.json({ url: req.file.location });
 });
 
 // admin 미들웨어 추가
-router.post('/upload', upload.array('webImage'), (req, res, next) => {
+router.post('/upload', imageUploader.array('img'), (req, res, next) => {
+  console.log('dsds');
   if (!req.files) {
     const error = new Error('파일을 추가하세요');
     return next(error);
@@ -38,7 +47,7 @@ router.post('/upload', upload.array('webImage'), (req, res, next) => {
   const result = req.files.map((file) => {
     return {
       message: '파일이 저장되었습니다.',
-      filename: file.filename
+      fileLocation: file.location
     };
   });
   res.json(result);
