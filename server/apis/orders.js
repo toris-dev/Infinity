@@ -1,13 +1,13 @@
 const express = require('express');
+
 const router = express.Router();
+const { ObjectId } = require('mongodb');
 const { Orders, Product } = require('../models');
 
 const asyncHandler = require('../utils/async-handler');
-const cryptoJS = require('crypto-js');
 const getUserFromJwt = require('../middlewares/get-user-from-jwt');
 const orderProdsHandler = require('../utils/orderProds-handler');
 const { NotFoundError, AuthError } = require('../middlewares/error-handler');
-const ObjectId = require('mongodb').ObjectId;
 
 /**
  * 작성자 : 이고헌
@@ -48,7 +48,7 @@ router.post(
   '/',
   getUserFromJwt,
   asyncHandler(async (req, res) => {
-    let {
+    const {
       orderProds,
       orderAddress,
       orderDetailAddress,
@@ -62,9 +62,9 @@ router.post(
     let orderDate;
     let orderState;
 
-    let newOrderProds = [];
+    const newOrderProds = [];
 
-    for (let orderProd of orderProds) {
+    for (const orderProd of orderProds) {
       newOrderProds.push({
         prodNum: new ObjectId(orderProd.prodNum),
         // prodNum: orderProd.prodNum,
@@ -76,7 +76,7 @@ router.post(
     try {
       await Orders.create({
         //요청된 토큰의 id로 주문 생성
-        orderId: orderId,
+        orderId,
         orderProds: newOrderProds,
         orderDate,
         orderAddress,
@@ -128,9 +128,9 @@ router.put(
 
     if (order.orderState === '처리전') {
       // 처리전의 주문만 수정 허용
-      let newOrderProds = [];
+      const newOrderProds = [];
 
-      for (let orderProd of orderProds) {
+      for (const orderProd of orderProds) {
         newOrderProds.push({
           prodNum: new ObjectId(orderProd.prodNum),
           // prodNum: orderProd.prodNum,

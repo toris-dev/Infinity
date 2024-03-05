@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 
 const secret = `${process.env.SECRET}`;
-
 exports.secret = secret;
 
 exports.setUserToken = (res, user) => {

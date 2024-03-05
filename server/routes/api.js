@@ -20,5 +20,4 @@ router.use('/orders', getUserFromJWT, orderRouter);
 router.use('/category', categoryRouter);
 router.use('/image', imageRouter);
 
-
 module.exports = router;

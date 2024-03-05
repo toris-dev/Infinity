@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 
 const cryptoJS = require('crypto-js');
@@ -15,7 +16,7 @@ const asyncHandler = require('../utils/async-handler');
 // 사용자 ID를 가져오는 API
 router.get('/getUserId', getUserFromJWT, (req, res) => {
   const userId = req.user.id;
-  
+
   res.json({ userId });
 });
 
@@ -59,7 +60,8 @@ router.post(
       oauth
     } = req.body;
 
-    let useYn, regDate;
+    let useYn;
+    let regDate;
 
     const idFounded = await User.find({ id });
     const emailFounded = await User.find({ email });
@@ -140,7 +142,7 @@ router.delete(
   asyncHandler(async (req, res) => {
     const { id } = req.params;
     const userFounded = await User.findOne({ id });
-    let { useYn } = userFounded;
+    const { useYn } = userFounded;
 
     //회원이 없는 경우, 이미 탈퇴한 경우
     if (!userFounded || useYn) {

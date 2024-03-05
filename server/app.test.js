@@ -15,13 +15,12 @@ describe('MongoDB Connection', () => {
     server.close(done);
   });
 
-  test('Should connect to MongoDB', () => {
+  test('Should connect to MongoDB', () =>
     // MongoDB 연결이 완료되면 콘솔에 로그를 출력합니다.
-    return new Promise((resolve, reject) => {
+    new Promise((resolve, reject) => {
       setTimeout(() => {
         console.log('MongoDB Connected');
         resolve();
       }, 1000); // MongoDB 연결 시간을 대략적으로 설정합니다.
-    });
-  });
+    }));
 });

@@ -1,5 +1,5 @@
 const express = require('express');
-const ObjectId = require('mongodb').ObjectId;
+const { ObjectId } = require('mongodb');
 
 const { Product } = require('../models/index');
 const asyncHandler = require('../utils/async-handler');

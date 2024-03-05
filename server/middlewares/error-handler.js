@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+
 class CustomError extends Error {
   constructor(message, status) {
     super(message);

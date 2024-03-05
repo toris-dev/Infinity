@@ -1,5 +1,5 @@
 const express = require('express');
-const ObjectId = require('mongodb').ObjectId;
+const { ObjectId } = require('mongodb');
 
 const { Product, Orders, ProdCategory } = require('../models/index');
 
@@ -15,7 +15,6 @@ const router = express.Router();
 router.post(
   '/products',
   getUserFromJWT,
-  isAdmin,
   asyncHandler(async (req, res) => {
     const {
       prodName,
@@ -149,7 +148,7 @@ router.put(
     const order = await Orders.findOne({ _id: orderNum });
     if (order) {
       if (!order.orderDeleteDate) {
-        await Orders.updateOne({ _id: orderNum }, { orderState: orderState });
+        await Orders.updateOne({ _id: orderNum }, { orderState });
         const updatedOrder = await Orders.findOne({ _id: orderNum });
         res.json(updatedOrder);
       } else {
@@ -226,7 +225,7 @@ router.post(
       res.json({ prodCategory });
     } else {
       //대분류가 있는 경우 서브카테고리 추가
-      let tempProdSubCategory = {
+      const tempProdSubCategory = {
         prodSubCategory: `${prodSubCategory}`
       };
 
@@ -364,8 +363,8 @@ router.delete(
         throw new NotFoundError(errorMessages);
       }
       await ProdCategory.updateOne(
-        { prodMajorCategory: prodMajorCategory },
-        { $pull: { prodSubCategories: { prodSubCategory: prodSubCategory } } }
+        { prodMajorCategory },
+        { $pull: { prodSubCategories: { prodSubCategory } } }
       );
     }
     const prodCategory = await ProdCategory.find({});
