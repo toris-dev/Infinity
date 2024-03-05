@@ -1,4 +1,3 @@
-import { BASE_URI } from '../js/constant/url.js';
 import AbstractView from './AbstractView.js';
 
 export default class extends AbstractView {
@@ -8,12 +7,9 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
-    const res = await fetch(
-      `${BASE_URI}/api/payments?${this.params.orderNum}`,
-      {
-        method: 'GET'
-      }
-    );
+    const res = await fetch(`/server/api/payments?${this.params.orderNum}`, {
+      method: 'GET'
+    });
     const targetOrder = await res.json();
     return `
     <div class="titleArea">

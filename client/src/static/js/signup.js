@@ -127,7 +127,7 @@ export const signup = () => {
 
     const dataJson = JSON.stringify(postData);
 
-    const res = await fetch(`${BASE_URI}/api/users`, {
+    const res = await fetch(`/server/api/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

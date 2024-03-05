@@ -1,4 +1,3 @@
-import { BASE_URI } from '../js/constant/url.js';
 import AbstractView from './AbstractView.js';
 
 export default class extends AbstractView {
@@ -9,12 +8,9 @@ export default class extends AbstractView {
 
   async getHtml() {
     // 주문 정보 요청
-    const res = await fetch(
-      `${BASE_URI}/api/payments?${this.params.orderNum}`,
-      {
-        method: 'GET'
-      }
-    );
+    const res = await fetch(`/server/api/payments?${this.params.orderNum}`, {
+      method: 'GET'
+    });
     const targetOrder = await res.json();
 
     // 주문 내 상품 번호 문자열 생성
@@ -24,7 +20,7 @@ export default class extends AbstractView {
 
     // 상품 상세 정보 요청
     const prodRes = await fetch(
-      `${BASE_URI}/api/orders/orderProds?orderProds=${prodNums}`,
+      `/server/api/orders/orderProds?orderProds=${prodNums}`,
       {
         method: 'GET'
       }

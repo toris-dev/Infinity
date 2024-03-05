@@ -1,4 +1,3 @@
-import { BASE_URI } from '../js/constant/url.js';
 import AbstractView from './AbstractView.js';
 
 export default class extends AbstractView {
@@ -18,7 +17,7 @@ export default class extends AbstractView {
 
   async getHtml() {
     const res = await fetch(
-      `${BASE_URI}/api/product?prodNum=${this.params.prodId}`,
+      `/server/api/product?prodNum=${this.params.prodId}`,
       {
         method: 'GET'
       }

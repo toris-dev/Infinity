@@ -118,7 +118,7 @@ export default class extends AbstractView {
   async fetchOrdersData() {
     try {
       // 주문 정보 가져오기
-      const response = await fetch(`/api/admin/orders`, {
+      const response = await fetch(`/server/api/admin/orders`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

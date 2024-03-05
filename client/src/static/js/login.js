@@ -26,7 +26,7 @@ export const login = () => {
     }
 
     // 암호화를 하기 위해서는 secretKey가 필요한데 접근 불가
-    fetch(`${BASE_URI}/api/auth`, {
+    fetch(`/server/api/auth`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

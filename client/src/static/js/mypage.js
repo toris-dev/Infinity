@@ -8,7 +8,7 @@ export const mypage = () => {
     navigateTo(BASE_URI);
   }
   // 사용자 ID를 가져오기
-  fetch(`${BASE_URI}/api/users/getUserId`, {
+  fetch(`/server/api/users/getUserId`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export const mypage = () => {
       const id = data.userId;
 
       // 사용자 정보 가져오기
-      return fetch(`${BASE_URI}/api/users?id=${id}`, {
+      return fetch(`/server/api/users?id=${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export const mypage = () => {
       $emailInput.innerHTML = email;
 
       // 사용자 주문 가져오기
-      return fetch(`${BASE_URI}/api/orders?userId=${userData.id}`, {
+      return fetch(`/server/api/orders?userId=${userData.id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

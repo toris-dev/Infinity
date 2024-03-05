@@ -1,4 +1,3 @@
-import { BASE_URI } from '../../js/constant/url.js';
 import AbstractView from '../AbstractView.js';
 
 export default class extends AbstractView {
@@ -8,7 +7,7 @@ export default class extends AbstractView {
   }
 
   async loadProduct(param) {
-    const res = await fetch(`${BASE_URI}/api/product?prodNum=${param}`, {
+    const res = await fetch(`/server/api/product?prodNum=${param}`, {
       method: 'GET'
     });
     const {
@@ -124,7 +123,7 @@ export default class extends AbstractView {
                 <input type="file" id="product" multiple  accept="image/*"/>
               </div>
             </div>  
-            <form>
+            </form>
             <div id="previewContainer">
               ${imgDiv}
             </div>
@@ -243,13 +242,16 @@ export default class extends AbstractView {
   </aside>
         <div class="productSetting">
           <div class="addImage">
-          <form id="imageForm">
-            <button type="button" class="submit">제출하기</button> </br>
-              <label class="productButton" for="product"
-                >이미지 업로드<br />
-                </label>
-                <input type="file" id="product" multiple  accept="image/*"/>
-            <form>
+          <form
+            id="imageForm"
+            onsubmit="handleSubmit(this)"
+            enctype="multipart/form-data"
+          >
+            <button type="submit" class="submit">제출하기</button>
+            <br />
+            <label class="productButton" for="product">이미지 업로드<br /> </label>
+            <input type="file" id="product" multiple accept="image/*" />
+          </form>
             <div id="previewContainer">
             </div>
           </div>

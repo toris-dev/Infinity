@@ -31,7 +31,7 @@ export const navBarCreate = async () => {
       </div>
 `;
 
-  const res = await fetch(`${BASE_URI}/api/category`, {
+  const res = await fetch(`/server/api/category`, {
     method: 'GET'
   });
   const categorys = await res.json();

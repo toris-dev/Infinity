@@ -1,5 +1,3 @@
-import { BASE_URI } from '../constant/url.js';
-
 export const infinityScroll = () => {
   const $productsContainer = document.querySelector('.products');
   let $lastContainer = document.querySelector('.products:last-child');
@@ -22,12 +20,9 @@ export const infinityScroll = () => {
 
   // 데이터 로드 함수
   const loadProducts = async () => {
-    const res = await fetch(
-      `${BASE_URI}/api/product/list?count=${fetchCount}`,
-      {
-        method: 'GET'
-      }
-    );
+    const res = await fetch(`/server/api/product/list?count=${fetchCount}`, {
+      method: 'GET'
+    });
     const product = await res.json();
 
     // 받을 상품이 없으면 return

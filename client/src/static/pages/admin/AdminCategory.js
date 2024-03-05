@@ -1,4 +1,3 @@
-import { BASE_URI } from '../../js/constant/url';
 import AbstractView from '../AbstractView';
 
 export default class extends AbstractView {
@@ -8,7 +7,7 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
-    const res = await fetch(`${BASE_URI}/api/category`, {
+    const res = await fetch(`/server/api/category`, {
       method: 'GET'
     });
     const categoriesData = await res.json();

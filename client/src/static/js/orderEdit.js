@@ -27,23 +27,20 @@ export const orderEdit = async () => {
 
   editButton.addEventListener('click', async (event) => {
     event.preventDefault();
-    const response = await fetch(
-      `${BASE_URI}/api/orders?orderNum=${orderNum}`,
-      {
-        method: 'PUT',
-        body: JSON.stringify({
-          orderName: $orderName.value,
-          orderZipCode: $orderZipCode.value,
-          orderAddress: $orderAddress.value,
-          orderDetailAddress: $orderDetailAddress.value,
-          orderPhoneNum: phoneNumber,
-          orderReq: $orderReq.value
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+    const response = await fetch(`/server/api/orders?orderNum=${orderNum}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        orderName: $orderName.value,
+        orderZipCode: $orderZipCode.value,
+        orderAddress: $orderAddress.value,
+        orderDetailAddress: $orderDetailAddress.value,
+        orderPhoneNum: phoneNumber,
+        orderReq: $orderReq.value
+      }),
+      headers: {
+        'Content-Type': 'application/json'
       }
-    );
+    });
     if (!response.ok) {
       alert('주문정보 수정에 실패했습니다.');
       throw new Error('주문정보 수정에 실패했습니다.');

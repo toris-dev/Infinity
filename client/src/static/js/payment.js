@@ -9,7 +9,7 @@ export const payment = async () => {
   /**
    * 회원 정보
    */
-  const userTokenRes = await fetch(`${BASE_URI}/api/users/getUserId`, {
+  const userTokenRes = await fetch(`/server/api/users/getUserId`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ export const payment = async () => {
   });
   const user = await userTokenRes.json();
   const { userId } = user;
-  const findUserRes = await fetch(`${BASE_URI}/api/users?id=${userId}`, {
+  const findUserRes = await fetch(`/server/api/users?id=${userId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

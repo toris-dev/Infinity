@@ -15,7 +15,7 @@ export const mypageEdit = () => {
     navigateTo(BASE_URI);
   }
   // 사용자 ID를 가져오는 API 엔드포인트 호출
-  fetch('/api/users/getUserId', {
+  fetch('/server/api/users/getUserId', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ export const mypageEdit = () => {
       const id = data.userId; // 서버로부터 받은 사용자 ID
       const token = getCookie('token');
       // 사용자 정보를 가져오는 API 엔드포인트 호출
-      return fetch(`${BASE_URI}/api/users?id=${id}`, {
+      return fetch(`/server/api/users?id=${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -132,7 +132,7 @@ export const mypageEdit = () => {
         $detailmoreAddress.value = detailAddress;
 
         const token = getCookie('token');
-        const response = await fetch(`${BASE_URI}/api/users/${id}`, {
+        const response = await fetch(`/server/api/users/${id}`, {
           method: 'PUT',
           body: JSON.stringify({
             pwd: SHA256($password.value).toString(),

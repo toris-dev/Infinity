@@ -11,7 +11,7 @@ export const adminManagement = async () => {
 
   try {
     // 주문 정보 가져오기
-    const response = await fetch(`/api/admin/orders`, {
+    const response = await fetch(`/server/api/admin/orders`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export const adminManagement = async () => {
       for (const orderProd of order.orderProds) {
         try {
           const productResponse = await fetch(
-            `/api/product?prodNum=${orderProd.prodNum}`,
+            `/server/api/product?prodNum=${orderProd.prodNum}`,
             {
               method: 'GET',
               headers: {

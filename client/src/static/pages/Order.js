@@ -9,13 +9,13 @@ export default class extends AbstractView {
 
   async getHtml() {
     // 유저정보 가져오기
-    const userResponse = await fetch('/api/users/getUserId', {
+    const userResponse = await fetch('/server/api/users/getUserId', {
       method: 'GET'
     });
     const userInfo = await userResponse.json();
     const { userId } = userInfo;
     // 주문 가져오기
-    const res = await fetch(`${BASE_URI}/api/orders?userId=${userId}`, {
+    const res = await fetch(`/server/api/orders?userId=${userId}`, {
       method: 'GET'
     });
     const orderData = await res.json();
@@ -35,7 +35,7 @@ export default class extends AbstractView {
       );
       console.log(orderSum); // 결과: 3
       const prodRes = await fetch(
-        `${BASE_URI}/api/orders/orderProds?orderProds=${prodNums}`,
+        `/server/api/orders/orderProds?orderProds=${prodNums}`,
         {
           method: 'GET'
         }
