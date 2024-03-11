@@ -139,6 +139,7 @@ const imagePost = async (formData) => {
     method: 'POST',
     body: formData
   });
+  console.log(res);
 
   if (!res.ok) {
     throw new Error('제출에 실패하였습니다.');
