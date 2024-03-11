@@ -54,7 +54,7 @@ _2023.02.19 ~ 2023.03.01_
 DB 명세서를 작성하여 데이터 구조를 계획하고 정의하였습니다.
 
 <!-- 백엔드 DB 모델링 이미지 -->
-<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FqoNhx%2FbtsFb5UrsWB%2F3tXx26uzikNKaNiVgn5FMK%2Fimg.png" alt="DB 모델링" width="300px" height="200px">
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FopYqY%2FbtsFt3CLwwY%2F7EDVrTXtgvJJFZZyPA7KY0%2Fimg.png" alt="DB 모델링" width="300px" height="200px">
 
 ---
 
