@@ -1,3 +1,4 @@
+import sha256 from 'crypto-js/sha256';
 import { navigateTo } from '../../router/index.js';
 import { BASE_URI } from './constant/url.js';
 import { ExecDaumPostcode } from './lib/daumPostCode.js';
@@ -11,7 +12,6 @@ import {
   radioCheckValidation,
   validation
 } from './lib/validation.js';
-
 export const signup = () => {
   const cookie = getCookie('token');
   if (cookie) {
@@ -116,7 +116,7 @@ export const signup = () => {
 
     const postData = {
       id: $idInput.value,
-      pwd: CryptoJS.SHA256($passwordInput.value).toString(),
+      pwd: sha256($passwordInput.value).toString(),
       name: $nameInput.value,
       email: $emailInput.value,
       zipCode: $postCode.value,

@@ -1,3 +1,4 @@
+import { SHA256 } from 'crypto-js';
 import { navigateTo } from '../../router/index.js';
 import { BASE_URI } from './constant/url.js';
 import { ExecDaumPostcode } from './lib/daumPostCode.js';
@@ -131,7 +132,6 @@ export const mypageEdit = () => {
         $detailaddress.value = address;
         $detailmoreAddress.value = detailAddress;
 
-        const token = getCookie('token');
         const response = await fetch(`/server/api/users/${id}`, {
           method: 'PUT',
           body: JSON.stringify({

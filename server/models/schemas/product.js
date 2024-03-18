@@ -1,13 +1,13 @@
 const { Schema } = require('mongoose');
-const prodSubCategory = require('./prodSubCategory');
+const prodCategorySchema = require('./prodCategory');
 
 const productSchema = new Schema({
   prodName: {
     type: String,
     required: true
   },
-  prodSubCategory: {
-    type: prodSubCategory,
+  prodCategory: {
+    type: prodCategorySchema,
     required: true
   },
   prodCost: {
@@ -25,7 +25,6 @@ const productSchema = new Schema({
   },
   prodRegDate: {
     type: Date,
-    required: true,
     default: () => Date.now() + 9 * 60 * 60 * 1000
   },
   prodRemains: {
@@ -42,7 +41,6 @@ const productSchema = new Schema({
   },
   prodCount: {
     type: Number,
-    required: true,
     default: 0
   }
 });

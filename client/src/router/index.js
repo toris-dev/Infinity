@@ -1,11 +1,14 @@
 import { errorFnc } from '../static/js/errorFnc.js';
+import { roleCheck } from '../static/js/lib/getCookie.js';
 // import { totalCountCalc } from '../static/js/lib/shoppingcart.js';
 import ErrorPage from '../static/pages/ErrorPage.js';
 import { getParams, pathToRegex } from './navigate.js';
-import { navBarCreate } from './navigation.js';
-import { routes } from './routes.js';
+import { adminNavbar, navBarCreate } from './navigation.js';
+import { adminRoutes, userRoutes } from './routes.js';
 
 const router = async () => {
+  const roleResult = roleCheck();
+  const routes = roleResult === 'admin' ? adminRoutes : userRoutes;
   const potentialMatches = routes.map((route) => ({
     route,
     result: window.location.pathname.match(pathToRegex(route.Path))
@@ -44,7 +47,8 @@ export const navigateTo = (url) => {
 window.addEventListener('popstate', router);
 
 document.addEventListener('DOMContentLoaded', () => {
-  navBarCreate();
+  const roleResult = roleCheck();
+  roleResult === 'admin' ? adminNavbar() : navBarCreate();
   document.body.addEventListener('click', (e) => {
     if (
       e.target.tagName === 'IMG' &&

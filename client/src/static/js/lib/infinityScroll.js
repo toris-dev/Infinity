@@ -1,4 +1,4 @@
-export const infinityScroll = () => {
+export const infinityScroll = (prodCategory) => {
   const $productsContainer = document.querySelector('.products');
   let $lastContainer = document.querySelector('.products:last-child');
   let fetchCount = 1;
@@ -19,10 +19,35 @@ export const infinityScroll = () => {
   };
 
   // 데이터 로드 함수
-  const loadProducts = async () => {
+  const loadProducts = async (observer) => {
     const res = await fetch(`/server/api/product/list?count=${fetchCount}`, {
       method: 'GET'
     });
+    const product = await res.json();
+    // 받을 상품이 없으면 return
+    if (!product.length) {
+      observer.unobserve($lastContainer);
+      return;
+    }
+    if (!product.length && fetchCount === 1) {
+      $productsContainer.innerHTML += `<h4>검색 결과가 없습니다.</h4>`;
+    }
+    product.map((prod, index) => {
+      createProduct(prod);
+      if (index === 11) {
+        // 마지막 상품일 때 observe 변경
+        $lastContainer = createProduct(prod);
+      }
+    });
+    fetchCount++;
+  };
+  const filterLoadProducts = async (observer) => {
+    const res = await fetch(
+      `/server/api/product?prodCategory=${prodCategory}`,
+      {
+        method: 'GET'
+      }
+    );
     const product = await res.json();
 
     // 받을 상품이 없으면 return
@@ -45,7 +70,9 @@ export const infinityScroll = () => {
       if (entry.isIntersecting) {
         // 데이터 로드 함수 호출
         observer.unobserve($lastContainer);
-        await loadProducts();
+        await (prodCategory
+          ? filterLoadProducts(observer)
+          : loadProducts(observer));
         observer.observe($lastContainer);
       }
     });

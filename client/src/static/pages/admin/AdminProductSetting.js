@@ -19,11 +19,10 @@ export default class extends AbstractView {
       prodSize,
       prodColor,
       prodCount,
-      productCategory,
       prodStock,
       prodmidifiedData,
       prodRegDate,
-      prodSubCategory
+      prodCategory
     } = await res.json();
     return {
       prodName,
@@ -34,11 +33,10 @@ export default class extends AbstractView {
       prodSize,
       prodColor,
       prodCount,
-      productCategory,
       prodStock,
       prodmidifiedData,
       prodRegDate,
-      prodSubCategory
+      prodCategory
     };
   }
 
@@ -55,11 +53,8 @@ export default class extends AbstractView {
         prodSize,
         prodColor,
         prodCount,
-        productCategory,
-        prodStock,
-        prodmidifiedData,
         prodRegDate,
-        prodSubCategory
+        prodCategory
       } = await this.loadProduct(queryParam);
       const imgDiv = prodImgs
         .map((src) => {
@@ -67,72 +62,60 @@ export default class extends AbstractView {
         })
         .join('');
       return `
-    <div class="columns">
-    <aside class="column is-2 aside hero is-fullheight">
-    <!-- 사이드 바 내용 -->
-    <div>
-      <div class="compose has-text-centered">
-        <a class="button is-danger is-block is-bold">
-          <span class="compose">Infinity</span>
-        </a>
-      </div>
-      <div class="main">
-        <a href="/admin" class="item" data-link>
-          <span class="icon">
-            <i class="fa fa-star"></i>
-          </span>
-          <span class="name">사용자 판매내역</span>
-        </a>
-        <a href="/admin/adminCategory" class="item" data-link>
-          <span class="icon">
-            <i class="fa fa-envelope-o"></i>
-          </span>
-          <span class="name">카테고리</span>
-        </a>
-        <a href="/admin/adminProductList" class="item" data-link>
-          <span class="icon">
-            <i class="fa fa-folder-o"></i>
-          </span>
-          <span class="name">상품</span>
-        </a>
-        <a href="/admin/adminProductSetting" class="item" data-link>
-        <span class="icon">
-          <i class="fa fa-folder-o"></i>
-        </span>
-        <span class="name">상품 생성하기</span>
-      </a>
-        <a href="/admin/adminManagement" class="item" data-link>
-          <span class="icon">
-            <i class="fa fa-inbox"></i>
-          </span>
-          <span class="name">주문관리</span>
-        </a>
-      </div>
-    </div>
-  </aside>
-        <div class="productSetting">
-          <div class="addImage">
-          <form id="imageForm">
-            <div class="imageForm__inner">
-              <div class="imageForm__inner--btn">
-                <button type="button" class="submit">제출하기</button>
-              </div>
-              <div class="imageForm__inner--btn">
-                <label class="productButton" for="product">이미지 업로드</label>
-                <input type="file" id="product" multiple  accept="image/*"/>
-              </div>
-            </div>  
-            </form>
-            <div id="previewContainer">
-              ${imgDiv}
-            </div>
+      <div class="columns">
+      <aside class="column is-2 aside hero is-fullheight">
+        <!-- 사이드 바 내용 -->
+        <div>
+          <div class="compose has-text-centered">
+            <a class="button is-danger is-block is-bold">
+              <span class="compose">Infinity</span>
+            </a>
           </div>
-          
-
-          <div class="productInformation">
-            <label for="productName">상품이름</label><br />
+          <div class="main">
+            <a href="/admin" class="item" data-link>
+              <span class="icon">
+                <i class="fa fa-star"></i>
+              </span>
+              <span class="name">사용자 판매내역</span>
+            </a>
+            <a href="/admin/adminCategory" class="item" data-link>
+              <span class="icon">
+                <i class="fa fa-envelope-o"></i>
+              </span>
+              <span class="name">카테고리</span>
+            </a>
+            <a href="/admin/adminProductList" class="item" data-link>
+              <span class="icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="name">상품</span>
+            </a>
+            <a href="/admin/adminManagement" class="item" data-link>
+              <span class="icon">
+                <i class="fa fa-inbox"></i>
+              </span>
+              <span class="name">주문관리</span>
+            </a>
+          </div>
+        </div>
+      </aside>
+      <div class="product-setting">
+        <form
+          id="imageForm"
+          enctype="multipart/form-data"
+        >
+          <div class="product-image">
+          <input type="file" id="product" multiple accept="image/*" />
+          <label class="productButton" for="product">이미지 업로드</label>
+          <div id="previewContainer">
+            ${imgDiv}
+          </div>
+          </div>
+          <div class="product-information">
+            <label for="productName">상품명</label><br />
             <input
               type="text"
+              class="input"
               id="productName"
               name="productName"
               size="70"
@@ -140,6 +123,7 @@ export default class extends AbstractView {
             /><br />
             <label for="productPrice">상품가격</label><br />
             <input
+              class="input"
               type="text"
               id="productPrice"
               name="productPrice"
@@ -149,123 +133,143 @@ export default class extends AbstractView {
             <label for="prodContent">상품 설명</label><br />
             <input
               type="text"
+              class="input"
               id="prodContent"
               name="prodContent"
               size="70"
               value="${prodContent}"
             /><br />
-            <label for="productCategory">상품분류</label><br />
+            <label for="prodMajorCategory">상품 대분류</label><br />
             <input
               type="text"
-              id="productCategory"
-              name="productCategory"
+              class="input"
+              id="prodMajorCategory"
+              name="prodMajorCategory"
               size="70"
-              value=${prodSubCategory.prodSubCategory}
+              value=${prodCategory.prodMajorCategory}
             /><br />
-            
+            <label for="prodSubCategories">상품 소분류</label><br />
+            <input
+              type="text"
+              class="input"
+              id="prodSubCategories"
+              name="prodSubCategories"
+              size="70"
+              value=${prodSubCategories.prodSubCategory}
+            /><br />
             <label for="stock">재고</label><br />
-            <input type="text" id="stock" name="stock" size="70" value=${prodRemains} /><br />
-            
-            <label for="modificationDate">최종 수정일</label><br />
-            <input
-              type="text"
-              id="prodModificationDate"
-              name="prodModificationDate"
-              size="70"
-              value="${new Intl.DateTimeFormat('ko-kr').format(new Date(prodRegDate))}"
-            /><br />
+            <input class="input" type="text" id="stock" name="stock" size="70" value=${prodRemains}/><br />
 
             <label for="productSize">상품Size</label><br />
-            <input type="text" id="productSize" name="productSize" size="70" value=${prodSize} /><br />
-            
+            <input
+              class="input"
+              type="text"
+              id="productSize"
+              name="productSize"
+              size="70"
+              value=${prodSize}
+            /><br />
             <label for="productColor">상품Color</label><br />
-            <input type="text" id="productColor" name="productSize" size="70" value=${prodColor} /><br />
-            
+            <input
+              class="input"
+              type="text"
+              id="productColor"
+              name="productSize"
+              size="70"
+              value=${prodColor}
+            /><br />
             <label for="productCount">상품 판매 수</label><br />
             <input
+              class="input"
               type="text"
               id="productCount"
               name="productCount"
               size="70"
               disabled
               value=${prodCount || 0}
-            /><br />
-
-            <div class="productInforButton">
-              <button class="prodAdd">상품 추가</a>
-              <button class="prodUpdate">상품정보 수정</button>
-              <button class="prodDelete">상품 삭제</button>
+            />
+            <label for="modificationDate">최종 수정일</label><br />
+            <input
+              type="text"
+              class="input"
+              id="prodModificationDate"
+              name="prodModificationDate"
+              size="70"
+              disabled
+              value="${new Intl.DateTimeFormat('ko-kr').format(new Date(prodRegDate))}"
+            /><br/>
+            <div class="product-infoButton">
+              <button class="prodAdd button is-success is-light">상품 추가</button>
+              <button class="prodUpdate button is-warning is-light">상품정보 수정</button>
+              <button class="prodDelete button is-danger is-light">상품 삭제</button>
             </div>
           </div>
-        </div>
+        </form>
       </div>
+    </div>
         `;
     }
     return `
     <div class="columns">
-    <aside class="column is-2 aside hero is-fullheight">
-    <!-- 사이드 바 내용 -->
-    <div>
-      <div class="compose has-text-centered">
-        <a class="button is-danger is-block is-bold">
-          <span class="compose">Infinity</span>
-        </a>
-      </div>
-      <div class="main">
-        <a href="/admin" class="item" data-link>
-          <span class="icon">
-            <i class="fa fa-star"></i>
-          </span>
-          <span class="name">사용자 판매내역</span>
-        </a>
-        <a href="/admin/adminCategory" class="item" data-link>
-          <span class="icon">
-            <i class="fa fa-envelope-o"></i>
-          </span>
-          <span class="name">카테고리</span>
-        </a>
-        <a href="/admin/adminProductList" class="item" data-link>
-          <span class="icon">
-            <i class="fa fa-folder-o"></i>
-          </span>
-          <span class="name">상품</span>
-        </a>
-        <a href="/admin/adminManagement" class="item" data-link>
-          <span class="icon">
-            <i class="fa fa-inbox"></i>
-          </span>
-          <span class="name">주문관리</span>
-        </a>
-      </div>
-    </div>
-  </aside>
-        <div class="productSetting">
-          <div class="addImage">
-          <form
-            id="imageForm"
-            onsubmit="handleSubmit(this)"
-            enctype="multipart/form-data"
-          >
-            <button type="submit" class="submit">제출하기</button>
-            <br />
-            <label class="productButton" for="product">이미지 업로드<br /> </label>
-            <input type="file" id="product" multiple accept="image/*" />
-          </form>
-            <div id="previewContainer">
-            </div>
+      <aside class="column is-2 aside hero is-fullheight">
+        <!-- 사이드 바 내용 -->
+        <div>
+          <div class="compose has-text-centered">
+            <a class="button is-danger is-block is-bold">
+              <span class="compose">Infinity</span>
+            </a>
           </div>
-          
-
-          <div class="productInformation">
-            <label for="productName">상품가격</label><br />
+          <div class="main">
+            <a href="/admin" class="item" data-link>
+              <span class="icon">
+                <i class="fa fa-star"></i>
+              </span>
+              <span class="name">사용자 판매내역</span>
+            </a>
+            <a href="/admin/adminCategory" class="item" data-link>
+              <span class="icon">
+                <i class="fa fa-envelope-o"></i>
+              </span>
+              <span class="name">카테고리</span>
+            </a>
+            <a href="/admin/adminProductList" class="item" data-link>
+              <span class="icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="name">상품</span>
+            </a>
+            <a href="/admin/adminManagement" class="item" data-link>
+              <span class="icon">
+                <i class="fa fa-inbox"></i>
+              </span>
+              <span class="name">주문관리</span>
+            </a>
+          </div>
+        </div>
+      </aside>
+      <div class="product-setting">
+        <form
+          id="imageForm"
+          enctype="multipart/form-data"
+        >
+          <div class="product-image">
+          <input type="file" id="product" multiple accept="image/*" />
+          <label class="productButton" for="product">이미지 업로드</label>
+          <div id="previewContainer">
+          </div>
+          </div>
+          <div class="product-information">
+            <label for="productName">상품명</label><br />
             <input
               type="text"
+              class="input"
               id="productName"
               name="productName"
               size="70"
             /><br />
             <label for="productPrice">상품가격</label><br />
             <input
+              class="input"
               type="text"
               id="productPrice"
               name="productPrice"
@@ -274,56 +278,72 @@ export default class extends AbstractView {
             <label for="prodContent">상품 설명</label><br />
             <input
               type="text"
+              class="input"
               id="prodContent"
               name="prodContent"
               size="70"
-
             /><br />
-            <label for="productCategory">상품분류</label><br />
+            <label for="prodMajorCategory">상품 대분류</label><br />
             <input
               type="text"
-              id="productCategory"
-              name="productCategory"
+              class="input"
+              id="prodMajorCategory"
+              name="prodMajorCategory"
               size="70"
-    
             /><br />
-            
+            <label for="prodSubCategories">상품 소분류</label><br />
+            <input
+              type="text"
+              class="input"
+              id="prodSubCategories"
+              name="prodSubCategories"
+              size="70"
+            /><br />
             <label for="stock">재고</label><br />
-            <input type="text" id="stock" name="stock" size="70"  /><br />
-            
-            <label for="modificationDate">최종 수정일</label><br />
-            <input
-              type="text"
-              id="prodModificationDate"
-              name="prodModificationDate"
-              size="70"
-      
-            /><br />
-
+            <input class="input" type="text" id="stock" name="stock" size="70" /><br />
             <label for="productSize">상품Size</label><br />
-            <input type="text" id="productSize" name="productSize" size="70" /><br />
-            
+            <input
+              class="input"
+              type="text"
+              id="productSize"
+              name="productSize"
+              size="70"
+            /><br />
             <label for="productColor">상품Color</label><br />
-            <input type="text" id="productColor" name="productSize" size="70" /><br />
-            
+            <input
+              class="input"
+              type="text"
+              id="productColor"
+              name="productSize"
+              size="70"
+            /><br />
             <label for="productCount">상품 판매 수</label><br />
             <input
+              class="input"
               type="text"
               id="productCount"
               name="productCount"
               size="70"
               disabled
-
-            /><br />
-
-            <div class="productInforButton">
-              <button class="prodAdd">상품 추가</a>
-              <button class="prodUpdate">상품정보 수정</button>
-              <button class="prodDelete">상품 삭제</button>
+            />
+            <label for="modificationDate">최종 수정일</label><br />
+            <input
+              type="text"
+              class="input"
+              id="prodModificationDate"
+              name="prodModificationDate"
+              size="70"
+              disabled
+            />
+            <div class="product-infoButton">
+              <button type="button" class="prodAdd button is-success is-light">상품 추가</button>
+              <button type="button" class="prodUpdate button is-warning is-light">상품정보 수정</button>
+              <button type="button" class="prodDelete button is-danger is-light">상품 삭제</button>
             </div>
           </div>
-        </div>
+        </form>
       </div>
+    </div>
     `;
   }
 }

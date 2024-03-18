@@ -1,4 +1,3 @@
-import { categorysEnum } from '../static/js/constant/categorys';
 import { BASE_URI } from '../static/js/constant/url';
 import { getCookie } from '../static/js/lib/getCookie';
 
@@ -56,10 +55,9 @@ export const navBarCreate = async () => {
       (category) => category.prodMajorCategory === majorCategory[1]
     );
     menuItems += `
-      <li><a href="${BASE_URI}/categorys/${categorysEnum[category.prodMajorCategory]}?prodMajorCategoryId=${majorCategory[0]}" data-link>${categorysEnum[category.prodMajorCategory]}</a></li>
+      <li><a href="${BASE_URI}/categories?prodCategory=${category.prodMajorCategory}" data-link>${category.prodMajorCategory}</a></li>
   `;
   });
-
   // HTML에 메뉴 아이템을 추가
   $leftBar.innerHTML = menuItems;
 
@@ -94,3 +92,5 @@ export const navBarCreate = async () => {
     });
   }
 };
+
+export const adminNavbar = () => {};

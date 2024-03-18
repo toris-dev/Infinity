@@ -11,7 +11,14 @@ const router = express.Router();
 router.get(
   '/',
   asyncHandler(async (req, res) => {
-    const { prodNum } = req.query;
+    const { prodNum, prodCategory } = req.query;
+    if (prodCategory) {
+      const products = await Product.find({
+        'prodCategory.prodMajorCategory': prodCategory
+      });
+      res.json(products);
+      return;
+    }
     const prodObjectId = new ObjectId(prodNum);
     const product = await Product.findOne({ _id: prodObjectId });
     if (!product) {
@@ -36,5 +43,7 @@ router.get(
     res.json(product);
   })
 );
+
+router.get('');
 
 module.exports = router;

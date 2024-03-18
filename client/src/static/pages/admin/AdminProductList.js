@@ -4,7 +4,6 @@ export default class extends AbstractView {
   constructor(params) {
     super(params);
     this.setTitle('상품 관리');
-    console.log(params);
   }
 
   async getHtml() {
@@ -33,9 +32,9 @@ export default class extends AbstractView {
           <p>Outer</p><br>
           <p class="des-Text">${prod.prodCost.toLocaleString()}원</p>
           </div>
-          <div class="des-more-content">
-            <a href="/admin/adminProductSetting?prodId=${prod._id}" data-link class="update-href">수정하기</a>
-          </div>
+            <a href="/admin/adminProductSetting?prodId=${prod._id}" data-link class="update-href">
+              <div class="des-more-content">수정하기</div>
+            </a>
           </div>
           <div>
             <p class="explain-item-main">상품설명</p>

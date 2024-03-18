@@ -3,11 +3,11 @@ const prodSubSchema = require('./prodSubCategory');
 
 const prodCategorySchema = new Schema({
   prodMajorCategory: {
-    type: Number,
+    type: String,
     required: true
   },
   prodSubCategories: {
-    type: [prodSubSchema],
+    type: prodSubSchema,
     required: true
   }
 });

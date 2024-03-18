@@ -9,87 +9,94 @@ export default class extends AbstractView {
 
   async getHtml() {
     // 유저정보 가져오기
-    const userResponse = await fetch('/server/api/users/getUserId', {
-      method: 'GET'
-    });
-    const userInfo = await userResponse.json();
-    const { userId } = userInfo;
-    // 주문 가져오기
-    const res = await fetch(`/server/api/orders?userId=${userId}`, {
-      method: 'GET'
-    });
-    const orderData = await res.json();
-    console.log(orderData);
-
     let orderRows = ''; // 주문 행을 저장할 변수 선언
-
-    for (const order of orderData) {
-      const { orderDetailAddress } = order;
-      const prodNums = order.orderProds.map((prod) => prod.prodNum).join(','); // 배열을 문자열로 변환하여 조인
-      const orderProdCounts = order.orderProds.map(
-        (prod) => prod.orderProdCount
-      );
-      const orderSum = orderProdCounts.reduce(
-        (accumulator, currentValue) => accumulator + currentValue,
-        0
-      );
-      console.log(orderSum); // 결과: 3
-      const prodRes = await fetch(
-        `/server/api/orders/orderProds?orderProds=${prodNums}`,
-        {
-          method: 'GET'
-        }
-      );
-      const orderProdData = await prodRes.json();
-
-      let productInfo = '';
-      const $orderDate = new Intl.DateTimeFormat('ko-kr').format(
-        new Date(order.orderDate)
-      );
-
-      let prodSum = 0;
-      orderProdData.forEach((product) => {
-        productInfo += `
-          <div class="product-info">
-            <div class="img-box">
-              <img src="${product.prodImgs[0]}" alt="상품"/>
-            </div>
-            <div class="product-txt">
-              <p>${product.prodName}</p>
-              <p>color: ${product.prodColor}</p>
-              <p>옵션 : ${product.prodSize}</p>
-            </div>
-          </div>
-        `;
-        prodSum += product.prodCost;
+    try {
+      const userResponse = await fetch('/server/api/users/getUserId', {
+        method: 'GET'
       });
+      const userInfo = await userResponse.json();
+      const { userId } = userInfo;
+      // 주문 가져오기
+      const res = await fetch(`/server/api/orders?userId=${userId}`, {
+        method: 'GET'
+      });
+      const orderData = await res.json();
 
-      // 주문 상태에 따라 다른 클래스를 추가하는 조건문
-      let orderStatusClass = '';
-      const orderNum = order._id;
-      let orderNumId;
-      if (order.orderState === '처리전') {
-        orderStatusClass = 'delivery-reject';
-        orderNumId = `${orderNum}`;
-      } else {
-        orderStatusClass = 'delivery-success';
-      }
+      for (const order of orderData) {
+        const { orderDetailAddress } = order;
+        const prodNums = order.orderProds.map((prod) => prod.prodNum).join(','); // 배열을 문자열로 변환하여 조인
+        const orderProdCounts = order.orderProds.map(
+          (prod) => prod.orderProdCount
+        );
+        const orderSum = orderProdCounts.reduce(
+          (accumulator, currentValue) => accumulator + currentValue,
+          0
+        );
+        const prodRes = await fetch(
+          `/server/api/orders/orderProds?orderProds=${prodNums}`,
+          {
+            method: 'GET'
+          }
+        );
 
-      orderRows += `
-        <tr>
-          <td>
-            <div class="order-imgpage">${productInfo}</div>
-          </td>
-          <td>${$orderDate}</td>
-          <td>${orderDetailAddress}</td>
-          <td>${prodSum}원(${orderSum}개)</td>
-          <td>
-            <div>
-              <a class="delivery-btn-status ${orderStatusClass}" href="${BASE_URI}/payment/orderNum=${orderNumId}">${order.orderState}</a>
+        const orderProdData = await prodRes.json();
+
+        let productInfo = '';
+        const $orderDate = new Intl.DateTimeFormat('ko-kr').format(
+          new Date(order.orderDate)
+        );
+
+        let prodSum = 0;
+        orderProdData.forEach((product) => {
+          productInfo += `
+            <div class="product-info">
+              <div class="img-box">
+                <img src="${product.prodImgs[0]}" alt="상품"/>
+              </div>
+              <div class="product-txt">
+                <p>${product.prodName}</p>
+                <p>color: ${product.prodColor}</p>
+                <p>옵션 : ${product.prodSize}</p>
+              </div>
             </div>
-          </td>
-        </tr>
-      `;
+          `;
+          prodSum += product.prodCost;
+        });
+
+        // 주문 상태에 따라 다른 클래스를 추가하는 조건문
+        let orderStatusClass = '';
+        const orderNum = order._id;
+        let orderNumId;
+        if (order.orderState === '처리전') {
+          orderStatusClass = 'delivery-reject';
+          orderNumId = `${orderNum}`;
+        } else {
+          orderStatusClass = 'delivery-success';
+        }
+
+        orderRows += `
+          <tr>
+            <td>
+              <div class="order-imgpage">${productInfo}</div>
+            </td>
+            <td>${$orderDate}</td>
+            <td>${orderDetailAddress}</td>
+            <td>${prodSum}원(${orderSum}개)</td>
+            <td>
+              <div>
+                <a class="delivery-btn-status ${orderStatusClass}" href="${BASE_URI}/payment/orderNum=${orderNumId}">${order.orderState}</a>
+              </div>
+            </td>
+          </tr>
+        `;
+      }
+    } catch (error) {
+      orderRows = `
+      <tr>
+        <td>주문내역이 없습니다.</td>
+      </tr>
+    `;
+      console.error(error);
     }
 
     return `

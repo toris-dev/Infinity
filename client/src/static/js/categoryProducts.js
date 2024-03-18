@@ -3,5 +3,7 @@
 import { infinityScroll } from './lib/infinityScroll.js';
 
 export const categoryProducts = () => {
-  infinityScroll();
+  const query = new URLSearchParams(window.location.search);
+  const prodCategory = query.get('prodCategory');
+  infinityScroll(prodCategory);
 };

@@ -1,5 +1,9 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
+const multer = require('multer');
+const path = require('path'); // path 모듈 임포트
+const { S3Client } = require('@aws-sdk/client-s3');
+const multerS3 = require('multer-s3');
 
 const { Product, Orders, ProdCategory } = require('../models/index');
 
@@ -10,35 +14,73 @@ const { NotFoundError } = require('../middlewares/error-handler');
 
 const router = express.Router();
 
+require('dotenv').config();
+const s3 = new S3Client({
+  region: 'ap-northeast-2',
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+  }
+});
+
+const allowedExtensions = ['.png', '.jpg', '.webp', 'bmp', '.gif'];
+
+// 이미지를 저장할 디렉토리 설정
+const imageUploader = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'infinityimage',
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    key: (req, file, callback) => {
+      const uploadDirectory = req.query.directory ?? 'productsImg';
+      const extension = path.extname(file.originalname);
+      if (!allowedExtensions.includes(extension)) {
+        return callback(new Error('wrong extension'));
+      }
+      callback(null, `${uploadDirectory}/${Date.now()}_${file.originalname}`);
+    },
+    acl: 'public-read-write'
+  })
+});
+
 /* ----------------------상품 API----------------------------- */
 //상품 추가 API
 router.post(
   '/products',
   getUserFromJWT,
+  imageUploader.array('img'),
   asyncHandler(async (req, res) => {
+    if (!req.files) {
+      const error = new Error('파일을 추가하세요');
+      return next(error);
+    }
+    const prodImgs = req.files.map((file) => {
+      return file.location;
+    });
     const {
       prodName,
-      prodSubCategory,
+      prodMajorCategory,
+      prodSubCategories,
       prodCost,
       prodContent,
-      prodImgs,
-      prodUseYn,
       prodRemains,
       prodSize,
-      prodColor,
-      prodCount
+      prodColor
     } = req.body;
-    await Product.create({
+    const prod = await Product.create({
       prodName,
-      prodSubCategory,
+      prodCategory: {
+        prodMajorCategory,
+        prodSubCategories: {
+          prodSubCategory: prodSubCategories
+        }
+      },
       prodCost,
       prodContent,
       prodImgs,
-      prodUseYn,
       prodRemains,
       prodSize,
-      prodColor,
-      prodCount
+      prodColor
     });
     const product = await Product.find().sort({ _id: -1 }).limit(1);
     res.send(product);
@@ -327,8 +369,6 @@ router.delete(
   asyncHandler(async (req, res) => {
     const prodMajorCategory = Number(req.params.prodMajorCategory);
     const { prodSubCategory } = req.params;
-
-    console.log(prodMajorCategory, prodSubCategory);
 
     if (!prodMajorCategory && !prodSubCategory) {
       throw new Error('삭제할 카테고리를 입력해주세요.');

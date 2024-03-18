@@ -1,5 +1,8 @@
 import { admin } from '../static/js/admin/admin.js';
 import { adminCategory } from '../static/js/admin/adminCategory.js';
+import { adminManagement } from '../static/js/admin/adminManagement.js';
+import { adminProductList } from '../static/js/admin/adminProductList.js';
+import { adminProductSetting } from '../static/js/admin/adminProductSetting.js';
 import { categoryProducts } from '../static/js/categoryProducts.js';
 import { errorFnc } from '../static/js/errorFnc.js';
 import { home } from '../static/js/home.js';
@@ -13,15 +16,6 @@ import { payment } from '../static/js/payment.js';
 import { product } from '../static/js/product.js';
 import { shoppingcartPro } from '../static/js/shoppingcartPro.js';
 import { signup } from '../static/js/signup.js';
-
-import { adminManagement } from '../static/js/admin/adminManagement.js';
-import { adminProductList } from '../static/js/admin/adminProductList.js';
-import { adminProductSetting } from '../static/js/admin/adminProductSetting.js';
-import Admin from '../static/pages/admin/Admin.js';
-import AdminCategory from '../static/pages/admin/AdminCategory.js';
-import AdminManagement from '../static/pages/admin/AdminManagement.js';
-import AdminProductList from '../static/pages/admin/AdminProductList.js';
-import AdminProductSetting from '../static/pages/admin/AdminProductSetting.js';
 import CategoryProducts from '../static/pages/CategoryProducts.js';
 import ErrorPage from '../static/pages/ErrorPage.js';
 import Home from '../static/pages/Home.js';
@@ -35,16 +29,22 @@ import Payment from '../static/pages/Payment.js';
 import Product from '../static/pages/Product.js';
 import ShoppingcartPro from '../static/pages/ShoppingcartPro.js';
 import Signup from '../static/pages/Signup.js';
+import Admin from '../static/pages/admin/Admin.js';
+import AdminCategory from '../static/pages/admin/AdminCategory.js';
+import AdminManagement from '../static/pages/admin/AdminManagement.js';
+import AdminProductList from '../static/pages/admin/AdminProductList.js';
+import AdminProductSetting from '../static/pages/admin/AdminProductSetting.js';
 
-export const routes = [
+export const userRoutes = [
   { Path: '/', View: Home, Script: home },
   { Path: '/login', View: Login, Script: login },
   { Path: '/signup', View: Signup, Script: signup },
   { Path: '/product/:prodId', View: Product, Script: product },
   { Path: '/order', View: Order, Script: order },
   { Path: '/shoppingCart', View: ShoppingcartPro, Script: shoppingcartPro },
+
   {
-    Path: '/categorys/:categoryProducts',
+    Path: '/categories',
     View: CategoryProducts,
     Script: categoryProducts
   },
@@ -53,7 +53,10 @@ export const routes = [
   { Path: '/mypage', View: Mypage, Script: mypage },
   { Path: '/payment/:orderNum', View: Payment, Script: payment },
   { Path: '/mypageEdit', View: MypageEdit, Script: mypageEdit },
-  { Path: '/orderEdit', View: OrderEdit, Script: orderEdit },
+  { Path: '/orderEdit', View: OrderEdit, Script: orderEdit }
+];
+
+export const adminRoutes = [
   { Path: '/admin', View: Admin, Script: admin },
   {
     Path: '/admin/adminManagement',
