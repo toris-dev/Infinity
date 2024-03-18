@@ -82,6 +82,7 @@ DB 명세서를 작성하여 데이터 구조를 계획하고 정의하였습니
 
 - Bulma (CSS 프레임워크)
 - VanillaJS
+- Vite
 
 ### BackEnd
 
@@ -104,7 +105,17 @@ DB 명세서를 작성하여 데이터 구조를 계획하고 정의하였습니
 pm2 로 서버 시작할 경우
 
 ```shell
+# server
+cd server
+
 npm install -g pm2
 
 npm run deploy
+
+# client
+cd client
+
+npm install
+
+npm run start
 ```
